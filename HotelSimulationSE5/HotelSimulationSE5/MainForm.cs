@@ -15,6 +15,13 @@ namespace HotelSimulationSE5
         public MainForm()
         {
             InitializeComponent();
+
+            string layoutstring = System.IO.File.ReadAllText(@"C:\Users\Sang\Source\Repos\hotel-simulation\HotelSimulationSE5\HotelSimulationSE5\External\Hotel.layout");
+            List<Room> temp = new List<Room>();
+            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Room>>(layoutstring);
+
+            Console.WriteLine(temp[0]);
+
         }
     }
 }
