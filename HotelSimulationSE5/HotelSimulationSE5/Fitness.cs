@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-    class RoomFactory
+    class Fitness : Room
     {
     }
 }

@@ -8,10 +8,12 @@ namespace HotelSimulationSE5
 {
     class TempRoom
     {
-        public string AreaType { get; set; }
         public string Classification { get; set; }
+        public string AreaType { get; set; }
         public string Capacity { get; set; }
         public string Position { get; set; }
         public string Dimention { get; set; }
+
+
     }
 }

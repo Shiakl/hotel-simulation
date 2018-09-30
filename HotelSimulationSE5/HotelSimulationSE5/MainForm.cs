@@ -21,6 +21,8 @@ namespace HotelSimulationSE5
             temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
 
 
+            
+
             Console.WriteLine("Checkpoint: 1");
 
         }
