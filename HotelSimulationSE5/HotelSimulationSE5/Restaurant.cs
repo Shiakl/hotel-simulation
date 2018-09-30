@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-    class Room
+    class Restaurant : Room
     {
-
-
     }
 }
