@@ -21,7 +21,10 @@ namespace HotelSimulationSE5
             temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
 
 
-            
+            //Test Factory
+            Factories.RoomFactory rFac = new Factories.RoomFactory();
+            Rooms.IRoom myRoom = rFac.Create("Room") as Rooms.IRoom;
+
 
             Console.WriteLine("Checkpoint: 1");
 

@@ -15,9 +15,9 @@ namespace HotelSimulationSE5.Rooms
         public int Y_Dim { get; set; }
         public string Classification { get; set; }
 
-        public GuestRoom()
+        public GuestRoom(string classification)
         {
-
+            Classification = classification;
         }
 
     }

@@ -10,7 +10,7 @@ namespace HotelSimulationSE5.Factories
 
     class RoomFactory :IFactory
     {
-        public IBuildingBlock Create(string areatype)
+        public IBuildingBlock Create(string areatype, string classification = null)
         {
             switch (areatype)
             {
@@ -20,8 +20,8 @@ namespace HotelSimulationSE5.Factories
                     return new Rooms.Restaurant();
                 case "Fitness":
                     return new Rooms.Fitness();
-                case "Room":
-                    return new Rooms.GuestRoom();
+                case "Room":                   
+                    return new Rooms.GuestRoom(classification);
                 default:
                     return null;
             }
