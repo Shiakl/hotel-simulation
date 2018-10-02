@@ -10,29 +10,17 @@ namespace Theme_Hotel
 {
     class PBLoader
     {
-        int Count = 0;
         string[] strcords;
         string[] strdims;
-        private List<PBLoader> jsonoutput = new List<PBLoader>();
-        
+        private List<PBLoader> jsonoutput = new List<PBLoader>();      
         public string AreaType { get; set; }
         public string Position
         {
             set
             {
                 strcords = value.Split(',');
-
-                if (Count == 0)
-                {
-                    this.CordX = Int32.Parse(strcords[0]);
-                    Count = 1;
-                }
-
-                if (Count == 1)
-                {
-                    this.CordY = Int32.Parse(strcords[1]);
-                    Count = 0;
-                }
+                this.CordX = Int32.Parse(strcords[0]);
+                this.CordY = Int32.Parse(strcords[1]);
             }
         }
         public string Dimension
@@ -40,18 +28,8 @@ namespace Theme_Hotel
             set
             {
                 strdims = value.Split(',');
-
-                if (Count == 0)
-                {
-                    this.DimX = Int32.Parse(strdims[0]);
-                    Count = 1;
-                }
-
-                if (Count == 1)
-                {
-                    this.DimY = Int32.Parse(strdims[1]);
-                    Count = 0;
-                }
+                this.DimX = Int32.Parse(strdims[0]);
+                this.DimY = Int32.Parse(strdims[1]);
             }
         }
         public string Capacity { get; set; }

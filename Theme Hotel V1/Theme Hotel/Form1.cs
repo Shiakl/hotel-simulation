@@ -30,12 +30,7 @@ namespace Theme_Hotel
 
         private void HotelLoader()
         {
-            foreach (var rooms in Startup.Getjsonoutput)
-            {
-                _pbammount++;
-            }
-
-            PictureBox[] picture = new PictureBox[_pbammount];
+            PictureBox[] picture = new PictureBox[Startup.Getjsonoutput.Count];
 
             foreach (var rooms in Startup.Getjsonoutput)
             {
