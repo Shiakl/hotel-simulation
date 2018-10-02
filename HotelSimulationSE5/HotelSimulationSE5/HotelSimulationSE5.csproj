@@ -52,8 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building.cs" />
+    <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="IBuildingBlock.cs" />
+    <Compile Include="Nodes\HorizontalNode.cs" />
+    <Compile Include="Nodes\VerticalNode.cs" />
     <Compile Include="Rooms\Cinema.cs" />
     <Compile Include="Rooms\Fitness.cs" />
     <Compile Include="Layout.cs" />
@@ -63,7 +66,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Node.cs" />
+    <Compile Include="Nodes\INode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rooms\IRoom.cs" />
@@ -98,9 +101,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Nodes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="External\HotelEvents.dll" />
   </ItemGroup>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelSimulationSE5
+namespace HotelSimulationSE5.Nodes
 {
-    class Node
+    class VerticalNode
     {
     }
 }
