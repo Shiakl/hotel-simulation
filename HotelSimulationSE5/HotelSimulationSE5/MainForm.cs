@@ -17,8 +17,11 @@ namespace HotelSimulationSE5
             InitializeComponent();
 
             string layoutstring = System.IO.File.ReadAllText(@"C:\Users\Sang\Source\Repos\hotel-simulation\HotelSimulationSE5\HotelSimulationSE5\External\Hotel.layout");
-            List<Room> temp = new List<Room>();
-            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Room>>(layoutstring);
+            List<TempRoom> temp = new List<TempRoom>();
+            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
+
+
+            
 
             Console.WriteLine("Checkpoint: 1");
 

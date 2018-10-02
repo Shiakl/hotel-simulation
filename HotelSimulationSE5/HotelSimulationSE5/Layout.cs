@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace HotelSimulationSE5
 {
-    class Room
+    class Layout
     {
+        private int X_Dimension { get; set; }
+        private int Y_Dimension { get; set; }
 
-        public int Capacity { get; set; }
-        Image myImage { get; set; }
+
+
     }
 }
