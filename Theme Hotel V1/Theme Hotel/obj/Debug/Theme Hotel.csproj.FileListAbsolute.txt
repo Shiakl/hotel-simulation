@@ -1,0 +1,26 @@
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.exe.config
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.exe
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.pdb
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csprojAssemblyReference.cache
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme_Hotel.Form1.resources
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme_Hotel.Properties.Resources.resources
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.GenerateResource.cache
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.CoreCompileInputs.cache
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.CopyComplete
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.exe
+C:\Users\Bodhi\source\repos\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.pdb
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.exe.config
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.exe
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\bin\Debug\Theme Hotel.pdb
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csprojAssemblyReference.cache
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme_Hotel.Form1.resources
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme_Hotel.Properties.Resources.resources
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.GenerateResource.cache
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.CoreCompileInputs.cache
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.csproj.CopyComplete
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.exe
+C:\Users\Bodhi\Desktop\Theme Hotel\Theme Hotel\obj\Debug\Theme Hotel.pdb
