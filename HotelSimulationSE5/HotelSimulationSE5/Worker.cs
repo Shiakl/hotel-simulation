@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-    class Layout
+    public class Worker
     {
-        private int X_Dimension { get; set; }
-        private int Y_Dimension { get; set; }
-
-
 
     }
 }

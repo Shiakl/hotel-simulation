@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-    public interface INode : IBuildingBlock
+    public class Guest
     {
-        
+        public HotelSegments.GuestRoom myRoom;
+
+        public Guest()
+        {
+
+        }
     }
 }

@@ -8,14 +8,14 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class Cinema : IHSegment
     {
-        public int Room_Number { get; set; }
+        public int segment_num { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
 
-        public Cinema()
+        public Cinema(int number)
         {
-
+            segment_num = number;
         }
     }
 }

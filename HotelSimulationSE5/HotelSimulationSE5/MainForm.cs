@@ -12,11 +12,15 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
+
+
+
         private Building _myHotel;
         public MainForm()
         {
             InitializeComponent();
             GenerateHotel();
+
 
 
         }

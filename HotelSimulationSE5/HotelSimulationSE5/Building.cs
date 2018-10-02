@@ -12,59 +12,154 @@ namespace HotelSimulationSE5
     class Building
     {
         private string layoutstring;
+        public const int segmentSize_X = 80;
+        public const int segmentSize_Y = 50;
+        private List<Node> nodes;
+        private List<Node> elevatorNodes;
         private List<TempRoom> temp;
 
-        public enum NODE_TYPES
-        {
-            Hallway,
-            Elevator
-        }
+
 
         public Building()
         {
             temp = new List<TempRoom>();
             layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel2_reparatieVanVersie1.layout");
-            Read_Layout(temp);      
+            Read_Layout();
 
             Console.WriteLine("Checkpoint: 1");
         }
 
-        public void Read_Layout(List<TempRoom> destination)
+        public void Read_Layout()
         {
-            destination = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
+            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
+        }
+
+        private int Find_Max_X(List<TempRoom> roomList)
+        {
+            int hotel_X_Size= 0 ;
+
+            foreach(TempRoom segment in roomList)
+            {
+                if (segment.Position_X > hotel_X_Size)
+                {
+                    if (segment.Dimension_X>1)
+                    {
+                    hotel_X_Size = segment.Position_X + (segment.Dimension_X-1);
+                    }
+                    else
+                    {
+                        hotel_X_Size = segment.Position_X;
+                    }
+                }
+            }
+
+            return hotel_X_Size; 
+        }
+
+        private int Find_Max_Y(List<TempRoom> roomList)
+        {
+            int hotel_Y_Size = 0;
+
+            foreach (TempRoom segment in roomList)
+            {
+                if (segment.Position_Y > hotel_Y_Size)
+                {
+                    if (segment.Dimension_X > 1)
+                    {
+                        hotel_Y_Size = segment.Position_Y + (segment.Dimension_Y - 1);
+                    }
+                    else
+                    {
+                        hotel_Y_Size = segment.Position_Y;
+                    }
+                }
+            }
+
+            return hotel_Y_Size;
         }
 
         public void CreateHotel(Form mainform)
         {
-            //Test Factory
-            Factories.HSegmentFactory rFac = new Factories.HSegmentFactory();
-            HotelSegments.IHSegment myRoom = rFac.Create("Room") as HotelSegments.IHSegment;
+            int max_x = Find_Max_X(temp);
+            int max_y = Find_Max_Y(temp);
+            int nodecounter = 0;
 
-            /*
-             int Count = 0;
-        string[] strcords;
-        string[] strdims;
-
-        public string Position
-        {
-            set
+            //Create elevator nodes
+            for(int y = 0; y < max_y; y++)
             {
-                strcords = value.Split(',');
 
-                if (Count == 0)
+                Panel tempPanel = new Panel
                 {
-                    this.CordX = Int32.Parse(strcords[0]);
-                    Count = 1;
-                }
+                    Size = new Size(segmentSize_X, segmentSize_Y),
+                    Location = new Point(0, y * segmentSize_Y)
+                };
 
-                if (Count == 1)
+                elevatorNodes[y] = new Node(tempPanel);
+            }
+
+            //Create all the Nodes
+            for (int y = 0; y < max_y; y++)
+            {
+                for (int x = 0; x <max_x; x++)
                 {
-                    this.CordY = Int32.Parse(strcords[1]);
-                    Count = 0;
+                    Panel tempPanel = new Panel
+                    {
+                        Size = new Size(segmentSize_X, segmentSize_Y),
+                        Location = new Point(x * segmentSize_X+segmentSize_X, y * segmentSize_Y)
+                    };
+
+                    nodes[nodecounter] = new Node(tempPanel);
+                    mainform.Controls.Add(nodes[nodecounter].MyPanel);
+                    nodecounter++;
                 }
             }
-        }
-             */
+
+
+            //connect nodes
+            for (int tc = 0; tc < (max_x*max_y); tc++)
+            {
+                //Add neighbours to Array in Tile Class
+                if (tc > max_x - 1)
+                {
+                    nodes[tc].topNode = nodes[tc - max_x];
+                }
+                if (tc < (max_x * max_y) - max_x)
+                {
+                    nodes[tc].bottomNode = nodes[tc + max_x];
+                }
+                if (tc % max_x < max_x - 1)
+                {
+                    nodes[tc].rightNode = nodes[tc + 1];
+                }
+                if (tc % max_x > 0)
+                {
+                    nodes[tc].leftNode = nodes[tc - 1];
+                }
+                nodes[tc].Add_myConnections();
+            }
+
+            //Test Factory
+            Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
+
+            foreach (TempRoom blankRoom in temp)
+            {
+                if ()
+                {
+                    HotelSegments.IHSegment myRoom = sFac.Create("Room") as HotelSegments.IHSegment;
+
+                }
+                else
+                {
+                    HotelSegments.IHSegment myRoom = sFac.Create("Room") as HotelSegments.IHSegment;
+                }
+
+
+            }
+
+
+
+            Console.WriteLine("Checkpoint: 2");
+
         }
 
 
