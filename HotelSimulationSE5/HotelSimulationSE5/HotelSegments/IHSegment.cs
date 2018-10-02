@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelSimulationSE5.Rooms
+namespace HotelSimulationSE5.HotelSegments
 {
-    public interface  IRoom: IBuildingBlock
+    public interface  IHSegment: IBuildingBlock
     {
         int Room_Number { get; set; }
         int Capacity{get; set;}

@@ -4,21 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelSimulationSE5.Rooms
-
+namespace HotelSimulationSE5.HotelSegments
 {
-    public class GuestRoom : IRoom
+    class Restaurant : IHSegment
     {
         public int Room_Number { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
-        public string Classification { get; set; }
 
-        public GuestRoom(string classification)
+        public Restaurant()
         {
-            Classification = classification;
-        }
 
+        }
     }
 }

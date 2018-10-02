@@ -55,10 +55,11 @@
     <Compile Include="Factories\NodeFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="IBuildingBlock.cs" />
-    <Compile Include="Nodes\HorizontalNode.cs" />
-    <Compile Include="Nodes\VerticalNode.cs" />
-    <Compile Include="Rooms\Cinema.cs" />
-    <Compile Include="Rooms\Fitness.cs" />
+    <Compile Include="Nodes\HallwayNode.cs" />
+    <Compile Include="Nodes\ElevatorNode.cs" />
+    <Compile Include="HotelSegments\Cinema.cs" />
+    <Compile Include="HotelSegments\Elevator.cs" />
+    <Compile Include="HotelSegments\Fitness.cs" />
     <Compile Include="Layout.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -69,10 +70,11 @@
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rooms\IRoom.cs" />
-    <Compile Include="Rooms\Restaurant.cs" />
-    <Compile Include="Rooms\GuestRoom.cs" />
-    <Compile Include="Factories\RoomFactory.cs" />
+    <Compile Include="HotelSegments\IHSegment.cs" />
+    <Compile Include="HotelSegments\Reception.cs" />
+    <Compile Include="HotelSegments\Restaurant.cs" />
+    <Compile Include="HotelSegments\GuestRoom.cs" />
+    <Compile Include="Factories\HSegmentFactory.cs" />
     <Compile Include="TempRoom.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

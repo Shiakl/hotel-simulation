@@ -14,6 +14,12 @@ namespace HotelSimulationSE5
         private string layoutstring;
         private List<TempRoom> temp;
 
+        public enum NODE_TYPES
+        {
+            Hallway,
+            Elevator
+        }
+
         public Building()
         {
             temp = new List<TempRoom>();
@@ -31,9 +37,34 @@ namespace HotelSimulationSE5
         public void CreateHotel(Form mainform)
         {
             //Test Factory
-            Factories.RoomFactory rFac = new Factories.RoomFactory();
-            Rooms.IRoom myRoom = rFac.Create("Room") as Rooms.IRoom;
+            Factories.HSegmentFactory rFac = new Factories.HSegmentFactory();
+            HotelSegments.IHSegment myRoom = rFac.Create("Room") as HotelSegments.IHSegment;
 
+            /*
+             int Count = 0;
+        string[] strcords;
+        string[] strdims;
+
+        public string Position
+        {
+            set
+            {
+                strcords = value.Split(',');
+
+                if (Count == 0)
+                {
+                    this.CordX = Int32.Parse(strcords[0]);
+                    Count = 1;
+                }
+
+                if (Count == 1)
+                {
+                    this.CordY = Int32.Parse(strcords[1]);
+                    Count = 0;
+                }
+            }
+        }
+             */
         }
 
 

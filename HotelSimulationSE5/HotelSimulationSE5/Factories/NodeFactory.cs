@@ -12,9 +12,9 @@ namespace HotelSimulationSE5.Factories
         {
             switch (areatype)
             {
-                case "Horizontal":
+                case "Hallway":
                     return new Rooms.Cinema();
-                case "Vertical":
+                case "Elevator":
                     return new Rooms.Restaurant();
                 default:
                     return null;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-    class INode : IBuildingBlock
+    public interface INode : IBuildingBlock
     {
-
+        
     }
 }
