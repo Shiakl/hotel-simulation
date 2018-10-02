@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelSimulationSE5
+namespace HotelSimulationSE5.Factories
 {
-    class Fitness : Room
+    public interface IFactory
     {
+        IBuildingBlock Create(string type);
     }
 }

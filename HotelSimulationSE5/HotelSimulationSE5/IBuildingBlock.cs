@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-
-    class RoomFactory
+    public interface IBuildingBlock
     {
-
+        //Extra layer on top of Rooms and Node
     }
 }

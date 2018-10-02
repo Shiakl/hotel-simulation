@@ -12,7 +12,7 @@ namespace HotelSimulationSE5
         public string AreaType { get; set; }
         public string Capacity { get; set; }
         public string Position { get; set; }
-        public string Dimention { get; set; }
+        public string Dimension { get; set; }
 
 
     }
