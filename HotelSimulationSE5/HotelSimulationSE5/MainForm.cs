@@ -12,22 +12,21 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
+        private Building _myHotel;
         public MainForm()
         {
             InitializeComponent();
-
-            string layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel2_reparatieVanVersie1.layout");
-            List<TempRoom> temp = new List<TempRoom>();
-            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
+            GenerateHotel();
 
 
-            //Test Factory
-            Factories.RoomFactory rFac = new Factories.RoomFactory();
-            Rooms.IRoom myRoom = rFac.Create("Room") as Rooms.IRoom;
+        }
 
-
-            Console.WriteLine("Checkpoint: 1");
-
+        public void GenerateHotel()
+        {
+            this.Invalidate();
+            _myHotel = new Building();
+            _myHotel.CreateHotel(this);
+            this.Refresh();
         }
     }
 }
