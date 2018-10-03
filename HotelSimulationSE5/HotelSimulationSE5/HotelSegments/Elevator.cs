@@ -15,6 +15,7 @@ namespace HotelSimulationSE5.HotelSegments
         public int Y_Dim { get; set; }
         public bool Reception { get; set; }
         public Color MyColor { get; set; }
+        public Image MyImage { get; set; }
 
         public Elevator(int number)
         {
@@ -28,6 +29,7 @@ namespace HotelSimulationSE5.HotelSegments
             }
             segment_num = number;
             MyColor = Color.Red;
+            MyImage = Image.FromFile(@"..\..\Images\Elevator.png");
         }
     }
 }

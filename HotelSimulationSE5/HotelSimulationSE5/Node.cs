@@ -20,24 +20,24 @@ namespace HotelSimulationSE5
         private PictureBox panelPb;
 
 
-        public HotelSegments.IHSegment mySegment { get; set; }
+        public HotelSegments.IHSegment MySegment { get; set; }
         public List<Guest> MyUnits { get; set; }
 
         public Node(Panel box)
         {
             MyPanel = box;
-            panelPb = new PictureBox();
-            panelPb.BackColor = Color.Red;
-
+            panelPb = new PictureBox();           
             MyPanel.Controls.Add(panelPb);
         }
 
         public void ColorMe()
         {
-            if (mySegment != null)
+            if (MySegment!=null)
             {
-                panelPb.BackColor = mySegment.MyColor;
+                panelPb.Image = MySegment.MyImage;
+
             }
+
         }
 
         public enum SEGMENT_PART

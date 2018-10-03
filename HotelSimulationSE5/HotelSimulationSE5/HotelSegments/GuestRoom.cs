@@ -17,6 +17,7 @@ namespace HotelSimulationSE5.HotelSegments
         public string Classification { get; set; }
         public Color MyColor { get; set; }
         public bool Reserved { get; set; }
+        public Image MyImage { get; set; }
 
         public GuestRoom(int number, string classification)
         {
@@ -24,6 +25,7 @@ namespace HotelSimulationSE5.HotelSegments
             Classification = classification;
             segment_num = number;
             MyColor = Color.Green;
+            MyImage = Image.FromFile(@"..\..\Images\Guest.png");
         }
 
     }

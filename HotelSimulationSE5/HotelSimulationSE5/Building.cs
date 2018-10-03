@@ -101,11 +101,11 @@ namespace HotelSimulationSE5
                 {
                     Size = new Size(segmentSize_X, segmentSize_Y),
                     Location = new Point(0, y * segmentSize_Y),
-                    BackColor = Color.Yellow
             };
 
                 elevatorNodes[y] = new Node(tempPanel);
-                elevatorNodes[y].mySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
+                elevatorNodes[y].MySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
+                mainform.Controls.Add(elevatorNodes[y].MyPanel);
                 elevatorNodes[y].ColorMe();
                 segmentcount++;
             }
@@ -175,6 +175,7 @@ namespace HotelSimulationSE5
 
             }
             
+
             foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
@@ -182,21 +183,27 @@ namespace HotelSimulationSE5
                 if (blankRoom.AreaType.Equals("Room"))
                 {
                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
+                    segmentcount++;
                 }
                 else
                 {
                     tempSeg = sFac.Create(blankRoom.AreaType, segmentcount) as HotelSegments.IHSegment;
+                    segmentcount++;
                 }
 
                 x_track = blankRoom.Position_X;
                 y_track = blankRoom.Position_Y-1;
-                Go_Right(elevatorNodes[max_y - 1]).mySegment = tempSeg;
+                Go_Right(elevatorNodes[max_y - 1]).MySegment = tempSeg;
+            }
 
+            foreach (Node reload in nodes)
+            {
+                reload.ColorMe();
             }
 
             Console.WriteLine("Checkpoint: 2");
 
-        }
+        }//Create Hotel
 
 
         private int x_track;
@@ -223,7 +230,6 @@ namespace HotelSimulationSE5
 
         public Node Go_Up(Node Nav)
         {
-
             if (Nav.TopNode != null)
             {
                 if (y_track==0)

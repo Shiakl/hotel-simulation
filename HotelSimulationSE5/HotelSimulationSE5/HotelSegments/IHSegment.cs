@@ -7,13 +7,14 @@ using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
-    public interface  IHSegment
+    public interface IHSegment
     {
         int segment_num { get; set; }
-        int Capacity{get; set;}
+        int Capacity { get; set; }
         int X_Dim { get; set; }
         int Y_Dim { get; set; }
         Color MyColor { get; set; }
+        Image MyImage{ get; set; }
 
     }
 }
