@@ -27,11 +27,12 @@ namespace HotelSimulationSE5
         {
             MyPanel = box;
             panelPb = new PictureBox();
+            panelPb.BackColor = Color.Red;
 
             MyPanel.Controls.Add(panelPb);
         }
 
-        public void Color()
+        public void ColorMe()
         {
             if (mySegment != null)
             {

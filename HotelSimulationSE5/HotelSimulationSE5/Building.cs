@@ -106,7 +106,7 @@ namespace HotelSimulationSE5
 
                 elevatorNodes[y] = new Node(tempPanel);
                 elevatorNodes[y].mySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
-                elevatorNodes[y].Color();
+                elevatorNodes[y].ColorMe();
                 segmentcount++;
             }
 
@@ -177,26 +177,54 @@ namespace HotelSimulationSE5
                 nodes[tc].Add_myConnections();
 
             }
-
-            /*
+            
             foreach (TempRoom blankRoom in temp)
             {
-                if ()
+                int x_coord = blankRoom.Position_X;
+                int y_coord = blankRoom.Position_Y;
+                HotelSegments.IHSegment tempSeg;
+
+                if (blankRoom.AreaType.Equals("Room"))
                 {
-                    HotelSegments.IHSegment myRoom = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
+                   tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
 
                 }
                 else
                 {
-                    HotelSegments.IHSegment myRoom = sFac.Create(blankRoom.AreaType, segmentcount) as HotelSegments.IHSegment;
+                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount) as HotelSegments.IHSegment;
                 }
 
-            }
-            */
+                x_track = blankRoom.Position_X;
+                y_track = blankRoom.Position_Y;
+                Set_Room(elevatorNodes[max_y - 1]).mySegment = tempSeg;
 
+
+            }
 
             Console.WriteLine("Checkpoint: 2");
 
+        }
+
+        private int x_track = 0;
+        private int y_track = 0;
+        public Node Set_Room(Node nextRoom)
+        {
+            if (x_track!= 0)
+            {
+                return Set_Room(nextRoom.RightNode);
+                x_track--;
+
+            }
+            else if(y_track !=0)
+            {
+                return Set_Room(nextRoom.TopNode);
+                y_track--;
+
+            }
+            else
+            {
+                return nextRoom;
+            }
         }
 
 

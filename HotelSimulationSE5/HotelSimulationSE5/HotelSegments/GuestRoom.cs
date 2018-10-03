@@ -16,9 +16,11 @@ namespace HotelSimulationSE5.HotelSegments
         public int Y_Dim { get; set; }
         public string Classification { get; set; }
         public Color MyColor { get; set; }
+        public bool Reserved { get; set; }
 
         public GuestRoom(int number, string classification)
         {
+            Reserved = false;
             Classification = classification;
             segment_num = number;
             MyColor = Color.Green;
