@@ -196,7 +196,6 @@ namespace HotelSimulationSE5
 
                 x_track = blankRoom.Position_X;
                 y_track = blankRoom.Position_Y;
-                Set_Room(elevatorNodes[max_y - 1]).mySegment = tempSeg;
 
 
             }
@@ -207,26 +206,18 @@ namespace HotelSimulationSE5
 
         private int x_track = 0;
         private int y_track = 0;
-        public Node Set_Room(Node nextRoom)
+
+        public Node Go_Right(Node Nav, int destination_x, int destination_y)
         {
-            if (x_track!= 0)
-            {
-                return Set_Room(nextRoom.RightNode);
-                x_track--;
 
-            }
-            else if(y_track !=0)
-            {
-                return Set_Room(nextRoom.TopNode);
-                y_track--;
-
-            }
-            else
-            {
-                return nextRoom;
-            }
+            return Go_Up(Nav, destination_y);
         }
 
+        public Node Go_Up(Node Nav, int destination_y)
+        {
+
+            return Nav;
+        }
 
     }
 }
