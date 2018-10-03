@@ -110,8 +110,6 @@ namespace HotelSimulationSE5
                 segmentcount++;
             }
 
-
-
             //Create all the Nodes
             for (int y = 0; y < max_y; y++)
             {
@@ -129,7 +127,7 @@ namespace HotelSimulationSE5
                 }
             }
 
-            int elevatorLevel = max_y-1;
+            int elevatorLevel = 0;
             //connect nodes
             for (int tc = 0; tc < (max_x*max_y); tc++)
             {
@@ -170,9 +168,8 @@ namespace HotelSimulationSE5
 
                     elevatorNodes[elevatorLevel].Add_myConnections();
 
-                    elevatorLevel--;
+                    elevatorLevel++;
                 }
-
 
                 nodes[tc].Add_myConnections();
 
@@ -180,14 +177,11 @@ namespace HotelSimulationSE5
             
             foreach (TempRoom blankRoom in temp)
             {
-                int x_coord = blankRoom.Position_X;
-                int y_coord = blankRoom.Position_Y;
                 HotelSegments.IHSegment tempSeg;
 
                 if (blankRoom.AreaType.Equals("Room"))
                 {
                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
-
                 }
                 else
                 {
@@ -195,8 +189,8 @@ namespace HotelSimulationSE5
                 }
 
                 x_track = blankRoom.Position_X;
-                y_track = blankRoom.Position_Y;
-
+                y_track = blankRoom.Position_Y-1;
+                Go_Right(elevatorNodes[max_y - 1]).mySegment = tempSeg;
 
             }
 
@@ -204,20 +198,48 @@ namespace HotelSimulationSE5
 
         }
 
-        private int x_track = 0;
-        private int y_track = 0;
 
-        public Node Go_Right(Node Nav, int destination_x, int destination_y)
+        private int x_track;
+        private int y_track;
+        public Node Go_Right(Node Nav)
         {
-
-            return Go_Up(Nav, destination_y);
+            if(Nav.RightNode != null)
+            {
+                if (x_track == 0)
+                {
+                    return Go_Up(Nav);
+                }
+                else
+                {
+                    x_track--;
+                    return Go_Right(Nav.RightNode);
+                }
+            }
+            else
+            {
+                return Nav;
+            }
         }
 
-        public Node Go_Up(Node Nav, int destination_y)
+        public Node Go_Up(Node Nav)
         {
 
-            return Nav;
+            if (Nav.TopNode != null)
+            {
+                if (y_track==0)
+                {
+                    return Nav;
+                }
+                else
+                {
+                    y_track--;
+                return Go_Up(Nav.TopNode);
+                }
+            }
+            else
+            {
+                return Nav;
+            }
         }
-
     }
 }
