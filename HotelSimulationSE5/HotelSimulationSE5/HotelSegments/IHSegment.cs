@@ -13,7 +13,7 @@ namespace HotelSimulationSE5.HotelSegments
         int Capacity{get; set;}
         int X_Dim { get; set; }
         int Y_Dim { get; set; }
-
+        Color MyColor { get; set; }
 
     }
 }

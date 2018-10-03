@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
@@ -12,10 +13,12 @@ namespace HotelSimulationSE5.HotelSegments
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
+        public Color MyColor { get; set; }
 
         public Restaurant(int number)
         {
             segment_num = number;
+            MyColor = Color.Yellow;
         }
     }
 }

@@ -100,11 +100,13 @@ namespace HotelSimulationSE5
                 Panel tempPanel = new Panel
                 {
                     Size = new Size(segmentSize_X, segmentSize_Y),
-                    Location = new Point(0, y * segmentSize_Y)
-                };
+                    Location = new Point(0, y * segmentSize_Y),
+                    BackColor = Color.Yellow
+            };
 
                 elevatorNodes[y] = new Node(tempPanel);
                 elevatorNodes[y].mySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
+                elevatorNodes[y].Color();
                 segmentcount++;
             }
 

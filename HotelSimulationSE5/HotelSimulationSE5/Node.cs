@@ -17,10 +17,27 @@ namespace HotelSimulationSE5
         public Node[] MyConnections { get; set; }
 
         public Panel MyPanel { get; set; }
+        private PictureBox panelPb;
 
 
         public HotelSegments.IHSegment mySegment { get; set; }
         public List<Guest> MyUnits { get; set; }
+
+        public Node(Panel box)
+        {
+            MyPanel = box;
+            panelPb = new PictureBox();
+
+            MyPanel.Controls.Add(panelPb);
+        }
+
+        public void Color()
+        {
+            if (mySegment != null)
+            {
+                panelPb.BackColor = mySegment.MyColor;
+            }
+        }
 
         public enum SEGMENT_PART
         {
@@ -38,10 +55,6 @@ namespace HotelSimulationSE5
             BOTTOM
         }
 
-        public Node(Panel box)
-        {
-            MyPanel = box;
-        }
 
         public void Add_myConnections()
         {
