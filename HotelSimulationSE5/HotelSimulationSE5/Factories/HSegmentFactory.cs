@@ -10,7 +10,7 @@ namespace HotelSimulationSE5.Factories
 
     class HSegmentFactory :IFactory
     {
-        public IBuildingBlock Create(string areatype, int segment_num,string classification = null)
+        public HotelSegments.IHSegment Create(string areatype, int segment_num,string classification = null)
         {
             switch (areatype)
             {
@@ -20,10 +20,8 @@ namespace HotelSimulationSE5.Factories
                     return new HotelSegments.Restaurant(segment_num);
                 case "Fitness":
                     return new HotelSegments.Fitness(segment_num);
-                case "Reception":
-                    return new HotelSegments.Restaurant(segment_num);
                 case "Elevator":
-                    return new HotelSegments.Fitness(segment_num);
+                    return new HotelSegments.Elevator(segment_num);
                 case "Room":                   
                     return new HotelSegments.GuestRoom(segment_num,classification);
                 default:

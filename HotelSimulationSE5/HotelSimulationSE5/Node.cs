@@ -10,11 +10,11 @@ namespace HotelSimulationSE5
 {
     class Node
     {
-        public Node leftNode { get; set; }
-        public Node rightNode { get; set; }
-        public Node topNode { get; set; }
-        public Node bottomNode { get; set; }
-        public Node[] myConnections { get; set; }
+        public Node LeftNode { get; set; }
+        public Node RightNode { get; set; }
+        public Node TopNode { get; set; }
+        public Node BottomNode { get; set; }
+        public Node[] MyConnections { get; set; }
 
         public Panel MyPanel { get; set; }
 
@@ -45,10 +45,11 @@ namespace HotelSimulationSE5
 
         public void Add_myConnections()
         {
-            myConnections[(int)DIRECTIONS.LEFT] = leftNode;
-            myConnections[(int)DIRECTIONS.RIGHT] = rightNode;
-            myConnections[(int)DIRECTIONS.TOP] = topNode;
-            myConnections[(int)DIRECTIONS.BOTTOM] = bottomNode;
+            MyConnections = new Node[4];
+            MyConnections[(int)DIRECTIONS.LEFT] = LeftNode;
+            MyConnections[(int)DIRECTIONS.RIGHT] = RightNode;
+            MyConnections[(int)DIRECTIONS.TOP] = TopNode;
+            MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
     }
 }

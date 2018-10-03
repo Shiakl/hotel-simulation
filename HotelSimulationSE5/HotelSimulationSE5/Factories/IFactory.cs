@@ -8,6 +8,6 @@ namespace HotelSimulationSE5.Factories
 {
     public interface IFactory
     {
-        IBuildingBlock Create(string type, int segment_num , string classification = null);
+        HotelSegments.IHSegment Create(string type, int segment_num , string classification = null);
     }
 }

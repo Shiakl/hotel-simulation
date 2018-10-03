@@ -12,11 +12,18 @@ namespace HotelSimulationSE5.HotelSegments
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
-        public bool reception { get; set; }
+        public bool Reception { get; set; }
 
         public Elevator(int number)
         {
-            reception = false;
+            if(number == 1)
+            {
+                Reception = true;
+            }
+            else
+            {
+                Reception = false;
+            }
             segment_num = number;
         }
     }

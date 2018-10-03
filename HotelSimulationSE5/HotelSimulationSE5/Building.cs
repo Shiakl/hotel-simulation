@@ -14,9 +14,12 @@ namespace HotelSimulationSE5
         private string layoutstring;
         public const int segmentSize_X = 80;
         public const int segmentSize_Y = 50;
-        private List<Node> nodes;
-        private List<Node> elevatorNodes;
+        private int max_x;
+        private int max_y;
+        private Node[] nodes;
+        private Node[] elevatorNodes;
         private List<TempRoom> temp;
+        public bool elevatorLeft;
 
 
 
@@ -25,6 +28,12 @@ namespace HotelSimulationSE5
             temp = new List<TempRoom>();
             layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel2_reparatieVanVersie1.layout");
             Read_Layout();
+            elevatorLeft = true;
+            max_x = Find_Max_X(temp);
+            max_y = Find_Max_Y(temp);
+
+            nodes = new Node[Find_Max_X(temp) * Find_Max_Y(temp)];
+            elevatorNodes = new Node[Find_Max_Y(temp)];
 
             Console.WriteLine("Checkpoint: 1");
         }
@@ -80,12 +89,12 @@ namespace HotelSimulationSE5
 
         public void CreateHotel(Form mainform)
         {
-            int max_x = Find_Max_X(temp);
-            int max_y = Find_Max_Y(temp);
+            Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
+            int segmentcount = 1;
             int nodecounter = 0;
 
             //Create elevator nodes
-            for(int y = 0; y < max_y; y++)
+            for(int y = max_y-1; y >= 0; y--)
             {
 
                 Panel tempPanel = new Panel
@@ -95,7 +104,11 @@ namespace HotelSimulationSE5
                 };
 
                 elevatorNodes[y] = new Node(tempPanel);
+                elevatorNodes[y].mySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
+                segmentcount++;
             }
+
+
 
             //Create all the Nodes
             for (int y = 0; y < max_y; y++)
@@ -114,48 +127,70 @@ namespace HotelSimulationSE5
                 }
             }
 
-
+            int elevatorLevel = max_y-1;
             //connect nodes
             for (int tc = 0; tc < (max_x*max_y); tc++)
             {
-                //Add neighbours to Array in Tile Class
+                //Except for the first row(>max_x) all nodes have a top connection.
                 if (tc > max_x - 1)
                 {
-                    nodes[tc].topNode = nodes[tc - max_x];
+                    nodes[tc].TopNode = nodes[tc - max_x];
                 }
+                //Except for the last row all nodes have a bottom connection.
                 if (tc < (max_x * max_y) - max_x)
                 {
-                    nodes[tc].bottomNode = nodes[tc + max_x];
+                    nodes[tc].BottomNode = nodes[tc + max_x];
                 }
+                //Except for the last column all nodes have a right connection.
                 if (tc % max_x < max_x - 1)
                 {
-                    nodes[tc].rightNode = nodes[tc + 1];
+                    nodes[tc].RightNode = nodes[tc + 1];
                 }
+                //Except for the first column all nodes have a left connection.
                 if (tc % max_x > 0)
                 {
-                    nodes[tc].leftNode = nodes[tc - 1];
+                    nodes[tc].LeftNode = nodes[tc - 1];
                 }
+                //Add elevator nodes to connections on all the nodes in the first column.
+                if (nodes[tc].LeftNode is null)
+                {
+                    nodes[tc].LeftNode = elevatorNodes[elevatorLevel];
+                    elevatorNodes[elevatorLevel].RightNode = nodes[tc];
+
+                    if (elevatorLevel<max_y-1)
+                    {
+                        elevatorNodes[elevatorLevel].BottomNode = elevatorNodes[elevatorLevel+1];
+                    }
+                    if (elevatorLevel!=0)
+                    {
+                    elevatorNodes[elevatorLevel].TopNode = elevatorNodes[elevatorLevel-1];
+                    }
+
+                    elevatorNodes[elevatorLevel].Add_myConnections();
+
+                    elevatorLevel--;
+                }
+
+
                 nodes[tc].Add_myConnections();
+
             }
 
-            //Test Factory
-            Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
-
+            /*
             foreach (TempRoom blankRoom in temp)
             {
                 if ()
                 {
-                    HotelSegments.IHSegment myRoom = sFac.Create("Room") as HotelSegments.IHSegment;
+                    HotelSegments.IHSegment myRoom = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
 
                 }
                 else
                 {
-                    HotelSegments.IHSegment myRoom = sFac.Create("Room") as HotelSegments.IHSegment;
+                    HotelSegments.IHSegment myRoom = sFac.Create(blankRoom.AreaType, segmentcount) as HotelSegments.IHSegment;
                 }
 
-
             }
-
+            */
 
 
             Console.WriteLine("Checkpoint: 2");

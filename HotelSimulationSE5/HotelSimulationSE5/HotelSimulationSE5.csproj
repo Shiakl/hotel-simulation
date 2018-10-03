@@ -54,7 +54,6 @@
     <Compile Include="Building.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Guest.cs" />
-    <Compile Include="IBuildingBlock.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="HotelSegments\Cinema.cs" />
     <Compile Include="HotelSegments\Elevator.cs" />
