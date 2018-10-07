@@ -259,7 +259,7 @@ namespace HotelSimulationSE5
             };
             guestPanel.BackColor = Color.Transparent;
             Guest arrival = new Guest(guestPanel);
-            arrival.MyRoom = FindmyRoom(21);
+            //arrival.MyRoom = FindmyRoom(21);
             mainform.Controls.Add(arrival.MyPanel);
             arrival.Move();
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
@@ -290,7 +290,24 @@ namespace HotelSimulationSE5
             return null;
         }
 
-        public void BreakPoint()
+        private bool checked_Right = false;
+        public HotelSegments.GuestRoom FindmyRoom_Right(Node origin, Node current, Node level, int value)
+        {
+
+            return current.MySegment as HotelSegments.GuestRoom;
+
+
+            return FindmyRoom_Right(origin, current.RightNode, origin, value);
+
+
+
+
+
+        }
+
+
+
+            public void BreakPoint()
         {
             Console.WriteLine("Checkpoint: 4");
         }
