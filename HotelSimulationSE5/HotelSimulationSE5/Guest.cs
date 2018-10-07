@@ -15,16 +15,17 @@ namespace HotelSimulationSE5
         public HotelSegments.GuestRoom MyRoom { get; set; }
         
         public Image MyImage { get; set; }
-        private const int speed = -2;
+        public int speed = -2;
 
         public Panel MyPanel { get; set; }
         private PictureBox panelPb;
 
         public Guest(Panel mypanel)
         {
-            MyImage = Image.FromFile(@"..\..\Images\TempGuest.png");
+            MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
             MyPanel = mypanel;
             panelPb = new PictureBox();
+            MyPanel.BackColor = Color.Transparent;
             MyPanel.Controls.Add(panelPb);
         }
 
@@ -35,7 +36,8 @@ namespace HotelSimulationSE5
         public void Move()
         {
             panelPb.Image = MyImage;
-            panelPb.BringToFront();
+            MyPanel.BringToFront();
+            MyPanel.BackColor = Color.Transparent;
         }
     }
 }

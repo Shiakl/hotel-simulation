@@ -127,9 +127,6 @@ namespace HotelSimulationSE5
                 }
             }
 
-            //Move the button
-
-
 
             int elevatorLevel = 0;
             //connect nodes
@@ -253,28 +250,44 @@ namespace HotelSimulationSE5
 
         public void Create_Guest(Form mainform)
         {
-            if (elevatorNodes[max_y-1]!=null)
-            {
-                Panel tempPanel = new Panel
-                {
-                    Size = new Size(15, 25),
-                    Location = new Point(elevatorNodes[max_y-1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y+max_y)
-                };
-                Guest arrival = new Guest(tempPanel);
-                //arrival.Add_panel(tempPanel);
-                mainform.Controls.Add(arrival.MyPanel);
-                arrival.Move();
-                elevatorNodes[max_y - 1].MyUnits.Add(arrival);
-            }
-            //panelPb.BackColor = Color.Transparent;
 
-            foreach (Guest visitor in elevatorNodes[max_y-1].MyUnits)
+            //Test Create guest
+            Panel guestPanel = new Panel
             {
-                visitor.Move();
-            }
-
+                Size = new Size(15, 50),
+                Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
+            };
+            guestPanel.BackColor = Color.Transparent;
+            Guest arrival = new Guest(guestPanel);
+            arrival.MyRoom = FindmyRoom(21);
+            mainform.Controls.Add(arrival.MyPanel);
+            arrival.Move();
+            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
 
             Console.WriteLine("Checkpoint: 3");
+        }
+
+        public HotelSegments.GuestRoom FindmyRoom(int value)
+        {
+            foreach (Node current in nodes)
+            {
+                if (current.MySegment != null)
+                {
+                    if (current.MySegment.segment_num == value)
+                    {
+                        return current.MySegment as HotelSegments.GuestRoom;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
         }
 
         public void BreakPoint()
@@ -282,7 +295,18 @@ namespace HotelSimulationSE5
             Console.WriteLine("Checkpoint: 4");
         }
 
+        public void Move_Guest(Form mainform)
+        {
+            //segment_num = 21 is the number of the room #5 from elevator
 
+            if (elevatorNodes[max_y-1].MyUnits[0] != null)
+            {
+                Point newPoint =  new Point(elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location.X + (segmentSize_X / 4), elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location.Y);
+                elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location = newPoint;
+                mainform.Controls.Add(elevatorNodes[max_y - 1].MyUnits[0].MyPanel);
+                elevatorNodes[max_y - 1].MyUnits[0].Move();
+            }
+        }
 
 
 
