@@ -104,9 +104,11 @@
     <Content Include="External\HotelEvents.dll" />
     <Content Include="Images\Cin.png" />
     <Content Include="Images\Elevator.png" />
+    <Content Include="Images\Empty.jpg" />
     <Content Include="Images\Fit.png" />
     <Content Include="Images\Guest.png" />
     <Content Include="Images\Rest.png" />
+    <Content Include="Images\TempGuest.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

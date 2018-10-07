@@ -37,6 +37,10 @@ namespace HotelSimulationSE5
                 panelPb.Image = MySegment.MyImage;
 
             }
+            else
+            {
+                panelPb.Image = Image.FromFile(@"..\..\Images\Empty.jpg");
+            }
 
         }
 

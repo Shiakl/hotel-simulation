@@ -205,7 +205,6 @@ namespace HotelSimulationSE5
 
         }//Create Hotel
 
-
         private int x_track;
         private int y_track;
         public Node Go_Right(Node Nav)
@@ -247,5 +246,28 @@ namespace HotelSimulationSE5
                 return Nav;
             }
         }
-    }
+
+        public void Move_Guests()
+        {
+            foreach (Node currentNode in elevatorNodes)
+            {
+                foreach (Guest currentGuest in currentNode.MyUnits)
+                {
+                    currentGuest.Move();
+                }
+            }
+
+            foreach (Node currentNode in nodes)
+            {
+                foreach (Guest currentGuest in currentNode.MyUnits)
+                {
+                    currentGuest.Move();
+                }
+            }
+
+        }
+
+
+
+    }//Building
 }
