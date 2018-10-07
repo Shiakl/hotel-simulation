@@ -12,10 +12,10 @@ namespace HotelSimulationSE5
     class Building
     {
         private string layoutstring;
-        public const int segmentSize_X = 80;
-        public const int segmentSize_Y = 50;
-        private int max_x;
-        private int max_y;
+        public int segmentSize_X = 80;
+        public int segmentSize_Y = 50;
+        public int max_x;
+        public int max_y;
         private Node[] nodes;
         private Node[] elevatorNodes;
         private List<TempRoom> temp;
@@ -101,7 +101,7 @@ namespace HotelSimulationSE5
                 {
                     Size = new Size(segmentSize_X, segmentSize_Y),
                     Location = new Point(0, y * segmentSize_Y),
-            };
+                };
 
                 elevatorNodes[y] = new Node(tempPanel);
                 elevatorNodes[y].MySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
@@ -126,6 +126,10 @@ namespace HotelSimulationSE5
                     nodecounter++;
                 }
             }
+
+            //Move the button
+
+
 
             int elevatorLevel = 0;
             //connect nodes
@@ -247,25 +251,38 @@ namespace HotelSimulationSE5
             }
         }
 
-        public void Move_Guests()
+        public void Create_Guest(Form mainform)
         {
-            foreach (Node currentNode in elevatorNodes)
+            if (elevatorNodes[max_y-1]!=null)
             {
-                foreach (Guest currentGuest in currentNode.MyUnits)
+                Panel tempPanel = new Panel
                 {
-                    currentGuest.Move();
-                }
+                    Size = new Size(15, 25),
+                    Location = new Point(elevatorNodes[max_y-1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y+max_y)
+                };
+                Guest arrival = new Guest(tempPanel);
+                //arrival.Add_panel(tempPanel);
+                mainform.Controls.Add(arrival.MyPanel);
+                arrival.Move();
+                elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+            }
+            //panelPb.BackColor = Color.Transparent;
+
+            foreach (Guest visitor in elevatorNodes[max_y-1].MyUnits)
+            {
+                visitor.Move();
             }
 
-            foreach (Node currentNode in nodes)
-            {
-                foreach (Guest currentGuest in currentNode.MyUnits)
-                {
-                    currentGuest.Move();
-                }
-            }
 
+            Console.WriteLine("Checkpoint: 3");
         }
+
+        public void BreakPoint()
+        {
+            Console.WriteLine("Checkpoint: 4");
+        }
+
+
 
 
 

@@ -25,6 +25,7 @@ namespace HotelSimulationSE5
 
         public Node(Panel box)
         {
+            MyUnits = new List<Guest>();
             MyPanel = box;
             panelPb = new PictureBox();           
             MyPanel.Controls.Add(panelPb);
