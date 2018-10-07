@@ -12,19 +12,25 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
+
+
+
+        private Building _myHotel;
         public MainForm()
         {
             InitializeComponent();
-
-            string layoutstring = System.IO.File.ReadAllText(@"C:\Users\Sang\Source\Repos\hotel-simulation\HotelSimulationSE5\HotelSimulationSE5\External\Hotel.layout");
-            List<TempRoom> temp = new List<TempRoom>();
-            temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
+            GenerateHotel();
 
 
-            
 
-            Console.WriteLine("Checkpoint: 1");
+        }
 
+        public void GenerateHotel()
+        {
+            this.Invalidate();
+            _myHotel = new Building();
+            _myHotel.CreateHotel(this);
+            this.Refresh();
         }
     }
 }

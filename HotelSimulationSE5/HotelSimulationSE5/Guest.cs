@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace HotelSimulationSE5
 {
-
-    class RoomFactory
+    public class Guest
     {
+        public HotelSegments.GuestRoom myRoom;
 
+        public Guest()
+        {
+
+        }
     }
 }
