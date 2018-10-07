@@ -27,7 +27,8 @@ namespace HotelSimulationSE5
         {
             MyUnits = new List<Guest>();
             MyPanel = box;
-            panelPb = new PictureBox();           
+            panelPb = new PictureBox();
+            panelPb.Size = MyPanel.Size;
             MyPanel.Controls.Add(panelPb);
         }
 
@@ -40,7 +41,7 @@ namespace HotelSimulationSE5
             }
             else
             {
-                panelPb.Image = Image.FromFile(@"..\..\Images\Empty.jpg");
+                panelPb.Image = Image.FromFile(@"..\..\Images\empty.png");
             }
 
         }

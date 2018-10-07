@@ -12,8 +12,8 @@ namespace HotelSimulationSE5
     class Building
     {
         private string layoutstring;
-        public int segmentSize_X = 80;
-        public int segmentSize_Y = 50;
+        public int segmentSize_X = 104;
+        public int segmentSize_Y = 60;
         public int max_x;
         public int max_y;
         private Node[] nodes;
@@ -299,12 +299,17 @@ namespace HotelSimulationSE5
         {
             //segment_num = 21 is the number of the room #5 from elevator
 
+            
             if (elevatorNodes[max_y-1].MyUnits[0] != null)
             {
-                Point newPoint =  new Point(elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location.X + (segmentSize_X / 4), elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location.Y);
-                elevatorNodes[max_y - 1].MyUnits[0].MyPanel.Location = newPoint;
-                mainform.Controls.Add(elevatorNodes[max_y - 1].MyUnits[0].MyPanel);
-                elevatorNodes[max_y - 1].MyUnits[0].Move();
+                foreach (Guest visitor in elevatorNodes[max_y - 1].MyUnits)
+                {
+                Point newPoint =  new Point(visitor.MyPanel.Location.X + (segmentSize_X / 4), visitor.MyPanel.Location.Y);
+                visitor.MyPanel.Location = newPoint;
+                mainform.Controls.Add(visitor.MyPanel);
+                    visitor.Move();
+
+                }
             }
         }
 

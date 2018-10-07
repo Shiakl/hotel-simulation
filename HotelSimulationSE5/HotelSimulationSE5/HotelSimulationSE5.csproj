@@ -102,12 +102,16 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="External\HotelEvents.dll" />
-    <Content Include="Images\Cin.png" />
-    <Content Include="Images\Elevator.png" />
-    <Content Include="Images\Empty.jpg" />
-    <Content Include="Images\Fit.png" />
-    <Content Include="Images\Guest.png" />
-    <Content Include="Images\Rest.png" />
+    <Content Include="Images\1-star.png" />
+    <Content Include="Images\2-star.png" />
+    <Content Include="Images\3-star.png" />
+    <Content Include="Images\4-star.png" />
+    <Content Include="Images\5-star.png" />
+    <Content Include="Images\Cinema.png" />
+    <Content Include="Images\elevator.png" />
+    <Content Include="Images\empty.png" />
+    <Content Include="Images\Fitness.png" />
+    <Content Include="Images\Restaurant.png" />
     <Content Include="Images\TempGuest2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
