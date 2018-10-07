@@ -11,8 +11,32 @@ namespace HotelSimulationSE5
         public string Classification { get; set; }
         public string AreaType { get; set; }
         public string Capacity { get; set; }
-        public string Position { get; set; }
-        public string Dimension { get; set; }
+
+        private string[] strcords;
+        private string[] strdims;
+        public string Position
+        {
+            set
+            {
+                strcords = value.Split(',');
+                this.Position_X = Int32.Parse(strcords[0]);
+                this.Position_Y = Int32.Parse(strcords[1]);
+            }
+        }
+        public string Dimension
+        {
+            set
+            {
+                strdims = value.Split(',');
+                this.Dimension_X = Int32.Parse(strdims[0]);
+                this.Dimension_Y = Int32.Parse(strdims[1]);
+            }
+        }
+
+        public int Position_X { get; set; }
+        public int Position_Y { get; set; }
+        public int Dimension_X { get; set; }
+        public int Dimension_Y { get; set; }
 
 
     }
