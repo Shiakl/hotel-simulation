@@ -30,6 +30,7 @@
         {
             this.GuestButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // GuestButton
@@ -52,12 +53,23 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(131, 11);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 23);
+            this.StopButton.TabIndex = 2;
+            this.StopButton.Text = "Pause";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.Stop_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.StopButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.GuestButton);
             this.Name = "MainForm";
@@ -70,6 +82,7 @@
 
         private System.Windows.Forms.Button GuestButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button StopButton;
     }
 }
 

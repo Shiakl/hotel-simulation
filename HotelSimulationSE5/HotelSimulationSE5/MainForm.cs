@@ -22,6 +22,7 @@ namespace HotelSimulationSE5
             InitializeComponent();
             GenerateHotel();
             GuestButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
+            StopButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
 
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
@@ -54,6 +55,11 @@ namespace HotelSimulationSE5
         private void button1_Click(object sender, EventArgs e)
         {
             _myHotel.BreakPoint();
+        }
+
+        private void Stop_Click(object sender, EventArgs e)
+        {
+            _refresh_timer.Stop();
         }
     }
 }
