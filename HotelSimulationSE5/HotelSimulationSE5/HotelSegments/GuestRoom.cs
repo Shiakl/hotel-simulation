@@ -25,7 +25,27 @@ namespace HotelSimulationSE5.HotelSegments
             Classification = classification;
             segment_num = number;
             MyColor = Color.Green;
-            MyImage = Image.FromFile(@"..\..\Images\Guest.png");
+
+            switch (classification)
+            {
+                case "1 Star":
+                    MyImage = Image.FromFile(@"..\..\Images\1-star.png");
+                    break;
+                case "2 stars":
+                    MyImage = Image.FromFile(@"..\..\Images\2-star.png");
+                    break;
+                case "3 stars":
+                    MyImage = Image.FromFile(@"..\..\Images\3-star.png");
+                    break;
+                case "4 stars":
+                    MyImage = Image.FromFile(@"..\..\Images\4-star.png");
+                    break;
+                case "5 stars":
+                    MyImage = Image.FromFile(@"..\..\Images\5-star.png");
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
