@@ -115,31 +115,19 @@ namespace HotelSimulationSE5
             {
                 Panel tempPanel = new Panel
                 {
-                    Size = new Size(segmentSize_X, segmentSize_Y),
-                    Location = new Point(rooms.Position_X, rooms.Position_Y)
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    Size = new Size(rooms.Dimension_X * segmentSize_X, rooms.Dimension_Y * segmentSize_Y),
+                    Location = new Point((rooms.Position_X - 1) * segmentSize_X + segmentSize_X, (rooms.Position_Y - 1) * segmentSize_Y)
                 };
-
                 nodes[nodecounter] = new Node(tempPanel);
                 if (rooms.AreaType == "Room")
                 {
-                    nodes[nodecounter].MySegment = sFac.Create("Room", segmentcount) as HotelSegments.IHSegment;
+                    nodes[nodecounter].MySegment = sFac.Create(rooms.AreaType, segmentcount, rooms.Classification) as HotelSegments.IHSegment;
                 }
-
-                else if (rooms.AreaType == "Cinema")
+                else
                 {
-                    nodes[nodecounter].MySegment = sFac.Create("Cinema", segmentcount) as HotelSegments.IHSegment;
+                    nodes[nodecounter].MySegment = sFac.Create(rooms.AreaType, segmentcount) as HotelSegments.IHSegment;
                 }
-
-                else if (rooms.AreaType == "Fitness")
-                {
-                    nodes[nodecounter].MySegment = sFac.Create("Fitness", segmentcount) as HotelSegments.IHSegment;
-                }
-
-                else if (rooms.AreaType == "Restaurant")
-                {
-                    nodes[nodecounter].MySegment = sFac.Create("Restaurant", segmentcount) as HotelSegments.IHSegment;
-                }
-
                 mainform.Controls.Add(nodes[nodecounter].MyPanel);
                 nodecounter++;
                 segmentcount++;
@@ -203,7 +191,7 @@ namespace HotelSimulationSE5
             }*/
             
 
-            foreach (TempRoom blankRoom in temp)
+            /*foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
 
@@ -221,12 +209,15 @@ namespace HotelSimulationSE5
                 x_track = blankRoom.Position_X;
                 y_track = blankRoom.Position_Y-1;
                 Go_Right(elevatorNodes[max_y - 1]).MySegment = tempSeg;
-            }
-
-            /*foreach (Node reload in nodes)
-            {
-                reload.ColorMe();
             }*/
+
+            foreach (Node reload in nodes)
+            {
+                if (reload != null)
+                {
+                    reload.ColorMe();
+                }
+            }
 
             Console.WriteLine("Checkpoint: 2");
 
@@ -311,7 +302,7 @@ namespace HotelSimulationSE5
                 Size = new Size(15, 50),
                 Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
             };
-            guestPanel.BackColor = Color.Transparent;
+            //guestPanel.BackColor = Color.Transparent;
             Guest arrival = new Guest(guestPanel);
             //arrival.MyRoom = FindmyRoom(21);
             mainform.Controls.Add(arrival.MyPanel);

@@ -11,7 +11,7 @@ namespace HotelSimulationSE5
     public class Guest
     {
         public int guest_x_size = 15;
-        public int guest_y_size = 25;
+        public int guest_y_size = 15;
         public HotelSegments.GuestRoom MyRoom { get; set; }
         
         public Image MyImage { get; set; }
@@ -35,9 +35,11 @@ namespace HotelSimulationSE5
 
         public void Move()
         {
-            panelPb.Image = MyImage;
+            MyPanel.BackgroundImage = MyImage;
+            MyPanel.BackColor = Color.Transparent;
+           
+            MyPanel.BackgroundImageLayout = ImageLayout.Tile;
             MyPanel.BringToFront();
-            //MyPanel.BackColor = Color.Transparent;
         }
     }
 }
