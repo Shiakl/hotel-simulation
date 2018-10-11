@@ -16,11 +16,15 @@ namespace HotelSimulationSE5.HotelSegments
         public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public Restaurant(int number)
+        public Restaurant(int number, int xseg, int yseg)
         {
+            MyImages = new List<Image>();
+            X_Dim = xseg;
+            Y_Dim = yseg;
             segment_num = number;
             MyColor = Color.Yellow;
             MyImages.Add(Image.FromFile(@"..\..\Images\Restaurant1.png"));
+            MyImages.Add(Image.FromFile(@"..\..\Images\Restaurant2.png"));
         }
     }
 }

@@ -16,8 +16,11 @@ namespace HotelSimulationSE5.HotelSegments
         public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public Cinema(int number)
+        public Cinema(int number, int xseg, int yseg)
         {
+            MyImages = new List<Image>();
+            X_Dim = xseg;
+            Y_Dim = yseg;
             segment_num = number;
             MyColor = Color.Black;
             MyImages.Add(Image.FromFile(@"..\..\Images\Cinema1.png"));

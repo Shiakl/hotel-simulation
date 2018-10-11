@@ -19,8 +19,11 @@ namespace HotelSimulationSE5.HotelSegments
         public bool Reserved { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public GuestRoom(int number, string classification)
+        public GuestRoom(int number, int xseg, int yseg, string classification)
         {
+            MyImages = new List<Image>();
+            X_Dim = xseg;
+            Y_Dim = yseg;
             Reserved = false;
             Classification = classification;
             segment_num = number;

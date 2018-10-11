@@ -37,8 +37,6 @@ namespace HotelSimulationSE5
         {
             MyPanel.BackgroundImage = MyImage;
             MyPanel.BackColor = Color.Transparent;
-           
-            MyPanel.BackgroundImageLayout = ImageLayout.Tile;
             MyPanel.BringToFront();
         }
     }

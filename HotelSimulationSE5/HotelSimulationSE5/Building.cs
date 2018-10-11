@@ -184,12 +184,12 @@ namespace HotelSimulationSE5
 
                 if (blankRoom.AreaType.Equals("Room"))
                 {
-                   tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Classification) as HotelSegments.IHSegment;
+                   tempSeg = sFac.Create(blankRoom.AreaType, segmentcount,blankRoom.Dimension_X,blankRoom.Dimension_Y, blankRoom.Classification) as HotelSegments.IHSegment;
                     segmentcount++;
                 }
                 else
                 {
-                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount) as HotelSegments.IHSegment;
+                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Dimension_X, blankRoom.Dimension_Y) as HotelSegments.IHSegment;
                     segmentcount++;
                 }
 

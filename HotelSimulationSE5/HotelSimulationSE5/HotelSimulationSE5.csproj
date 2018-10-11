@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building.cs" />
-    <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Guest.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="HotelSegments\Cinema.cs" />
