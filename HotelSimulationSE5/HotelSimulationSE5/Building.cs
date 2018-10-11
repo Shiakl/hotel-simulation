@@ -264,7 +264,7 @@ namespace HotelSimulationSE5
             };
             //guestPanel.BackColor = Color.Transparent;
             Guest arrival = new Guest(guestPanel);
-            //arrival.MyRoom = FindmyRoom(21);
+            arrival.MyRoom = AssignRoom(21);
             mainform.Controls.Add(arrival.MyPanel);
             arrival.Move();
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
@@ -272,44 +272,30 @@ namespace HotelSimulationSE5
             Console.WriteLine("Checkpoint: 3");
         }
 
-        public HotelSegments.GuestRoom FindmyRoom(int value)
+        public HotelSegments.GuestRoom AssignRoom(int value)
         {
-            foreach (Node current in nodes)
+            var tempSeg =
+                from w in nodes
+                where (w.MySegment is HotelSegments.GuestRoom)
+                select w;
+
+            List<Node> tempNode = (
+                from w in tempSeg
+                where (w.MySegment.segment_num==value)
+                select w).ToList();
+
+            Console.WriteLine("Checkpoint: 5");
+
+            if (tempNode[0] != null && tempNode[0].MySegment is HotelSegments.GuestRoom)
             {
-                if (current.MySegment != null)
-                {
-                    if (current.MySegment.segment_num == value)
-                    {
-                        return current.MySegment as HotelSegments.GuestRoom;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
+                return tempNode[0].MySegment as HotelSegments.GuestRoom;
             }
-            return null;
-        }
-
-        private bool checked_Right = false;
-        public HotelSegments.GuestRoom FindmyRoom_Right(Node origin, Node current, Node level, int value)
-        {
-
-            return current.MySegment as HotelSegments.GuestRoom;
-
-
-            return FindmyRoom_Right(origin, current.RightNode, origin, value);
-
-
-
-
+            else
+            {
+                return null;
+            }
 
         }
-
 
 
             public void BreakPoint()
