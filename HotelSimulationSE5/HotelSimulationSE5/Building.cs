@@ -265,6 +265,7 @@ namespace HotelSimulationSE5
             //guestPanel.BackColor = Color.Transparent;
             Guest arrival = new Guest(guestPanel);
             arrival.MyRoom = AssignRoom(21);
+            arrival.MyRoom.Reserved = true;
             mainform.Controls.Add(arrival.MyPanel);
             arrival.Move();
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
@@ -287,7 +288,7 @@ namespace HotelSimulationSE5
             Console.WriteLine("Checkpoint: 5");
 
             if (tempNode[0] != null && tempNode[0].MySegment is HotelSegments.GuestRoom)
-            {
+            {               
                 return tempNode[0].MySegment as HotelSegments.GuestRoom;
             }
             else
