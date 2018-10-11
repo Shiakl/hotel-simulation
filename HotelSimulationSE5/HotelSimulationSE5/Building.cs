@@ -94,7 +94,7 @@ namespace HotelSimulationSE5
             int nodecounter = 0;
 
             //Create elevator nodes
-            for(int y = max_y-1; y >= 0; y--)
+            for(int y = 0; y < max_y; y++)
             {
 
                 Panel tempPanel = new Panel
@@ -111,40 +111,27 @@ namespace HotelSimulationSE5
             }
 
             //Create all the Nodes
-            foreach (var rooms in temp)
+            for (int y = 0; y < max_y; y++)
             {
-                Panel tempPanel = new Panel
+                for (int x = 0; x < max_x; x++)
                 {
-                    BackgroundImageLayout = ImageLayout.Stretch,
-                    Size = new Size(rooms.Dimension_X * segmentSize_X, rooms.Dimension_Y * segmentSize_Y),
-                    Location = new Point((rooms.Position_X - 1) * segmentSize_X + segmentSize_X, (rooms.Position_Y - 1) * segmentSize_Y)
-                };
-                nodes[nodecounter] = new Node(tempPanel);
-                if (rooms.AreaType == "Room")
-                {
-                    nodes[nodecounter].MySegment = sFac.Create(rooms.AreaType, segmentcount, rooms.Classification) as HotelSegments.IHSegment;
-                }
-                else
-                {
-                    nodes[nodecounter].MySegment = sFac.Create(rooms.AreaType, segmentcount) as HotelSegments.IHSegment;
-                }
-                mainform.Controls.Add(nodes[nodecounter].MyPanel);
-                nodecounter++;
-                segmentcount++;
-            }
+                    Panel tempPanel = new Panel
+                    {
+                        Size = new Size(segmentSize_X, segmentSize_Y),
+                        Location = new Point(x * segmentSize_X + segmentSize_X, y * segmentSize_Y)
+                    };
 
-            nodecounter = 0;
-            foreach (var rooms in temp)
-            {
-                BurenCheck(rooms, nodes[nodecounter]);
-                nodecounter++;
+                    nodes[nodecounter] = new Node(tempPanel);
+                    mainform.Controls.Add(nodes[nodecounter].MyPanel);
+                    nodecounter++;
+                }
             }
 
 
             int elevatorLevel = 0;
             //connect nodes
 
-            /*for (int tc = 0; tc < (max_x*max_y); tc++)
+            for (int tc = 0; tc < (max_x*max_y); tc++)
             {
                 //Except for the first row(>max_x) all nodes have a top connection.
                 if (tc > max_x - 1)
@@ -188,10 +175,10 @@ namespace HotelSimulationSE5
 
                 nodes[tc].Add_myConnections();
 
-            }*/
+            }
             
 
-            /*foreach (TempRoom blankRoom in temp)
+            foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
 
@@ -209,7 +196,7 @@ namespace HotelSimulationSE5
                 x_track = blankRoom.Position_X;
                 y_track = blankRoom.Position_Y-1;
                 Go_Right(elevatorNodes[max_y - 1]).MySegment = tempSeg;
-            }*/
+            }
 
             foreach (Node reload in nodes)
             {
@@ -223,33 +210,6 @@ namespace HotelSimulationSE5
 
         }//Create Hotel
 
-        public void BurenCheck(TempRoom centerroom, Node centernode)
-        {
-            int nodecounter = 0;
-            foreach (var rooms in temp)
-            {
-                if (centerroom.Position_X + 1 == rooms.Position_X)
-                {
-                    centernode.RightNode = nodes[nodecounter];
-                }
-
-                else if (centerroom.Position_X - 1 == rooms.Position_X)
-                {
-                    centernode.LeftNode = nodes[nodecounter];
-                }
-
-                else if (centerroom.Position_Y + 1 == rooms.Position_Y)
-                {
-                    centernode.TopNode = nodes[nodecounter];
-                }
-
-                else if (centerroom.Position_Y - 1 == rooms.Position_Y)
-                {
-                    centernode.BottomNode = nodes[nodecounter];
-                }
-                nodecounter++;
-            }
-        }
 
         private int x_track;
         private int y_track;
