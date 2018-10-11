@@ -73,7 +73,6 @@ namespace HotelSimulationSE5
             BOTTOM
         }
 
-
         public void Add_myConnections()
         {
             MyConnections = new Node[4];

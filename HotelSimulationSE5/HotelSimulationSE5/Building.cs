@@ -206,11 +206,14 @@ namespace HotelSimulationSE5
                 }
             }
 
+            Reload_Available_Rooms();
+
             Console.WriteLine("Checkpoint: 2");
 
         }//Create Hotel
 
-
+        private int x_track;
+        private int y_track;
         public Node Go_Right(Node nav)
         {
             if (x_track != 0)
@@ -230,31 +233,7 @@ namespace HotelSimulationSE5
                 return Go_Up(nav);
             }
         }
-
-        private int x_track;
-        private int y_track;
-        
-        public Node Go(Node Nav)
-        {
-            if(Nav.RightNode != null)
-            {
-                if (x_track == 0)
-                {
-                    return Go_Up(Nav);
-                }
-                else
-                {
-                    x_track--;
-                    return Go(Nav.RightNode);
-                }
-            }
-            else
-            {
-                return Nav;
-            }
-        }
-       
-
+          
         public Node Go_Up(Node Nav)
         {
             if (Nav.TopNode != null)
@@ -275,26 +254,7 @@ namespace HotelSimulationSE5
             }
         }
 
-        public void Create_Guest(Form mainform)
-        {
-
-            //Test Create guest
-            Panel guestPanel = new Panel
-            {
-                Size = new Size(15, 50),
-                Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
-            };
-            //guestPanel.BackColor = Color.Transparent;
-            Guest arrival = new Guest(guestPanel);
-            arrival.MyRoom = AssignRoom(21);
-            arrival.MyRoom.Reserved = true;
-            mainform.Controls.Add(arrival.MyPanel);
-            arrival.Move();
-            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
-
-            Console.WriteLine("Checkpoint: 3");
-        }
-
+        List<HotelSegments.GuestRoom> AvailableRooms = new List<HotelSegments.GuestRoom>();
         public HotelSegments.GuestRoom AssignRoom(int value)
         {
             var tempSeg =
@@ -320,11 +280,46 @@ namespace HotelSimulationSE5
 
         }
 
-
-            public void BreakPoint()
+        public void Reload_Available_Rooms()
         {
-            Console.WriteLine("Checkpoint: 4");
+            List<HotelSegments.GuestRoom> GuestRooms = (
+                from w in nodes
+                where (w.MySegment is HotelSegments.GuestRoom)
+                select w.MySegment as HotelSegments.GuestRoom
+                ).ToList();
+
+            AvailableRooms = (
+                from w in GuestRooms
+                where (w.Reserved == false)
+                select w
+                ).ToList();
+            
+            BreakPoint();
         }
+
+        public void Create_Guest(Form mainform)
+        {
+
+            //Test Create guest
+            Panel guestPanel = new Panel
+            {
+                Size = new Size(15, 50),
+                Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
+            };
+            //guestPanel.BackColor = Color.Transparent;
+            Guest arrival = new Guest(guestPanel);
+            if (AvailableRooms[0] != null)
+            {
+            arrival.MyRoom = AssignRoom(AvailableRooms[0].segment_num);
+            arrival.MyRoom.Reserved = true;
+            }
+            mainform.Controls.Add(arrival.MyPanel);
+            arrival.Move();
+            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+
+            Console.WriteLine("Checkpoint: 3");
+        }
+
 
         public void Move_Guest(Form mainform)
         {
@@ -344,6 +339,11 @@ namespace HotelSimulationSE5
             }
         }
 
+
+            public void BreakPoint()
+        {
+            Console.WriteLine("Checkpoint: 4");
+        }
 
 
     }//Building
