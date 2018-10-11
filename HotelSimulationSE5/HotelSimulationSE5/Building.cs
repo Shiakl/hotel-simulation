@@ -307,7 +307,9 @@ namespace HotelSimulationSE5
             {
                 Size = new Size(15, 50),
                 Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
+                
             };
+            guestPanel.BackgroundImageLayout = ImageLayout.None;
             //guestPanel.BackColor = Color.Transparent;
             Guest arrival = new Guest(guestPanel);
             if (AvailableRooms[0] != null)
