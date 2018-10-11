@@ -211,9 +211,30 @@ namespace HotelSimulationSE5
         }//Create Hotel
 
 
+        public Node Go_Right(Node nav)
+        {
+            if (x_track != 0)
+            {
+                if (nav.RightNode != null)
+                {
+                    x_track -= 1;
+                    return Go_Right(nav.RightNode);
+                }
+                else
+                {
+                    return nav;
+                }
+            }
+            else
+            {
+                return Go_Up(nav);
+            }
+        }
+
         private int x_track;
         private int y_track;
-        public Node Go_Right(Node Nav)
+        
+        public Node Go(Node Nav)
         {
             if(Nav.RightNode != null)
             {
@@ -224,7 +245,7 @@ namespace HotelSimulationSE5
                 else
                 {
                     x_track--;
-                    return Go_Right(Nav.RightNode);
+                    return Go(Nav.RightNode);
                 }
             }
             else
@@ -232,6 +253,7 @@ namespace HotelSimulationSE5
                 return Nav;
             }
         }
+       
 
         public Node Go_Up(Node Nav)
         {

@@ -14,7 +14,7 @@ namespace HotelSimulationSE5.HotelSegments
         int X_Dim { get; set; }
         int Y_Dim { get; set; }
         Color MyColor { get; set; }
-        Image MyImage{ get; set; }
+        List<Image> MyImages{ get; set; }
 
     }
 }

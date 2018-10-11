@@ -37,12 +37,15 @@ namespace HotelSimulationSE5
         {
             if (MySegment!=null)
             {
-                panelPb.BackgroundImage = MySegment.MyImage;
+
+                panelPb.BackgroundImage = MySegment.MyImages[0];
                 
             }
             else
             {
+
                 panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
+
             }
 
         }

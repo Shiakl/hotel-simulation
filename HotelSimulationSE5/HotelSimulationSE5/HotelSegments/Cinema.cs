@@ -14,13 +14,16 @@ namespace HotelSimulationSE5.HotelSegments
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
         public Color MyColor { get; set; }
-        public Image MyImage { get; set; }
+        public List<Image> MyImages { get; set; }
 
         public Cinema(int number)
         {
             segment_num = number;
             MyColor = Color.Black;
-            MyImage = Image.FromFile(@"..\..\Images\Cinema.png");
+            MyImages.Add(Image.FromFile(@"..\..\Images\Cinema1.png"));
+            MyImages.Add(Image.FromFile(@"..\..\Images\Cinema2.png"));
+            MyImages.Add(Image.FromFile(@"..\..\Images\Cinema3.png"));
+            MyImages.Add(Image.FromFile(@"..\..\Images\Cinema4.png"));
         }
     }
 }

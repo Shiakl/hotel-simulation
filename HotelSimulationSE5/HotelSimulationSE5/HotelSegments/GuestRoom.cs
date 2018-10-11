@@ -17,7 +17,7 @@ namespace HotelSimulationSE5.HotelSegments
         public string Classification { get; set; }
         public Color MyColor { get; set; }
         public bool Reserved { get; set; }
-        public Image MyImage { get; set; }
+        public List<Image> MyImages { get; set; }
 
         public GuestRoom(int number, string classification)
         {
@@ -29,19 +29,26 @@ namespace HotelSimulationSE5.HotelSegments
             switch (classification)
             {
                 case "1 Star":
-                    MyImage = Image.FromFile(@"..\..\Images\1-star.png");
+                    MyImages.Add(Image.FromFile(@"..\..\Images\1-star.png"));
                     break;
                 case "2 stars":
-                    MyImage = Image.FromFile(@"..\..\Images\2-star.png");
+                    MyImages.Add(Image.FromFile(@"..\..\Images\2-star.png"));
                     break;
                 case "3 stars":
-                    MyImage = Image.FromFile(@"..\..\Images\3-star.png");
+                    MyImages.Add(Image.FromFile(@"..\..\Images\3-star1.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\3-star2.png"));
                     break;
                 case "4 stars":
-                    MyImage = Image.FromFile(@"..\..\Images\4-star.png");
+                    MyImages.Add(Image.FromFile(@"..\..\Images\4-star1.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\4-star2.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\4-star3.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\4-star4.png"));
                     break;
                 case "5 stars":
-                    MyImage = Image.FromFile(@"..\..\Images\5-star.png");
+                    MyImages.Add(Image.FromFile(@"..\..\Images\5-star1.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\5-star2.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\5-star3.png"));
+                    MyImages.Add(Image.FromFile(@"..\..\Images\5-star4.png"));
                     break;
                 default:
                     break;
