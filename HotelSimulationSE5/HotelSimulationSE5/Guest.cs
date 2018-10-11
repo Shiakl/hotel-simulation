@@ -25,7 +25,7 @@ namespace HotelSimulationSE5
             MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
             MyPanel = mypanel;
             panelPb = new PictureBox();
-            //MyPanel.BackColor = Color.Transparent;
+            MyPanel.BackColor = Color.Transparent;
             MyPanel.Controls.Add(panelPb);
         }
 
@@ -37,7 +37,7 @@ namespace HotelSimulationSE5
         {
             panelPb.Image = MyImage;
             MyPanel.BringToFront();
-            //MyPanel.BackColor = Color.Transparent;
+            MyPanel.BackColor = Color.Transparent;
         }
     }
 }
