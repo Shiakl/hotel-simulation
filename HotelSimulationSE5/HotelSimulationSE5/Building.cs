@@ -140,7 +140,6 @@ namespace HotelSimulationSE5
                 }
                 else
                 {
-
                     staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount) as HotelSegments.IHSegment;
                 }
                 mainform.Controls.Add(staircaseNodes[y].MyPanel);

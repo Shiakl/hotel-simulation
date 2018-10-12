@@ -32,7 +32,7 @@ namespace HotelSimulationSE5.HotelSegments
             }
             else
             {
-                MyImages.Add(Image.FromFile(@"..\..\Images\stairwell2.png"));
+                MyImages.Add(Image.FromFile(@"..\..\Images\stairwell1.png"));
             }
 
         }
