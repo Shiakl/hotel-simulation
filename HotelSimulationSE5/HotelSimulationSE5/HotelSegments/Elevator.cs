@@ -31,8 +31,17 @@ namespace HotelSimulationSE5.HotelSegments
                 Reception = false;
             }
             segment_num = number;
-            MyColor = Color.Red;           
+            MyColor = Color.Red;
+
+            if (Reception == true)
+            {
+                MyImages.Add(Image.FromFile(@"..\..\Images\reception.png"));
+            }
+            else
+            {
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
+
+            }
 
         }
     }

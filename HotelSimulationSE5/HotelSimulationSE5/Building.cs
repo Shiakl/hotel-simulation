@@ -334,7 +334,7 @@ namespace HotelSimulationSE5
             {
                 foreach (Guest visitor in elevatorNodes[max_y - 1].MyUnits)
                 {
-                Point newPoint =  new Point(visitor.MyPanel.Location.X + (segmentSize_X / 4), visitor.MyPanel.Location.Y);
+                Point newPoint =  new Point(visitor.MyPanel.Location.X + (segmentSize_X / 4), visitor.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
                 visitor.MyPanel.Location = newPoint;
                 mainform.Controls.Add(visitor.MyPanel);
                     visitor.Move();
