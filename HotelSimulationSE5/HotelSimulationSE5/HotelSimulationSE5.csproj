@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Building.cs" />
     <Compile Include="Guest.cs" />
+    <Compile Include="HotelSegments\Staircase.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="HotelSegments\Cinema.cs" />
     <Compile Include="HotelSegments\Elevator.cs" />

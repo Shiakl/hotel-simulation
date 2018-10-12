@@ -22,6 +22,8 @@ namespace HotelSimulationSE5.Factories
                     return new HotelSegments.Fitness(segment_num, seg_x, seg_y);
                 case "Elevator":
                     return new HotelSegments.Elevator(segment_num, seg_x, seg_y);
+                case "Staircase":
+                    return new HotelSegments.Staircase(segment_num, seg_x, seg_y);
                 case "Room":                   
                     return new HotelSegments.GuestRoom(segment_num, seg_x, seg_y, classification);
                 default:
