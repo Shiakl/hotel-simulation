@@ -25,8 +25,11 @@ namespace HotelSimulationSE5
 
         public Node(Panel box)
         {
+            MyUnits = new List<Guest>();
             MyPanel = box;
-            panelPb = new PictureBox();           
+            panelPb = new PictureBox();
+            panelPb.Size = MyPanel.Size;
+            panelPb.BackgroundImageLayout = ImageLayout.Tile;
             MyPanel.Controls.Add(panelPb);
         }
 
@@ -34,8 +37,12 @@ namespace HotelSimulationSE5
         {
             if (MySegment!=null)
             {
-                panelPb.Image = MySegment.MyImage;
-
+                panelPb.BackgroundImage = MySegment.MyImage;
+                
+            }
+            else
+            {
+                panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
             }
 
         }

@@ -20,7 +20,7 @@ namespace HotelSimulationSE5.HotelSegments
         {
             segment_num = number;
             MyColor = Color.Aqua;
-            MyImage = Image.FromFile(@"..\..\Images\Fit.png");
+            MyImage = Image.FromFile(@"..\..\Images\Fitness.png");
         }
     }
 }
