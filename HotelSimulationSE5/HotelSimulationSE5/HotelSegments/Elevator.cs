@@ -24,15 +24,17 @@ namespace HotelSimulationSE5.HotelSegments
             Y_Dim = yseg;
             Reception = reception;
             ID = number;
-            Elevator_here = true;
 
+            
             if (Reception == true)
             {
                 MyImages.Add(Image.FromFile(@"..\..\Images\reception.png"));
+                Elevator_here = true;
             }
             else
             {
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
+                Elevator_here = false;
             }
 
         }
