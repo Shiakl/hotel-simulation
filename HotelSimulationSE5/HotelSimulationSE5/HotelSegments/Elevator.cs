@@ -9,12 +9,12 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Elevator : IHSegment
     {
-        public int segment_num { get; set; }
+        public int ID { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
         public bool Reception { get; set; }
-        public Color MyColor { get; set; }
+        public bool Elevator_here { get; set; }
         public List<Image> MyImages { get; set; }
 
         public Elevator(int number, int xseg, int yseg, bool reception)
@@ -23,8 +23,8 @@ namespace HotelSimulationSE5.HotelSegments
             X_Dim = xseg;
             Y_Dim = yseg;
             Reception = reception;
-            segment_num = number;
-            MyColor = Color.Red;
+            ID = number;
+            Elevator_here = true;
 
             if (Reception == true)
             {

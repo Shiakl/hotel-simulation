@@ -27,7 +27,7 @@ namespace HotelSimulationSE5
         public Building()
         {
             temp = new List<TempRoom>();
-            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel2_reparatieVanVersie1.layout");
+            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel.layout");
             Read_Layout();
             elevatorLeft = true;
             max_x = Find_Max_X(temp);
@@ -89,11 +89,17 @@ namespace HotelSimulationSE5
             return hotel_Y_Size;
         }
 
+        private enum ID_List
+        {
+            Staircase = 0,
+            Elevator = 1,
+            Reception = 2
+        }
+
 
         public void CreateHotel(Form mainform)
         {
             Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
-            int segmentcount = 1;
             int nodecounter = 0;
 
             //Create elevator nodes
@@ -110,16 +116,15 @@ namespace HotelSimulationSE5
 
                 if (y == max_y-1)
                 {
-                    elevatorNodes[y].MySegment = sFac.Create("Elevator" , segmentcount, firstfloor: true) as HotelSegments.IHSegment;
+                    elevatorNodes[y].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.IHSegment;
                 }
                 else
                 {
 
-                elevatorNodes[y].MySegment = sFac.Create("Elevator",segmentcount) as HotelSegments.IHSegment;
+                elevatorNodes[y].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
                 }
                 mainform.Controls.Add(elevatorNodes[y].MyPanel);
                 elevatorNodes[y].ColorMe();
-                segmentcount++;
             }
 
             //Create staircase nodes
@@ -136,15 +141,14 @@ namespace HotelSimulationSE5
 
                 if (y == max_y - 1)
                 {
-                    staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount, firstfloor: true) as HotelSegments.IHSegment;
+                    staircaseNodes[y].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase, firstfloor: true) as HotelSegments.IHSegment;
                 }
                 else
                 {
-                    staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount) as HotelSegments.IHSegment;
+                    staircaseNodes[y].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase) as HotelSegments.IHSegment;
                 }
                 mainform.Controls.Add(staircaseNodes[y].MyPanel);
                 staircaseNodes[y].ColorMe();
-                segmentcount++;
             }
 
             //Create all the Nodes
@@ -240,13 +244,11 @@ namespace HotelSimulationSE5
 
                 if (blankRoom.AreaType.Equals("Room"))
                 {
-                   tempSeg = sFac.Create(blankRoom.AreaType, segmentcount,blankRoom.Dimension_X,blankRoom.Dimension_Y, blankRoom.Classification) as HotelSegments.IHSegment;
-                    segmentcount++;
+                   tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.Seg_ID,blankRoom.Dimension_X,blankRoom.Dimension_Y, blankRoom.Classification) as HotelSegments.IHSegment;
                 }
                 else
                 {
-                    tempSeg = sFac.Create(blankRoom.AreaType, segmentcount, blankRoom.Dimension_X, blankRoom.Dimension_Y) as HotelSegments.IHSegment;
-                    segmentcount++;
+                    tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.Seg_ID, blankRoom.Dimension_X, blankRoom.Dimension_Y) as HotelSegments.IHSegment;
                 }
 
                 x_track = blankRoom.Position_X + 1;
@@ -320,7 +322,7 @@ namespace HotelSimulationSE5
 
             List<Node> tempNode = (
                 from w in tempSeg
-                where (w.MySegment.segment_num==value)
+                where (w.MySegment.ID==value)
                 select w).ToList();
 
             Console.WriteLine("Checkpoint: 5");
@@ -368,7 +370,7 @@ namespace HotelSimulationSE5
             Guest arrival = new Guest(guestPanel);
             if (AvailableRooms[0] != null)
             {
-            arrival.MyRoom = AssignRoom(AvailableRooms[0].segment_num);
+            arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
             arrival.MyRoom.Reserved = true;
             }
             mainform.Controls.Add(arrival.MyPanel);

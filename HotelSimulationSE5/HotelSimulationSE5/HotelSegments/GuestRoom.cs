@@ -10,12 +10,11 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class GuestRoom : IHSegment
     {
-        public int segment_num { get; set; }
+        public int ID { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
         public string Classification { get; set; }
-        public Color MyColor { get; set; }
         public bool Reserved { get; set; }
         public List<Image> MyImages { get; set; }
 
@@ -26,8 +25,7 @@ namespace HotelSimulationSE5.HotelSegments
             Y_Dim = yseg;
             Reserved = false;
             Classification = classification;
-            segment_num = number;
-            MyColor = Color.Green;
+            ID = number;
 
             switch (classification)
             {

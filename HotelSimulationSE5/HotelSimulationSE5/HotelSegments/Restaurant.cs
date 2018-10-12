@@ -9,11 +9,10 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Restaurant : IHSegment
     {
-        public int segment_num { get; set; }
+        public int ID { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
-        public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
 
         public Restaurant(int number, int xseg, int yseg)
@@ -21,8 +20,7 @@ namespace HotelSimulationSE5.HotelSegments
             MyImages = new List<Image>();
             X_Dim = xseg;
             Y_Dim = yseg;
-            segment_num = number;
-            MyColor = Color.Yellow;
+            ID = number;
             MyImages.Add(Image.FromFile(@"..\..\Images\Restaurant1.png"));
             MyImages.Add(Image.FromFile(@"..\..\Images\Restaurant2.png"));
         }

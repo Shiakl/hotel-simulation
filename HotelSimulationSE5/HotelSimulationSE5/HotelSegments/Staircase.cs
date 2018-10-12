@@ -9,22 +9,20 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Staircase : IHSegment
     {
-        public int segment_num { get; set; }
+        public int ID { get; set; }
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
-        public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
-        public bool first_floor { get; set; }
+        public bool First_floor { get; set; }
 
         public Staircase(int number, int xseg, int yseg, bool firstfloor)
         {
-            first_floor = first_floor;
+            First_floor = First_floor;
             MyImages = new List<Image>();
             X_Dim = xseg;
             Y_Dim = yseg;
-            segment_num = number;
-            MyColor = Color.Gray;
+            ID = number;
 
             if (firstfloor == true)
             {

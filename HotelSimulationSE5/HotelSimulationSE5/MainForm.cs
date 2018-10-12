@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HotelEvents;
 
 namespace HotelSimulationSE5
 {
@@ -14,7 +15,8 @@ namespace HotelSimulationSE5
     {
         public int _refreshrateinterval = 250; 
         private Timer _refresh_timer= new Timer();
-
+        bool started = false;
+        Eventadapter events = new Eventadapter();
         
 
 
@@ -28,6 +30,8 @@ namespace HotelSimulationSE5
 
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
+            Console.WriteLine();
+
         }
 
         private void _refresh_timer_Tick(object sender, EventArgs e)
@@ -52,12 +56,20 @@ namespace HotelSimulationSE5
             _myHotel.Create_Guest(this);
             this.Refresh();
             _refresh_timer.Start();
+
+            if (started == false)
+            {
+                events.Start_events();
+                started = true;
+            }
+            else
+            {
+                events.Stop_Events();
+                started = false;
+            }
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _myHotel.BreakPoint();
-        }
 
         private void Stop_Click(object sender, EventArgs e)
         {
