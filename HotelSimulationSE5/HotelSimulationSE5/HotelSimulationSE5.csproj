@@ -125,6 +125,8 @@
     <Content Include="Images\reception.png" />
     <Content Include="Images\Restaurant1.png" />
     <Content Include="Images\Restaurant2.png" />
+    <Content Include="Images\stairwell1.png" />
+    <Content Include="Images\stairwell2.png" />
     <Content Include="Images\TempGuest2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

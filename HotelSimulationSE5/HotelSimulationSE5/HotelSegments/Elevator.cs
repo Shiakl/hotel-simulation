@@ -17,7 +17,7 @@ namespace HotelSimulationSE5.HotelSegments
         public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public Elevator(int number, bool reception = false,int xseg, int yseg)
+        public Elevator(int number, int xseg, int yseg, bool reception)
         {
             MyImages = new List<Image>();
             X_Dim = xseg;
@@ -33,7 +33,6 @@ namespace HotelSimulationSE5.HotelSegments
             else
             {
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
-
             }
 
         }

@@ -15,15 +15,25 @@ namespace HotelSimulationSE5.HotelSegments
         public int Y_Dim { get; set; }
         public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
+        public bool first_floor { get; set; }
 
-        public Staircase(int number, int xseg, int yseg)
+        public Staircase(int number, int xseg, int yseg, bool firstfloor)
         {
+            first_floor = first_floor;
             MyImages = new List<Image>();
             X_Dim = xseg;
             Y_Dim = yseg;
             segment_num = number;
             MyColor = Color.Gray;
-            MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
+
+            if (firstfloor == true)
+            {
+                MyImages.Add(Image.FromFile(@"..\..\Images\stairwell2.png"));
+            }
+            else
+            {
+                MyImages.Add(Image.FromFile(@"..\..\Images\stairwell2.png"));
+            }
 
         }
     }

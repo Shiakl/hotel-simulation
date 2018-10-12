@@ -103,14 +103,14 @@ namespace HotelSimulationSE5
                 Panel tempPanel = new Panel
                 {
                     Size = new Size(segmentSize_X, segmentSize_Y),
-                    Location = new Point(segmentSize_X, y * segmentSize_Y),
+                    Location = new Point(0, y * segmentSize_Y),
                 };
 
                 elevatorNodes[y] = new Node(tempPanel);
 
                 if (y == max_y-1)
                 {
-                    elevatorNodes[y].MySegment = sFac.Create("Elevator" , segmentcount) as HotelSegments.IHSegment;
+                    elevatorNodes[y].MySegment = sFac.Create("Elevator" , segmentcount, firstfloor: true) as HotelSegments.IHSegment;
                 }
                 else
                 {
@@ -122,18 +122,27 @@ namespace HotelSimulationSE5
                 segmentcount++;
             }
 
-            //Create elevator nodes
+            //Create staircase nodes
             for (int y = 0; y < max_y; y++)
             {
 
                 Panel tempPanel = new Panel
                 {
                     Size = new Size(segmentSize_X, segmentSize_Y),
-                    Location = new Point(0, y * segmentSize_Y),
+                    Location = new Point(segmentSize_X, y * segmentSize_Y),
                 };
 
                 staircaseNodes[y] = new Node(tempPanel);
-                staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount) as HotelSegments.IHSegment;
+
+                if (y == max_y - 1)
+                {
+                    staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount, firstfloor: true) as HotelSegments.IHSegment;
+                }
+                else
+                {
+
+                    staircaseNodes[y].MySegment = sFac.Create("Staircase", segmentcount) as HotelSegments.IHSegment;
+                }
                 mainform.Controls.Add(staircaseNodes[y].MyPanel);
                 staircaseNodes[y].ColorMe();
                 segmentcount++;
