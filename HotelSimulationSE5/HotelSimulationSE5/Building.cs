@@ -293,8 +293,7 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false)
                 select w
                 ).ToList();
-            
-            
+                    
             BreakPoint();
         }
 
