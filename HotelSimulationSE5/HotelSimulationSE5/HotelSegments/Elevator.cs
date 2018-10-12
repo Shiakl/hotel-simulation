@@ -17,19 +17,12 @@ namespace HotelSimulationSE5.HotelSegments
         public Color MyColor { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public Elevator(int number, int xseg, int yseg)
+        public Elevator(int number, bool reception = false,int xseg, int yseg)
         {
             MyImages = new List<Image>();
             X_Dim = xseg;
             Y_Dim = yseg;
-            if (number == 1)
-            {
-                Reception = true;
-            }
-            else
-            {
-                Reception = false;
-            }
+            Reception = reception;
             segment_num = number;
             MyColor = Color.Red;
 

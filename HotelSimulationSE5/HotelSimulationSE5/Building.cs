@@ -104,7 +104,16 @@ namespace HotelSimulationSE5
                 };
 
                 elevatorNodes[y] = new Node(tempPanel);
-                elevatorNodes[y].MySegment = sFac.Create("Elevator", segmentcount) as HotelSegments.IHSegment;
+
+                if (y == max_y-1)
+                {
+                    elevatorNodes[y].MySegment = sFac.Create("Elevator" , segmentcount) as HotelSegments.IHSegment;
+                }
+                else
+                {
+
+                elevatorNodes[y].MySegment = sFac.Create("Elevator",segmentcount) as HotelSegments.IHSegment;
+                }
                 mainform.Controls.Add(elevatorNodes[y].MyPanel);
                 elevatorNodes[y].ColorMe();
                 segmentcount++;
