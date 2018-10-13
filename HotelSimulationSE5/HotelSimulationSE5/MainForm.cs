@@ -27,6 +27,7 @@ namespace HotelSimulationSE5
             GenerateHotel();
             GuestButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
             StopButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
+            EventButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
 
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
@@ -57,16 +58,7 @@ namespace HotelSimulationSE5
             this.Refresh();
             _refresh_timer.Start();
 
-            if (started == false)
-            {
-                events.Start_events();
-                started = true;
-            }
-            else
-            {
-                events.Stop_Events();
-                started = false;
-            }
+
 
         }
 
@@ -76,14 +68,20 @@ namespace HotelSimulationSE5
             _refresh_timer.Stop();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+
+        private void EventButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
+            if (started == false)
+            {
+                events.Register(events);
+                events.Start_events();
+                started = true;
+            }
+            else
+            {
+                events.Stop_Events();
+                started = false;
+            }
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             this.GuestButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
+            this.EventButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // GuestButton
@@ -52,6 +53,16 @@
             this.StopButton.UseVisualStyleBackColor = true;
             this.StopButton.Click += new System.EventHandler(this.Stop_Click);
             // 
+            // EventButton
+            // 
+            this.EventButton.Location = new System.Drawing.Point(236, 11);
+            this.EventButton.Name = "EventButton";
+            this.EventButton.Size = new System.Drawing.Size(86, 23);
+            this.EventButton.TabIndex = 3;
+            this.EventButton.Text = "Event start";
+            this.EventButton.UseVisualStyleBackColor = true;
+            this.EventButton.Click += new System.EventHandler(this.EventButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -59,11 +70,11 @@
             this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.EventButton);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.GuestButton);
             this.Name = "MainForm";
             this.Text = "Alternatieve Hilton";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -72,6 +83,7 @@
 
         private System.Windows.Forms.Button GuestButton;
         private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Button EventButton;
     }
 }
 

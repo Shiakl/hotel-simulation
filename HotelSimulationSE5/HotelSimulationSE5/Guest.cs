@@ -39,5 +39,7 @@ namespace HotelSimulationSE5
             MyPanel.BackColor = Color.Transparent;
             MyPanel.BringToFront();
         }
+
+
     }
 }
