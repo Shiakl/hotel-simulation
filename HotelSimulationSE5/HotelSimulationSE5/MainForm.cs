@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HotelEvents;
 
 namespace HotelSimulationSE5
 {
@@ -57,9 +56,6 @@ namespace HotelSimulationSE5
             _myHotel.Create_Guest(this);
             this.Refresh();
             _refresh_timer.Start();
-
-
-
         }
 
 
