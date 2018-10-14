@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{97E50A69-30DC-41F7-80BD-C7A03805CE05}</ProjectGuid>
+    <ProjectGuid>{3A2B5993-8C50-4F22-8A16-9C826C442610}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>HotelSimulationSE5</RootNamespace>
-    <AssemblyName>HotelSimulationSE5</AssemblyName>
+    <RootNamespace>Theme_Hotel</RootNamespace>
+    <AssemblyName>Theme Hotel</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HotelEvents">
-      <HintPath>External\HotelEvents.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -51,30 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building.cs" />
-    <Compile Include="Eventadapter.cs" />
-    <Compile Include="Guest.cs" />
-    <Compile Include="HotelSegments\Staircase.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="HotelSegments\Cinema.cs" />
-    <Compile Include="HotelSegments\Elevator.cs" />
-    <Compile Include="HotelSegments\Fitness.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="PBLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HotelSegments\IHSegment.cs" />
-    <Compile Include="HotelSegments\Restaurant.cs" />
-    <Compile Include="HotelSegments\GuestRoom.cs" />
-    <Compile Include="Factories\HSegmentFactory.cs" />
-    <Compile Include="TempRoom.cs" />
-    <Compile Include="Worker.cs" />
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -85,7 +70,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="External\Hotel.layout" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -102,33 +86,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="External\HotelEvents.dll" />
-    <Content Include="Images\1-star.png" />
-    <Content Include="Images\2-star.png" />
-    <Content Include="Images\3-star1.png" />
-    <Content Include="Images\3-star2.png" />
-    <Content Include="Images\4-star1.png" />
-    <Content Include="Images\4-star2.png" />
-    <Content Include="Images\4-star3.png" />
-    <Content Include="Images\4-star4.png" />
-    <Content Include="Images\5-star1.png" />
-    <Content Include="Images\5-star2.png" />
-    <Content Include="Images\5-star3.png" />
-    <Content Include="Images\5-star4.png" />
-    <Content Include="Images\Cinema1.png" />
-    <Content Include="Images\Cinema2.png" />
-    <Content Include="Images\Cinema3.png" />
-    <Content Include="Images\Cinema4.png" />
-    <Content Include="Images\elevator.png" />
-    <Content Include="Images\empty.png" />
-    <Content Include="Images\Fitness1.png" />
-    <Content Include="Images\Fitness2.png" />
-    <Content Include="Images\reception.png" />
-    <Content Include="Images\Restaurant1.png" />
-    <Content Include="Images\Restaurant2.png" />
-    <Content Include="Images\stairwell1.png" />
-    <Content Include="Images\stairwell2.png" />
-    <Content Include="Images\TempGuest2.png" />
+    <Content Include="bin\Debug\Images\cinema.png" />
+    <Content Include="bin\Debug\Images\fitness.png" />
+    <Content Include="bin\Debug\Images\nummer3.jpg" />
+    <Content Include="bin\Debug\Images\nummer4.jpg" />
+    <Content Include="bin\Debug\Images\nummer5.jpg" />
+    <Content Include="bin\Debug\Images\restaurant.png" />
+    <Content Include="bin\Debug\Images\room.png" />
+    <Content Include="bin\Debug\Images\room2.PNG" />
+    <Content Include="bin\Debug\Images\roomsprite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

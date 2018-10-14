@@ -33,10 +33,21 @@ namespace HotelSimulationSE5
             }
         }
 
+        public string ID
+        {
+            get { return ID; }
+            set
+            {
+
+                Seg_ID = Int32.Parse(value);
+            }
+        }
+
         public int Position_X { get; set; }
         public int Position_Y { get; set; }
         public int Dimension_X { get; set; }
         public int Dimension_Y { get; set; }
+        public int Seg_ID { get; set; }
 
 
     }

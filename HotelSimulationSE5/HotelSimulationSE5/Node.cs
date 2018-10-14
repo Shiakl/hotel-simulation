@@ -17,7 +17,7 @@ namespace HotelSimulationSE5
         public Node[] MyConnections { get; set; }
 
         public Panel MyPanel { get; set; }
-        private PictureBox panelPb;
+        public PictureBox panelPb;
 
 
         public HotelSegments.IHSegment MySegment { get; set; }
@@ -30,20 +30,33 @@ namespace HotelSimulationSE5
             panelPb = new PictureBox();
             panelPb.Size = MyPanel.Size;
             MyPanel.Controls.Add(panelPb);
+            panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
+
+
+
         }
 
         public void ColorMe()
         {
             if (MySegment!=null)
-            {
-                panelPb.Image = MySegment.MyImage;
-
+            {            
+                if (MySegment.X_Dim>1)
+                {
+                    panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
+                    RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.RightSide];
+                }
+                if (MySegment.X_Dim>1 && MySegment.Y_Dim>1)
+                {
+                    panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
+                    RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.RightSide];
+                    TopNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Top];
+                    TopNode.RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.TopRight];
+                }
+                else
+                {
+                    panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
+                }               
             }
-            else
-            {
-                panelPb.Image = Image.FromFile(@"..\..\Images\empty.png");
-            }
-
         }
 
         public enum SEGMENT_PART
@@ -61,7 +74,6 @@ namespace HotelSimulationSE5
             TOP,
             BOTTOM
         }
-
 
         public void Add_myConnections()
         {
