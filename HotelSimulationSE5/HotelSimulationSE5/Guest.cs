@@ -17,16 +17,17 @@ namespace HotelSimulationSE5
         public Image MyImage { get; set; }
         public int speed = -2;
 
-        public Panel MyPanel { get; set; }
-        private PictureBox panelPb;
+        public PictureBox panelPb;
 
-        public Guest(Panel mypanel)
+        public Guest(PictureBox mypanel)
         {
             MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
-            MyPanel = mypanel;
             panelPb = new PictureBox();
-            MyPanel.BackColor = Color.Transparent;
-            MyPanel.Controls.Add(panelPb);
+            panelPb.Size = MyImage.Size;
+            panelPb.BackgroundImageLayout = ImageLayout.None;
+            panelPb.Parent = mypanel;
+            panelPb.BackColor = Color.Transparent;
+            mypanel.Controls.Add(panelPb);
         }
 
         public void Add_panel(Panel mypanel)
@@ -35,11 +36,17 @@ namespace HotelSimulationSE5
 
         public void Move()
         {
-            MyPanel.BackgroundImage = MyImage;
-            MyPanel.BackColor = Color.Transparent;
-            MyPanel.BringToFront();
+            panelPb.BackgroundImage = MyImage;
+            panelPb.BringToFront();
         }
 
+        public void Move_to_Node(PictureBox next,PictureBox current)
+        {
+            next.Controls.Add(panelPb);
+            current.Controls.Remove(panelPb);
+            panelPb.BackgroundImage = MyImage;
+            panelPb.BringToFront();
+        }
 
     }
 }

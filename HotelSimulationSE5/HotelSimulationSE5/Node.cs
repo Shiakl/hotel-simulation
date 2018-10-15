@@ -31,9 +31,6 @@ namespace HotelSimulationSE5
             panelPb.Size = MyPanel.Size;
             MyPanel.Controls.Add(panelPb);
             panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
-
-
-
         }
 
         public void ColorMe()

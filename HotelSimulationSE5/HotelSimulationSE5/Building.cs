@@ -17,7 +17,7 @@ namespace HotelSimulationSE5
         public int max_x;
         public int max_y;
         private Node[] nodes;
-        private Node[] elevatorNodes;
+        public Node[] elevatorNodes;
         private Node[] staircaseNodes;
         private List<TempRoom> temp;
         public bool elevatorLeft;
@@ -355,26 +355,15 @@ namespace HotelSimulationSE5
             BreakPoint();
         }
 
-        public void Create_Guest(Form mainform)
+        public void Create_Guest(Node currentNode)
         {
-
             //Test Create guest
-            Panel guestPanel = new Panel
-            {
-                Size = new Size(15, 50),
-                Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
-                
-            };
-            guestPanel.BackgroundImageLayout = ImageLayout.None;
-            //guestPanel.BackColor = Color.Transparent;
-            Guest arrival = new Guest(guestPanel);
+            Guest arrival = new Guest(currentNode.panelPb);
             if (AvailableRooms[0] != null)
             {
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
             arrival.MyRoom.Reserved = true;
             }
-            mainform.Controls.Add(arrival.MyPanel);
-            arrival.Move();
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
 
             Console.WriteLine("Checkpoint: 3");
@@ -385,16 +374,48 @@ namespace HotelSimulationSE5
         {
             //segment_num = 21 is the number of the room #5 from elevator
 
-            
-            if (elevatorNodes[max_y-1].MyUnits[0] != null)
+            foreach (Node current in nodes)
             {
-                foreach (Guest visitor in elevatorNodes[max_y - 1].MyUnits)
+                if (current.RightNode != null)
                 {
-                Point newPoint =  new Point(visitor.MyPanel.Location.X + (segmentSize_X / 4), visitor.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                visitor.MyPanel.Location = newPoint;
-                mainform.Controls.Add(visitor.MyPanel);
-                    visitor.Move();
+                    if (current.MyUnits != null)
+                    {
+                        foreach (Guest visitor in current.MyUnits)
+                        {
 
+                            //Point newPoint =  new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                            //visitor.panelPb.Location = newPoint;
+                            //mainform.Controls.Add(elevatorNodes[max_y - 1].MyPanel);
+                            //visitor.Move();
+
+
+                            Point newPoint = new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                            mainform.Controls.Add(current.MyPanel);
+                            current.RightNode.MyUnits.Add(visitor);
+                            visitor.Move_to_Node(current.RightNode.panelPb, current.panelPb);
+                            current.MyUnits.Remove(visitor);
+                            
+                        }
+                    }
+                }
+            }
+
+            foreach (Node current in elevatorNodes)
+            {
+                if (current.RightNode != null)
+                {
+                    if (current.MyUnits != null)
+                    {
+                        foreach (Guest visitor in current.MyUnits)
+                        {
+
+                            Point newPoint = new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                            mainform.Controls.Add(current.MyPanel);
+                            visitor.Move_to_Node(current.RightNode.panelPb, current.panelPb);
+                            current.RightNode.MyUnits.Add(visitor);
+                            current.MyUnits.Remove(visitor);
+                        }
+                    }
                 }
             }
         }
