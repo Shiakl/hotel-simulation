@@ -12,12 +12,12 @@ namespace HotelSimulationSE5
     {
         public int guest_x_size = 15;
         public int guest_y_size = 15;
-        public HotelSegments.GuestRoom MyRoom { get; set; }
-        
+        public HotelSegments.IHSegment MyRoom { get; set; }
         public Image MyImage { get; set; }
         public int speed = -2;
-
         public Panel MyPanel { get; set; }
+        //public Node.DIRECTIONS Path { get; set; }
+
         private PictureBox panelPb;
 
         public Guest(Panel mypanel)

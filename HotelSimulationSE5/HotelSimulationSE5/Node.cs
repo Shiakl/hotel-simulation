@@ -83,5 +83,102 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.TOP] = TopNode;
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
+        
+        public void Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
+        {
+            int ammountcheckedright = 0;
+            int ammountleveled = 0;
+            bool found = false;
+            bool checkedright = false;
+            bool checkedtop = false;
+            bool firstlevel = true;
+            Node PathRoom = currentroom;
+            Node ElevatorOrStaircase = currentroom;
+            List<DIRECTIONS> pathfinder = new List<DIRECTIONS>();
+            while (found == false)
+            {
+                if (checkedright == true)
+                {
+                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase)
+                    {
+                        if (firstlevel == true)
+                        {
+                            firstlevel = false;
+                            ElevatorOrStaircase = PathRoom;
+                        }
+
+                        if (checkedtop == false || PathRoom.TopNode != null)
+                        {
+                            pathfinder.Add(DIRECTIONS.TOP);
+                            PathRoom = PathRoom.TopNode;
+                            ammountleveled++;
+                            checkedright = false;
+                        }
+
+                        else if (checkedtop == true || PathRoom.BottomNode != null)
+                        {
+                            pathfinder.Add(DIRECTIONS.BOTTOM);
+                            PathRoom = PathRoom.BottomNode;
+                            ammountleveled++;
+                            checkedright = false;
+                        }
+
+                        else
+                        {
+                            checkedtop = true;
+                            for (int i = 0; i < ammountleveled; i++)
+                            {
+                                pathfinder.Remove(pathfinder.LastOrDefault());
+                            }
+                            ammountleveled = 0;
+                            PathRoom = ElevatorOrStaircase;
+                        }
+                    }
+                    
+                    else if (PathRoom.LeftNode.MySegment.ID != targetroom.ID)
+                    {
+                        pathfinder.Add(DIRECTIONS.LEFT);
+                        PathRoom = PathRoom.LeftNode;
+                    }
+
+                    else
+                    {
+                        pathfinder.Add(DIRECTIONS.LEFT);
+                        found = true;
+                        break;                  
+                    }
+                }
+
+                else if (checkedright == false)
+                {
+                    if (PathRoom.RightNode != null)
+                    {
+                        if (PathRoom.RightNode.MySegment.ID != targetroom.ID)
+                        {
+                            pathfinder.Add(DIRECTIONS.RIGHT);
+                            PathRoom = PathRoom.RightNode;
+                            ammountcheckedright++;                       
+                        }
+                        else
+                        {
+                            pathfinder.Add(DIRECTIONS.RIGHT);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    else if (currentroom.RightNode == null)
+                    {
+                        PathRoom = currentroom;
+                        checkedright = true;
+                        for (int i = 0; i < ammountcheckedright; i++)
+                        {
+                            pathfinder.Remove(pathfinder.LastOrDefault());
+                        }
+                        ammountcheckedright = 0;
+                    }
+                }
+            }        
+        }
     }
 }
