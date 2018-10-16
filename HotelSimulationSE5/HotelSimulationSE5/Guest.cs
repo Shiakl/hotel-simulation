@@ -16,6 +16,7 @@ namespace HotelSimulationSE5
         public Image MyImage { get; set; }
         public int speed = -2;
         public Panel MyPanel { get; set; }
+        public List<Node.DIRECTIONS> Path { get; set; }
         //public Node.DIRECTIONS Path { get; set; }
 
         private PictureBox panelPb;
@@ -32,7 +33,6 @@ namespace HotelSimulationSE5
         public void Add_panel(Panel mypanel)
         {
         }
-
         public void Move()
         {
             MyPanel.BackgroundImage = MyImage;

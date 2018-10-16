@@ -27,7 +27,7 @@ namespace HotelSimulationSE5
         public Building()
         {
             temp = new List<TempRoom>();
-            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel.layout"); //Reads the layout file and pushes it into a string
+            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel3.layout"); //Reads the layout file and pushes it into a string
             Read_Layout();
             elevatorLeft = true;
             max_x = Find_Max_X(temp);
@@ -370,21 +370,44 @@ namespace HotelSimulationSE5
                 select w
                 ).ToList();
                     
-            BreakPoint();
+            //BreakPoint();
         }
 
         public void PathFinder()
         {
+            List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
+
             foreach (var node in nodes)
             {
-                foreach (var guests in node.MyUnits)
+                foreach (var guest in node.MyUnits)
                 {
-                    node.Pathfinding(node, guests.MyRoom);
+                    GuestPath = node.Pathfinding(node, guest.MyRoom);
+                    guest.Path = GuestPath;
                 }
             }
-           // HotelSegments.GuestRoom test = currentguest.MyRoom;
-           // pathfinder.Pathfinding(test);
-            
+
+            foreach (var elevatornode in elevatorNodes)
+            {
+                foreach (var guest in elevatornode.MyUnits)
+                {
+                    GuestPath = elevatornode.Pathfinding(elevatornode, guest.MyRoom);
+                    guest.Path = GuestPath;
+                }
+            }
+
+            foreach (var staircasenode in staircaseNodes)
+            {
+                foreach (var guest in staircasenode.MyUnits)
+                {
+                    GuestPath = staircasenode.Pathfinding(staircasenode, guest.MyRoom);
+                    guest.Path = GuestPath;
+                }
+            }
+
+
+            // HotelSegments.GuestRoom test = currentguest.MyRoom;
+            // pathfinder.Pathfinding(test);
+
         }
 
         public void Create_Guest(Form mainform)
@@ -408,7 +431,7 @@ namespace HotelSimulationSE5
             mainform.Controls.Add(arrival.MyPanel);
             arrival.Move();
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
-
+            PathFinder();
             Console.WriteLine("Checkpoint: 3");
         }
 
@@ -418,9 +441,54 @@ namespace HotelSimulationSE5
             //segment_num = 21 is the number of the room #5 from elevator
 
             
-            if (elevatorNodes[max_y-1].MyUnits[0] != null)
-            {
-                foreach (Guest visitor in elevatorNodes[max_y - 1].MyUnits)
+                foreach (Guest guests in elevatorNodes[max_y - 1].MyUnits)
+                {
+                    if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.LEFT )
+                    {
+                        Point newPoint = new Point(guests.MyPanel.Location.X - segmentSize_X, guests.MyPanel.Location.Y; //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                        guests.MyPanel.Location = newPoint;
+                        mainform.Controls.Add(guests.MyPanel);
+                        guests.Move();
+                        guests.Path.Remove(guests.Path.FirstOrDefault());
+                    }
+
+                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.RIGHT)
+                    {
+                        Point newPoint = new Point(guests.MyPanel.Location.X + segmentSize_X , guests.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                        guests.MyPanel.Location = newPoint;
+                        mainform.Controls.Add(guests.MyPanel);
+                        guests.Move();
+                        guests.Path.Remove(guests.Path.FirstOrDefault());
+                    }
+
+                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.TOP)
+                    {
+                        Point newPoint = new Point(guests.MyPanel.Location.X, guests.MyPanel.Location.Y - segmentSize_Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                        guests.MyPanel.Location = newPoint;
+                        mainform.Controls.Add(guests.MyPanel);
+                        guests.Move();
+                        guests.Path.Remove(guests.Path.FirstOrDefault());
+                    }
+
+                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.BOTTOM)
+                    {
+                        Point newPoint = new Point(guests.MyPanel.Location.X, guests.MyPanel.Location.Y + segmentSize_Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                        guests.MyPanel.Location = newPoint;
+                        mainform.Controls.Add(guests.MyPanel);
+                        guests.Move();
+                        guests.Path.Remove(guests.Path.FirstOrDefault());
+                    }
+                else
+                {
+                    Point newPoint = new Point(guests.MyPanel.Location.X + segmentSize_X, guests.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                    guests.MyPanel.Location = newPoint;
+                    mainform.Controls.Add(guests.MyPanel);
+                    guests.Move();
+                    guests.Path.Remove(guests.Path.FirstOrDefault());
+                }
+            }
+
+            /*foreach (Guest visitor in elevatorNodes[max_y - 1].MyUnits)
                 {
                 Point newPoint =  new Point(visitor.MyPanel.Location.X + (segmentSize_X / 4), visitor.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
                 visitor.MyPanel.Location = newPoint;
@@ -428,8 +496,9 @@ namespace HotelSimulationSE5
                     visitor.Move();
 
                 }
+                */
             }
-        }
+        
 
 
             public void BreakPoint()

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace HotelSimulationSE5
 {
-    class Node
+    public class Node
     {
         public Node LeftNode { get; set; }
         public Node RightNode { get; set; }
@@ -84,7 +84,7 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
         
-        public void Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
+        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
             int ammountcheckedright = 0;
             int ammountleveled = 0;
@@ -111,6 +111,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
+                            ElevatorOrStaircase = PathRoom.TopNode;
                             ammountleveled++;
                             checkedright = false;
                         }
@@ -119,6 +120,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;
+                            ElevatorOrStaircase = PathRoom.BottomNode;
                             ammountleveled++;
                             checkedright = false;
                         }
@@ -134,42 +136,72 @@ namespace HotelSimulationSE5
                             PathRoom = ElevatorOrStaircase;
                         }
                     }
-                    
-                    else if (PathRoom.LeftNode.MySegment.ID != targetroom.ID)
-                    {
-                        pathfinder.Add(DIRECTIONS.LEFT);
-                        PathRoom = PathRoom.LeftNode;
-                    }
 
-                    else
+                    else if (PathRoom.LeftNode.MySegment != null)
                     {
-                        pathfinder.Add(DIRECTIONS.LEFT);
-                        found = true;
-                        break;                  
-                    }
-                }
-
-                else if (checkedright == false)
-                {
-                    if (PathRoom.RightNode != null)
-                    {
-                        if (PathRoom.RightNode.MySegment.ID != targetroom.ID)
+                        if (PathRoom.LeftNode.MySegment.ID != targetroom.ID)
                         {
-                            pathfinder.Add(DIRECTIONS.RIGHT);
-                            PathRoom = PathRoom.RightNode;
-                            ammountcheckedright++;                       
+                            pathfinder.Add(DIRECTIONS.LEFT);
+                            PathRoom = PathRoom.LeftNode;
                         }
+
                         else
                         {
-                            pathfinder.Add(DIRECTIONS.RIGHT);
+                            pathfinder.Add(DIRECTIONS.LEFT);
                             found = true;
                             break;
                         }
                     }
 
-                    else if (currentroom.RightNode == null)
+                    else if (PathRoom.LeftNode.MySegment == null)
                     {
-                        PathRoom = currentroom;
+                        pathfinder.Add(DIRECTIONS.LEFT);
+                        PathRoom = PathRoom.LeftNode;
+                        
+                    }
+                }
+
+                else if (checkedright == false)
+                {
+
+                    if (PathRoom.RightNode != null)
+                    {
+                        if (PathRoom.RightNode.MySegment != null)
+                        {
+                            if (PathRoom.RightNode.MySegment.ID != targetroom.ID)
+                            {
+                                pathfinder.Add(DIRECTIONS.RIGHT);
+                                PathRoom = PathRoom.RightNode;
+                                ammountcheckedright++;
+                            }
+                            else
+                            {
+                                pathfinder.Add(DIRECTIONS.RIGHT);
+                                found = true;
+                                break;
+                            }
+                        }
+                        else if (PathRoom.RightNode.MySegment == null)
+                        {
+                            pathfinder.Add(DIRECTIONS.RIGHT);
+                            PathRoom = PathRoom.RightNode;
+                            ammountcheckedright++;
+                        }
+                    }
+
+                    
+
+                    else if (PathRoom.RightNode == null)
+                    {
+                        if (firstlevel == true)
+                        {
+                            PathRoom = currentroom;
+                        }
+
+                        else
+                        {
+                            PathRoom = ElevatorOrStaircase;
+                        }
                         checkedright = true;
                         for (int i = 0; i < ammountcheckedright; i++)
                         {
@@ -178,7 +210,8 @@ namespace HotelSimulationSE5
                         ammountcheckedright = 0;
                     }
                 }
-            }        
+            }
+            return pathfinder;
         }
     }
 }
