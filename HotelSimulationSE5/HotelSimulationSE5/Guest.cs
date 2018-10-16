@@ -8,16 +8,12 @@ using System.Windows.Forms;
 
 namespace HotelSimulationSE5
 {
-    public class Guest
+    class Guest
     {
-        public int guest_x_size = 15;
-        public int guest_y_size = 15;
-        public HotelSegments.GuestRoom MyRoom { get; set; }
-        
+        public HotelSegments.GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
-        public int speed = -2;
-
         public PictureBox panelPb;
+        public Node MyNode { get; set; }
 
         public Guest(PictureBox mypanel)
         {
@@ -40,12 +36,13 @@ namespace HotelSimulationSE5
             panelPb.BringToFront();
         }
 
-        public void Move_to_Node(PictureBox next,PictureBox current)
+        public void Move_to_Node(Node next,Node current)
         {
-            next.Controls.Add(panelPb);
-            current.Controls.Remove(panelPb);
+            next.panelPb.Controls.Add(panelPb);
+            current.panelPb.Controls.Remove(panelPb);
             panelPb.BackgroundImage = MyImage;
             panelPb.BringToFront();
+            MyNode = next;
         }
 
     }

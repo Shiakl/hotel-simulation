@@ -355,69 +355,42 @@ namespace HotelSimulationSE5
             BreakPoint();
         }
 
+        private List<Guest> _guestList = new List<Guest>();
         public void Create_Guest(Node currentNode)
         {
             //Test Create guest
+            Reload_Available_Rooms();
             Guest arrival = new Guest(currentNode.panelPb);
+            arrival.MyNode = currentNode;
             if (AvailableRooms[0] != null)
             {
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
             arrival.MyRoom.Reserved = true;
             }
             elevatorNodes[max_y - 1].MyUnits.Add(arrival);
-
+            _guestList.Add(arrival);
+            arrival.Move();
             Console.WriteLine("Checkpoint: 3");
         }
 
 
         public void Move_Guest(Form mainform)
-        {
-            //segment_num = 21 is the number of the room #5 from elevator
-
-            foreach (Node current in nodes)
+        {               
+            //Point newPoint =  new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
+            //visitor.panelPb.Location = newPoint;
+            //mainform.Controls.Add(elevatorNodes[max_y - 1].MyPanel);
+            //visitor.Move();
+            foreach(Guest currentG in _guestList)
             {
-                if (current.RightNode != null)
+                if (currentG.MyNode.RightNode != null)
                 {
-                    if (current.MyUnits != null)
-                    {
-                        foreach (Guest visitor in current.MyUnits)
-                        {
-
-                            //Point newPoint =  new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                            //visitor.panelPb.Location = newPoint;
-                            //mainform.Controls.Add(elevatorNodes[max_y - 1].MyPanel);
-                            //visitor.Move();
-
-
-                            Point newPoint = new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                            mainform.Controls.Add(current.MyPanel);
-                            current.RightNode.MyUnits.Add(visitor);
-                            visitor.Move_to_Node(current.RightNode.panelPb, current.panelPb);
-                            current.MyUnits.Remove(visitor);
-                            
-                        }
-                    }
+                currentG.MyNode.RightNode.MyUnits.Add(currentG);
+                currentG.Move_to_Node(currentG.MyNode.RightNode, currentG.MyNode);
+                currentG.MyNode.MyUnits.Remove(currentG);
+                currentG.Move();
                 }
             }
 
-            foreach (Node current in elevatorNodes)
-            {
-                if (current.RightNode != null)
-                {
-                    if (current.MyUnits != null)
-                    {
-                        foreach (Guest visitor in current.MyUnits)
-                        {
-
-                            Point newPoint = new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                            mainform.Controls.Add(current.MyPanel);
-                            visitor.Move_to_Node(current.RightNode.panelPb, current.panelPb);
-                            current.RightNode.MyUnits.Add(visitor);
-                            current.MyUnits.Remove(visitor);
-                        }
-                    }
-                }
-            }
         }
 
 
