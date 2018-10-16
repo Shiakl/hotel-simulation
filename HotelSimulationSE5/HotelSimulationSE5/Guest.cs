@@ -15,7 +15,7 @@ namespace HotelSimulationSE5
         public int speed = -2;
         public Panel MyPanel { get; set; }
         public List<Node.DIRECTIONS> Path { get; set; }
-        //public Node.DIRECTIONS Path { get; set; }
+        public Node MyNode { get; set; }
 
         private PictureBox panelPb;
 

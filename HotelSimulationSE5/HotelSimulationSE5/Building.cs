@@ -48,7 +48,7 @@ namespace HotelSimulationSE5
         }
 
         /// <summary>
-        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger then the last greatest found X coordinate
+        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger than the last greatest found X coordinate
         /// </summary>
         /// <param name="roomList">List of all rooms in the hotel with its properties</param>
         /// <returns>The biggest found X coordinate</returns>
@@ -70,7 +70,6 @@ namespace HotelSimulationSE5
                     }
                 }
             }
-
             return hotel_X_Size; 
         }
 

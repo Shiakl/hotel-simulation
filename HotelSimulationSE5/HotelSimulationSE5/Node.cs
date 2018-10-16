@@ -183,7 +183,6 @@ namespace HotelSimulationSE5
                             ammountcheckedright++;
                         }
                     }
-
                     
 
                     else if (PathRoom.RightNode == null)
