@@ -376,10 +376,6 @@ namespace HotelSimulationSE5
 
         public void Move_Guest(Form mainform)
         {               
-            //Point newPoint =  new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-            //visitor.panelPb.Location = newPoint;
-            //mainform.Controls.Add(elevatorNodes[max_y - 1].MyPanel);
-            //visitor.Move();
             foreach(Guest currentG in _guestList)
             {
                 if (currentG.MyNode.RightNode != null)
@@ -392,7 +388,6 @@ namespace HotelSimulationSE5
             }
 
         }
-
 
             public void BreakPoint()
         {
