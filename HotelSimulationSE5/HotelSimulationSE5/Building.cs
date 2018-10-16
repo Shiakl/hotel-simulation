@@ -445,7 +445,7 @@ namespace HotelSimulationSE5
                 {
                     if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.LEFT )
                     {
-                        Point newPoint = new Point(guests.MyPanel.Location.X - segmentSize_X, guests.MyPanel.Location.Y; //Panel is redrawn with new position with segmentsize_x/4 as speed.
+                        Point newPoint = new Point(guests.MyPanel.Location.X - segmentSize_X, guests.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
                         guests.MyPanel.Location = newPoint;
                         mainform.Controls.Add(guests.MyPanel);
                         guests.Move();
