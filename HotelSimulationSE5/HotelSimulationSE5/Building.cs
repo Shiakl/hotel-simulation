@@ -367,7 +367,7 @@ namespace HotelSimulationSE5
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
             arrival.MyRoom.Reserved = true;
             }
-            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+            //elevatorNodes[max_y - 1].MyUnits.Add(arrival);
             _guestList.Add(arrival);
             arrival.Move();
             Console.WriteLine("Checkpoint: 3");
@@ -384,9 +384,9 @@ namespace HotelSimulationSE5
             {
                 if (currentG.MyNode.RightNode != null)
                 {
-                currentG.MyNode.RightNode.MyUnits.Add(currentG);
+                //currentG.MyNode.RightNode.MyUnits.Add(currentG);
                 currentG.Move_to_Node(currentG.MyNode.RightNode, currentG.MyNode);
-                currentG.MyNode.MyUnits.Remove(currentG);
+                //currentG.MyNode.MyUnits.Remove(currentG);
                 currentG.Move();
                 }
             }

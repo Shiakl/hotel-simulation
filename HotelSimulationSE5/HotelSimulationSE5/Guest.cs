@@ -40,8 +40,6 @@ namespace HotelSimulationSE5
         {
             next.panelPb.Controls.Add(panelPb);
             current.panelPb.Controls.Remove(panelPb);
-            panelPb.BackgroundImage = MyImage;
-            panelPb.BringToFront();
             MyNode = next;
         }
 
