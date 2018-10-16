@@ -21,11 +21,9 @@ namespace HotelSimulationSE5
 
 
         public HotelSegments.IHSegment MySegment { get; set; }
-        //public List<Guest> MyUnits { get; set; }
 
         public Node(Panel box)
         {
-            //MyUnits = new List<Guest>();
             MyPanel = box;
             panelPb = new PictureBox();
             panelPb.Size = MyPanel.Size;
