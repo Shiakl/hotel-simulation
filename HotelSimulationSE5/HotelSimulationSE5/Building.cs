@@ -11,23 +11,23 @@ namespace HotelSimulationSE5
 {
     class Building
     {
-        private string layoutstring;
-        public int segmentSize_X = 104;
-        public int segmentSize_Y = 60;
+        private string layoutstring; //Hotel layout(blueprint)
+        public int segmentSize_X = 104; //X size of each hotel segment
+        public int segmentSize_Y = 60; //Y size of each hotel segment
         public int max_x;
         public int max_y;
-        private Node[] nodes;
-        public Node[] elevatorNodes;
-        private Node[] staircaseNodes;
-        private List<TempRoom> temp;
+        private Node[] nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
+        private Node[] elevatorNodes; //Saves a array of all elevators with its properties
+        private Node[] staircaseNodes; //Saves a array of staircases with its properties
+        private List<TempRoom> temp; //Saves a list of every room in the hotel
         public bool elevatorLeft;
 
-
+        
 
         public Building()
         {
             temp = new List<TempRoom>();
-            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel.layout");
+            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel3.layout"); //Reads the layout file and pushes it into a string
             Read_Layout();
             elevatorLeft = true;
             max_x = Find_Max_X(temp);
@@ -39,12 +39,19 @@ namespace HotelSimulationSE5
 
             Console.WriteLine("Checkpoint: 1");
         }
-
+        /// <summary>
+        /// Deserializes the string.layoutstring to the temp list. Each item in the list will now be given its properties
+        /// </summary>
         public void Read_Layout()
         {
             temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
         }
 
+        /// <summary>
+        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger then the last greatest found X coordinate
+        /// </summary>
+        /// <param name="roomList">List of all rooms in the hotel with its properties</param>
+        /// <returns>The biggest found X coordinate</returns>
         private int Find_Max_X(List<TempRoom> roomList)
         {
             int hotel_X_Size= 0 ;
@@ -67,6 +74,11 @@ namespace HotelSimulationSE5
             return hotel_X_Size; 
         }
 
+        /// <summary>
+        /// Checks each item in the list.temp for the Y coordinate and saves it to int.hotel_Y_Size if it's bigger then the last greatest found Y coordinate
+        /// </summary>
+        /// <param name="roomList">List of all rooms in the hotel with its properties</param>
+        /// <returns>The biggest found Y coordinate</returns>
         private int Find_Max_Y(List<TempRoom> roomList)
         {
             int hotel_Y_Size = 0;
@@ -89,6 +101,9 @@ namespace HotelSimulationSE5
             return hotel_Y_Size;
         }
 
+        /// <summary>
+        /// Sets IDs for staircases, elevators and the reception
+        /// </summary>
         private enum ID_List
         {
             Staircase = 0,
@@ -96,7 +111,10 @@ namespace HotelSimulationSE5
             Reception = 2
         }
 
-
+        /// <summary>
+        /// Creates panels for all the rooms. After which it will generates the segments in nodes for each room using the segment factory. It will then adds itself to the form with its corresponding picture
+        /// </summary>
+        /// <param name="mainform">The display window</param>
         public void CreateHotel(Form mainform)
         {
             Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
@@ -352,8 +370,39 @@ namespace HotelSimulationSE5
                 select w
                 ).ToList();
                     
-            BreakPoint();
+            //BreakPoint();
         }
+
+        public void PathFinder()
+        {
+            List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
+
+            foreach (var node in nodes)
+            {
+                foreach (var guest in node.MyUnits)
+                {
+                    GuestPath = node.Pathfinding(node, guest.MyRoom);
+                    guest.Path = GuestPath;
+                }
+            }
+
+            foreach (var elevatornode in elevatorNodes)
+            {
+                foreach (var guest in elevatornode.MyUnits)
+                {
+                    GuestPath = elevatornode.Pathfinding(elevatornode, guest.MyRoom);
+                    guest.Path = GuestPath;
+                }
+            }
+
+            foreach (var staircasenode in staircaseNodes)
+            {
+                foreach (var guest in staircasenode.MyUnits)
+                {
+                    GuestPath = staircasenode.Pathfinding(staircasenode, guest.MyRoom);
+                    guest.Path = GuestPath;
+                }
+            }
 
         private List<Guest> _guestList = new List<Guest>();
         public void Create_Guest(Node currentNode)
@@ -365,10 +414,12 @@ namespace HotelSimulationSE5
             if (AvailableRooms[0] != null)
             {
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            arrival.MyRoom.Reserved = true;
+            //arrival.MyRoom.Reserved = true;
             }
             _guestList.Add(arrival);
             arrival.Move();
+            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+            PathFinder();
             Console.WriteLine("Checkpoint: 3");
         }
 
@@ -385,6 +436,7 @@ namespace HotelSimulationSE5
             }
 
         }
+
 
             public void BreakPoint()
         {

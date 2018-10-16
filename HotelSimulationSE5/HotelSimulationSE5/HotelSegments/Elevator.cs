@@ -38,5 +38,6 @@ namespace HotelSimulationSE5.HotelSegments
             }
 
         }
+
     }
 }

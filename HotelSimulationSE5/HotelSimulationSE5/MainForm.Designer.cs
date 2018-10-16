@@ -35,9 +35,10 @@
             // 
             // GuestButton
             // 
-            this.GuestButton.Location = new System.Drawing.Point(12, 12);
+            this.GuestButton.Location = new System.Drawing.Point(9, 10);
+            this.GuestButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GuestButton.Name = "GuestButton";
-            this.GuestButton.Size = new System.Drawing.Size(100, 23);
+            this.GuestButton.Size = new System.Drawing.Size(75, 19);
             this.GuestButton.TabIndex = 0;
             this.GuestButton.Text = "Spawn Guest";
             this.GuestButton.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@
             // 
             // StopButton
             // 
-            this.StopButton.Location = new System.Drawing.Point(131, 11);
+            this.StopButton.Location = new System.Drawing.Point(98, 9);
+            this.StopButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(75, 23);
+            this.StopButton.Size = new System.Drawing.Size(56, 19);
             this.StopButton.TabIndex = 2;
             this.StopButton.Text = "Pause";
             this.StopButton.UseVisualStyleBackColor = true;
@@ -55,9 +57,10 @@
             // 
             // EventButton
             // 
-            this.EventButton.Location = new System.Drawing.Point(236, 11);
+            this.EventButton.Location = new System.Drawing.Point(177, 9);
+            this.EventButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.EventButton.Name = "EventButton";
-            this.EventButton.Size = new System.Drawing.Size(86, 23);
+            this.EventButton.Size = new System.Drawing.Size(64, 19);
             this.EventButton.TabIndex = 3;
             this.EventButton.Text = "Event start";
             this.EventButton.UseVisualStyleBackColor = true;
@@ -65,15 +68,16 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.OrangeRed;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.EventButton);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.GuestButton);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MainForm";
             this.Text = "Alternatieve Hilton";
             this.Load += new System.EventHandler(this.MainForm_Load);

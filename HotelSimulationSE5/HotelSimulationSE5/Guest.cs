@@ -12,10 +12,14 @@ namespace HotelSimulationSE5
     {
         public HotelSegments.GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
-        public PictureBox panelPb;
-        public Node MyNode { get; set; }
+        public int speed = -2;
+        public Panel MyPanel { get; set; }
+        public List<Node.DIRECTIONS> Path { get; set; }
+        //public Node.DIRECTIONS Path { get; set; }
 
-        public Guest(PictureBox mypanel)
+        private PictureBox panelPb;
+
+        public Guest(Panel mypanel)
         {
             MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
             panelPb = new PictureBox();
@@ -29,7 +33,6 @@ namespace HotelSimulationSE5
         public void Add_panel(Panel mypanel)
         {
         }
-
         public void Move()
         {
             panelPb.BackgroundImage = MyImage;
