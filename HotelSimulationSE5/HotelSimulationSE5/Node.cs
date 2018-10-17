@@ -153,8 +153,6 @@ namespace HotelSimulationSE5
             }
         }
 
-
-        
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
             int ammountcheckedright = 0;
@@ -182,7 +180,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
-                            ElevatorOrStaircase = PathRoom.TopNode;
+                            ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
                             checkedright = false;
                         }
@@ -191,7 +189,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;
-                            ElevatorOrStaircase = PathRoom.BottomNode;
+                            ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
                             checkedright = false;
                         }
@@ -228,7 +226,7 @@ namespace HotelSimulationSE5
                     {
                         pathfinder.Add(DIRECTIONS.LEFT);
                         PathRoom = PathRoom.LeftNode;
-                        
+
                     }
                 }
 
@@ -259,7 +257,8 @@ namespace HotelSimulationSE5
                             ammountcheckedright++;
                         }
                     }
-                    
+
+
 
                     else if (PathRoom.RightNode == null)
                     {

@@ -19,7 +19,7 @@ namespace HotelSimulationSE5
 
         private PictureBox panelPb;
 
-        public Guest(Panel mypanel)
+        public Guest(PictureBox mypanel)
         {
             MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
             panelPb = new PictureBox();
@@ -30,9 +30,7 @@ namespace HotelSimulationSE5
             mypanel.Controls.Add(panelPb);
         }
 
-        public void Add_panel(Panel mypanel)
-        {
-        }
+
         public void Redraw()
         {
             panelPb.BackgroundImage = MyImage;

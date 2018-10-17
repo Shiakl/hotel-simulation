@@ -387,7 +387,7 @@ namespace HotelSimulationSE5
         {
             //Test Create guest
             Reload_Available_Rooms();
-            Guest arrival = new Guest(currentNode.MyPanel);
+            Guest arrival = new Guest(currentNode.panelPb);
             arrival.MyNode = currentNode;
             if (AvailableRooms[0] != null)
             {
