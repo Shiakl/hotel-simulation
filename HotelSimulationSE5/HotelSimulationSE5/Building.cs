@@ -367,37 +367,24 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false)
                 select w
                 ).ToList();
-                    
-            //BreakPoint();
         }
-
-        public void PathFinder(Guest currentG)
-        {
-            List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
-            GuestPath = currentG.MyNode.Pathfinding(currentG.MyNode, currentG.MyRoom);
-            currentG.Path = GuestPath;
-
-        }
-
 
         public void Create_Guest(Node currentNode)
         {
             //Test Create guest
             Reload_Available_Rooms();
-            Guest arrival = new Guest(currentNode.panelPb);
-            arrival.MyNode = currentNode;
-            if (AvailableRooms[0] != null)
+            Guest arrival = new Guest(currentNode);
+            if (AvailableRooms.Count() >  0)
             {
-            arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            arrival.MyRoom.Reserved = true;
+                arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
+                arrival.MyRoom.Reserved = true;
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
             }
             _guestList.Add(arrival);
             arrival.Redraw();
-            PathFinder(arrival);
             arrival.Moving = true;
             Console.WriteLine("Checkpoint");
         }
-
 
         public void Move_Guest(Form mainform)
         {               
