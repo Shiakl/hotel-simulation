@@ -12,7 +12,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 250; 
+        public int _refreshrateinterval = 500; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events = new Eventadapter();
@@ -53,7 +53,7 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             this.Invalidate();
-            _myHotel.Create_Guest(this);
+            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
             this.Refresh();
             _refresh_timer.Start();
         }
@@ -82,7 +82,8 @@ namespace HotelSimulationSE5
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
     }
 }

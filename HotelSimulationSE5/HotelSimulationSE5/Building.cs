@@ -17,9 +17,10 @@ namespace HotelSimulationSE5
         public int max_x;
         public int max_y;
         private Node[] nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
-        private Node[] elevatorNodes; //Saves a array of all elevators with its properties
+        public Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] staircaseNodes; //Saves a array of staircases with its properties
         private List<TempRoom> temp; //Saves a list of every room in the hotel
+        private List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
         public bool elevatorLeft;
 
         
@@ -48,7 +49,7 @@ namespace HotelSimulationSE5
         }
 
         /// <summary>
-        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger then the last greatest found X coordinate
+        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger than the last greatest found X coordinate
         /// </summary>
         /// <param name="roomList">List of all rooms in the hotel with its properties</param>
         /// <returns>The biggest found X coordinate</returns>
@@ -70,7 +71,6 @@ namespace HotelSimulationSE5
                     }
                 }
             }
-
             return hotel_X_Size; 
         }
 
@@ -169,7 +169,7 @@ namespace HotelSimulationSE5
                 staircaseNodes[y].ColorMe();
             }
 
-            //Create all the RoomNodes
+            //Create all the Nodes
             for (int y = 0; y < max_y; y++)
             {
                 for (int x = 0; x < max_x; x++)
@@ -255,8 +255,7 @@ namespace HotelSimulationSE5
 
                 elevatorLevel++;
             }
-            
-            //Sets the segment property of each room
+
             foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
@@ -344,8 +343,6 @@ namespace HotelSimulationSE5
                 where (w.MySegment.ID==value)
                 select w).ToList();
 
-            Console.WriteLine("Checkpoint: 5");
-
             if (tempNode[0] != null && tempNode[0].MySegment is HotelSegments.GuestRoom)
             {               
                 return tempNode[0].MySegment as HotelSegments.GuestRoom;
@@ -374,137 +371,50 @@ namespace HotelSimulationSE5
             //BreakPoint();
         }
 
-        /// <summary>
-        /// Creates a Path for all the guests currently in the hotel
-        /// </summary>
         public void PathFinder()
         {
             List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
 
-            foreach (var node in nodes)
+            foreach (Guest visitor in _guestList)
             {
-                foreach (var guest in node.MyUnits)
-                {
-                    if (guest.MyRoom != null)
-                    {
-                        GuestPath = node.Pathfinding(node, guest.MyRoom);
-                        guest.Path = GuestPath;
-                    }
-                }
+                GuestPath = visitor.MyNode.Pathfinding(visitor.MyNode, visitor.MyRoom);
+                visitor.Path = GuestPath;
             }
-
-            foreach (var elevatornode in elevatorNodes)
-            {
-                foreach (var guest in elevatornode.MyUnits)
-                {
-                    if (guest.MyRoom != null)
-                    {
-                        GuestPath = elevatornode.Pathfinding(elevatornode, guest.MyRoom);
-                        guest.Path = GuestPath;
-                    }
-                }
-            }
-
-            foreach (var staircasenode in staircaseNodes)
-            {
-                foreach (var guest in staircasenode.MyUnits)
-                {
-                    if (guest.MyRoom != null)
-                    {
-                        GuestPath = staircasenode.Pathfinding(staircasenode, guest.MyRoom);
-                        guest.Path = GuestPath;
-                    }
-                }
-            }
-
-
-            // HotelSegments.GuestRoom test = currentguest.MyRoom;
-            // pathfinder.Pathfinding(test);
-
         }
 
-        public void Create_Guest(Form mainform)
-        {
 
+        public void Create_Guest(Node currentNode)
+        {
             //Test Create guest
-            Panel guestPanel = new Panel
-            {
-                Size = new Size(15, 50),
-                Location = new Point(elevatorNodes[max_y - 1].MyPanel.Location.X, elevatorNodes[max_y - 1].MyPanel.Location.Y)
-                
-            };
-            guestPanel.BackgroundImageLayout = ImageLayout.None;
-            //guestPanel.BackColor = Color.Transparent;
-            Guest arrival = new Guest(guestPanel);
+            Reload_Available_Rooms();
+            Guest arrival = new Guest(currentNode.panelPb);
+            arrival.MyNode = currentNode;
             if (AvailableRooms[0] != null)
             {
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            //arrival.MyRoom.Reserved = true;
+            arrival.MyRoom.Reserved = true;
             }
-            mainform.Controls.Add(arrival.MyPanel);
-            arrival.Move();
-            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+            _guestList.Add(arrival);
+            arrival.Redraw();
             PathFinder();
-            Console.WriteLine("Checkpoint: 3");
+            arrival.Moving = true;
+            Console.WriteLine("Checkpoint");
         }
 
 
         public void Move_Guest(Form mainform)
-        {
-            //segment_num = 21 is the number of the room #5 from elevator
-
-            bool isempty;
-                foreach (Guest guests in elevatorNodes[max_y - 1].MyUnits)
+        {               
+            foreach(Guest currentG in _guestList)
+            {
+                currentG.Destination_reached();
+                if (currentG.Moving == true && currentG.Path.Count()>0)
                 {
-                isempty = !guests.Path.Any();
-                if (!isempty)
-                {
-                    if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.LEFT)
-                    {
-                        Point newPoint = new Point(guests.MyPanel.Location.X - segmentSize_X, guests.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                        guests.MyPanel.Location = newPoint;
-                        mainform.Controls.Add(guests.MyPanel);
-                        guests.Move();
-                        guests.Path.Remove(guests.Path.FirstOrDefault());
-                    }
-
-                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.RIGHT)
-                    {
-                        Point newPoint = new Point(guests.MyPanel.Location.X + segmentSize_X, guests.MyPanel.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                        guests.MyPanel.Location = newPoint;
-                        mainform.Controls.Add(guests.MyPanel);
-                        guests.Move();
-                        guests.Path.Remove(guests.Path.FirstOrDefault());
-                    }
-
-                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.TOP)
-                    {
-                        Point newPoint = new Point(guests.MyPanel.Location.X, guests.MyPanel.Location.Y - segmentSize_Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                        guests.MyPanel.Location = newPoint;
-                        mainform.Controls.Add(guests.MyPanel);
-                        guests.Move();
-                        guests.Path.Remove(guests.Path.FirstOrDefault());
-                    }
-
-                    else if (guests.Path.FirstOrDefault() == Node.DIRECTIONS.BOTTOM)
-                    {
-                        Point newPoint = new Point(guests.MyPanel.Location.X, guests.MyPanel.Location.Y + segmentSize_Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-                        guests.MyPanel.Location = newPoint;
-                        mainform.Controls.Add(guests.MyPanel);
-                        guests.Move();
-                        guests.Path.Remove(guests.Path.FirstOrDefault());
-                    }
+                    currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                    currentG.Redraw();                   
                 }
             }
+
         }
-        
-
-
-            public void BreakPoint()
-        {
-            Console.WriteLine("Checkpoint: 4");
-        }
-
 
     }//Building
 }

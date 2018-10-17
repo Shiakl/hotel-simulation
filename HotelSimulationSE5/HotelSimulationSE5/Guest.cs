@@ -8,38 +8,62 @@ using System.Windows.Forms;
 
 namespace HotelSimulationSE5
 {
-    public class Guest
+    class Guest
     {
-        public int guest_x_size = 15;
-        public int guest_y_size = 15;
-        public HotelSegments.IHSegment MyRoom { get; set; }
+        public HotelSegments.GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
-        public int speed = -2;
         public Panel MyPanel { get; set; }
         public List<Node.DIRECTIONS> Path { get; set; }
-        //public Node.DIRECTIONS Path { get; set; }
+        public Node MyNode { get; set; }
+        public bool Moving { get; set; }
 
         private PictureBox panelPb;
 
-        public Guest(Panel mypanel)
+        public Guest(PictureBox mypanel)
         {
             MyImage = Image.FromFile(@"..\..\Images\TempGuest2.png");
-            MyPanel = mypanel;
             panelPb = new PictureBox();
-            MyPanel.BackColor = Color.Transparent;
-            MyPanel.Controls.Add(panelPb);
+            panelPb.Size = MyImage.Size;
+            panelPb.BackgroundImageLayout = ImageLayout.None;
+            panelPb.Parent = mypanel;
+            panelPb.BackColor = Color.Transparent;
+            mypanel.Controls.Add(panelPb);
         }
 
-        public void Add_panel(Panel mypanel)
+
+        public void Redraw()
         {
-        }
-        public void Move()
-        {
-            MyPanel.BackgroundImage = MyImage;
-            MyPanel.BackColor = Color.Transparent;
-            MyPanel.BringToFront();
+            panelPb.BackgroundImage = MyImage;
+            panelPb.BringToFront();
         }
 
+        public void Destination_reached()
+        {
+            if (MyNode.MySegment != null)
+            {
+                if (MyNode.MySegment.ID == MyRoom.ID)
+                {
+                    Moving = false;
+                }
+                else
+                {
+                    Moving = true;
+                }
+            }
+            else
+            {
+                Moving = true;
+            }
+        }
+
+        public void Move_to_Node(Node next,Node current)
+        {
+
+            next.panelPb.Controls.Add(panelPb);
+            current.panelPb.Controls.Remove(panelPb);
+            MyNode = next;
+            Path.Remove(Path.FirstOrDefault());
+        }
 
     }
 }

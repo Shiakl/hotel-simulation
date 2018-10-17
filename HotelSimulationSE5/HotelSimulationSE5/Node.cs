@@ -10,23 +10,20 @@ namespace HotelSimulationSE5
 {
     public class Node
     {
-        public Node LeftNode { get; set; } //Some nodes have a node on their left. That node will be saved in this property
-        public Node RightNode { get; set; } //Some nodes have a node on their right. That node will be saved in this property
-        public Node TopNode { get; set; } //Some nodes have a node on their top. That node will be saved in this property
-        public Node BottomNode { get; set; } //Some nodes hves a node on their bottem. That node will be saved in this property
+        public Node LeftNode { get; set; }
+        public Node RightNode { get; set; }
+        public Node TopNode { get; set; }
+        public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
+        public int Distance { get; set; }
 
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
 
-
         public HotelSegments.IHSegment MySegment { get; set; }
-        public List<Guest> MyUnits { get; set; }
-
 
         public Node(Panel box)
         {
-            MyUnits = new List<Guest>();
             MyPanel = box;
             panelPb = new PictureBox();
             panelPb.Size = MyPanel.Size;
@@ -34,11 +31,6 @@ namespace HotelSimulationSE5
             panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
         }
 
-        /// <summary>
-        /// Colors the current segment by using a backgroundimage. 
-        /// If the dimension width(X) is greater then 1 it will also draw the picture on the right node
-        /// If the dimensions width(X) and height(Y) are greater then 1 it will also draw the picture on the right node and top nodes
-        /// </summary>
         public void ColorMe()
         {
             if (MySegment!=null)
@@ -62,7 +54,6 @@ namespace HotelSimulationSE5
             }
         }
 
-
         public enum SEGMENT_PART
         {
             Main,
@@ -71,9 +62,6 @@ namespace HotelSimulationSE5
             TopRight
         }
 
-        /// <summary>
-        /// The directions a guest can go to
-        /// </summary>
         public enum DIRECTIONS
         {
             LEFT,
@@ -81,7 +69,6 @@ namespace HotelSimulationSE5
             TOP,
             BOTTOM
         }
-
 
         public void Add_myConnections()
         {
@@ -91,14 +78,81 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.TOP] = TopNode;
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
-        
-        /// <summary>
-        /// Creates a list fo each guest which is the path it has to go through to get to its designated room
-        /// While loop checks the nabours in a specific order until the path has been found to the room
-        /// </summary>
-        /// <param name="currentroom">Room where the guest is standing in</param>
-        /// <param name="targetroom">Room where the guest has to go to</param>
-        /// <returns>A path in as a List by using DIRECTIONS</returns>
+
+        /*
+         Search algoritm:
+        1. Check right till target found or null, If target not found The room must be on the left.
+        2. Check Left till Stairs or target found.
+        3. From Stairs go up and check all rooms right. If target is not on this floor its on the floor above or below.
+        4. Check all floors above till last floor reached, if target is not found check the floors below the starting floor.
+        5. Check all the floors below the starting floor, if target is not found the target room does not exist. 
+         */
+
+
+        private List<DIRECTIONS> Route = new List<DIRECTIONS>();
+        private List<DIRECTIONS> tempDirections = new List<DIRECTIONS>();
+
+        public List<DIRECTIONS> Set_route(Node current, HotelSegments.IHSegment target)
+        {
+            right_check = false;
+            if (Find_route(current,target.ID,DIRECTIONS.RIGHT) == true)
+            {
+                Route = tempDirections;
+            }
+            else if(Find_route(current, target.ID, DIRECTIONS.LEFT) == true)
+            {
+                Route = tempDirections;
+            }
+            return Route;
+        }
+
+        private bool right_check;
+        public bool Find_route(Node current, int target, DIRECTIONS direction)
+        {           
+            if (Room_Found(current, target) == true)
+            {
+                return true;
+            }
+            else if (current.MyConnections[(int)direction] == null && right_check == false)
+            {
+                tempDirections.Clear();
+                right_check = true;
+                return false;
+            }
+            else if (current.MySegment is HotelSegments.Staircase)
+            {
+                right_check = false;
+                tempDirections.Add(DIRECTIONS.TOP);
+                return Find_route(current.MyConnections[(int)direction], target, DIRECTIONS.RIGHT);
+            }
+            else
+            {
+                tempDirections.Add(direction);
+                return Find_route(current.MyConnections[(int)direction], target, direction);
+            }
+        }
+
+
+        private bool Room_Found(Node current, int targetID)
+        {
+            if (current.MySegment != null)
+            {
+                if (current.MySegment.ID == targetID)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
             int ammountcheckedright = 0;
@@ -172,7 +226,7 @@ namespace HotelSimulationSE5
                     {
                         pathfinder.Add(DIRECTIONS.LEFT);
                         PathRoom = PathRoom.LeftNode;
-                        
+
                     }
                 }
 
@@ -204,7 +258,7 @@ namespace HotelSimulationSE5
                         }
                     }
 
-                    
+
 
                     else if (PathRoom.RightNode == null)
                     {
