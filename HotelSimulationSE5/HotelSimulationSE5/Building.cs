@@ -371,15 +371,12 @@ namespace HotelSimulationSE5
             //BreakPoint();
         }
 
-        public void PathFinder()
+        public void PathFinder(Guest currentG)
         {
             List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
+            GuestPath = currentG.MyNode.Pathfinding(currentG.MyNode, currentG.MyRoom);
+            currentG.Path = GuestPath;
 
-            foreach (Guest visitor in _guestList)
-            {
-                GuestPath = visitor.MyNode.Pathfinding(visitor.MyNode, visitor.MyRoom);
-                visitor.Path = GuestPath;
-            }
         }
 
 
@@ -396,7 +393,7 @@ namespace HotelSimulationSE5
             }
             _guestList.Add(arrival);
             arrival.Redraw();
-            PathFinder();
+            PathFinder(arrival);
             arrival.Moving = true;
             Console.WriteLine("Checkpoint");
         }
