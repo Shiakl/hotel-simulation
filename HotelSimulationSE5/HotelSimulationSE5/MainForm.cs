@@ -37,9 +37,9 @@ namespace HotelSimulationSE5
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
             //Move guests
-            this.Invalidate();
+            //this.Invalidate();
             _myHotel.Move_Guest(this);
-            this.Refresh();
+            //this.Refresh();
         }
 
         public void GenerateHotel()

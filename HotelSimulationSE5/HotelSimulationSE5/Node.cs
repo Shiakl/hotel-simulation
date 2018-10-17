@@ -10,10 +10,10 @@ namespace HotelSimulationSE5
 {
     public class Node
     {
-        public Node LeftNode { get; set; }
-        public Node RightNode { get; set; }
-        public Node TopNode { get; set; }
-        public Node BottomNode { get; set; }
+        public Node LeftNode { get; set; } //Some nodes have a node on their left. That node will be saved in this property
+        public Node RightNode { get; set; } //Some nodes have a node on their right. That node will be saved in this property
+        public Node TopNode { get; set; } //Some nodes have a node on their top. That node will be saved in this property
+        public Node BottomNode { get; set; } //Some nodes hves a node on their bottem. That node will be saved in this property
         public Node[] MyConnections { get; set; }
 
         public Panel MyPanel { get; set; }
@@ -23,6 +23,7 @@ namespace HotelSimulationSE5
         public HotelSegments.IHSegment MySegment { get; set; }
         public List<Guest> MyUnits { get; set; }
 
+
         public Node(Panel box)
         {
             MyUnits = new List<Guest>();
@@ -31,11 +32,13 @@ namespace HotelSimulationSE5
             panelPb.Size = MyPanel.Size;
             MyPanel.Controls.Add(panelPb);
             panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
-
-
-
         }
 
+        /// <summary>
+        /// Colors the current segment by using a backgroundimage. 
+        /// If the dimension width(X) is greater then 1 it will also draw the picture on the right node
+        /// If the dimensions width(X) and height(Y) are greater then 1 it will also draw the picture on the right node and top nodes
+        /// </summary>
         public void ColorMe()
         {
             if (MySegment!=null)
@@ -59,6 +62,7 @@ namespace HotelSimulationSE5
             }
         }
 
+
         public enum SEGMENT_PART
         {
             Main,
@@ -67,6 +71,9 @@ namespace HotelSimulationSE5
             TopRight
         }
 
+        /// <summary>
+        /// The directions a guest can go to
+        /// </summary>
         public enum DIRECTIONS
         {
             LEFT,
@@ -74,6 +81,7 @@ namespace HotelSimulationSE5
             TOP,
             BOTTOM
         }
+
 
         public void Add_myConnections()
         {
@@ -84,6 +92,13 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
         
+        /// <summary>
+        /// Creates a list fo each guest which is the path it has to go through to get to its designated room
+        /// While loop checks the nabours in a specific order until the path has been found to the room
+        /// </summary>
+        /// <param name="currentroom">Room where the guest is standing in</param>
+        /// <param name="targetroom">Room where the guest has to go to</param>
+        /// <returns>A path in as a List by using DIRECTIONS</returns>
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
             int ammountcheckedright = 0;
@@ -111,7 +126,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
-                            ElevatorOrStaircase = PathRoom.TopNode;
+                            ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
                             checkedright = false;
                         }
@@ -120,7 +135,7 @@ namespace HotelSimulationSE5
                         {
                             pathfinder.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;
-                            ElevatorOrStaircase = PathRoom.BottomNode;
+                            ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
                             checkedright = false;
                         }
