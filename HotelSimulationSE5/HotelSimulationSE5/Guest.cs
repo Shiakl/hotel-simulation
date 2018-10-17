@@ -21,7 +21,7 @@ namespace HotelSimulationSE5
 
         public Guest(PictureBox mypanel)
         {
-            MyImage = Image.FromFile(@"..\..\Images\TempGuest3.png");
+            MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;
             panelPb.BackgroundImageLayout = ImageLayout.None;
