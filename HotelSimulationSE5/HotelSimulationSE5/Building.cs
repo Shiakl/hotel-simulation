@@ -17,9 +17,10 @@ namespace HotelSimulationSE5
         public int max_x;
         public int max_y;
         private Node[] nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
-        private Node[] elevatorNodes; //Saves a array of all elevators with its properties
+        public Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] staircaseNodes; //Saves a array of staircases with its properties
         private List<TempRoom> temp; //Saves a list of every room in the hotel
+        private List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
         public bool elevatorLeft;
 
         
@@ -342,8 +343,6 @@ namespace HotelSimulationSE5
                 where (w.MySegment.ID==value)
                 select w).ToList();
 
-            Console.WriteLine("Checkpoint: 5");
-
             if (tempNode[0] != null && tempNode[0].MySegment is HotelSegments.GuestRoom)
             {               
                 return tempNode[0].MySegment as HotelSegments.GuestRoom;
@@ -376,50 +375,30 @@ namespace HotelSimulationSE5
         {
             List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
 
-            foreach (var node in nodes)
+            foreach (Guest visitor in _guestList)
             {
-                foreach (var guest in node.MyUnits)
-                {
-                    GuestPath = node.Pathfinding(node, guest.MyRoom);
-                    guest.Path = GuestPath;
-                }
+                GuestPath = visitor.MyNode.Pathfinding(visitor.MyNode, visitor.MyRoom);
+                visitor.Path = GuestPath;
             }
+        }
 
-            foreach (var elevatornode in elevatorNodes)
-            {
-                foreach (var guest in elevatornode.MyUnits)
-                {
-                    GuestPath = elevatornode.Pathfinding(elevatornode, guest.MyRoom);
-                    guest.Path = GuestPath;
-                }
-            }
 
-            foreach (var staircasenode in staircaseNodes)
-            {
-                foreach (var guest in staircasenode.MyUnits)
-                {
-                    GuestPath = staircasenode.Pathfinding(staircasenode, guest.MyRoom);
-                    guest.Path = GuestPath;
-                }
-            }
-
-        private List<Guest> _guestList = new List<Guest>();
         public void Create_Guest(Node currentNode)
         {
             //Test Create guest
             Reload_Available_Rooms();
-            Guest arrival = new Guest(currentNode.panelPb);
+            Guest arrival = new Guest(currentNode.MyPanel);
             arrival.MyNode = currentNode;
             if (AvailableRooms[0] != null)
             {
             arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            //arrival.MyRoom.Reserved = true;
+            arrival.MyRoom.Reserved = true;
             }
             _guestList.Add(arrival);
-            arrival.Move();
-            elevatorNodes[max_y - 1].MyUnits.Add(arrival);
+            arrival.Redraw();
             PathFinder();
-            Console.WriteLine("Checkpoint: 3");
+            arrival.Moving = true;
+            Console.WriteLine("Checkpoint");
         }
 
 
@@ -427,21 +406,15 @@ namespace HotelSimulationSE5
         {               
             foreach(Guest currentG in _guestList)
             {
-                if (currentG.MyNode.RightNode != null)
+                currentG.Destination_reached();
+                if (currentG.Moving == true && currentG.Path.Count()>0)
                 {
-                currentG.Move_to_Node(currentG.MyNode.RightNode, currentG.MyNode);
-                currentG.Move();
+                    currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                    currentG.Redraw();                   
                 }
             }
 
         }
-
-
-            public void BreakPoint()
-        {
-            Console.WriteLine("Checkpoint: 4");
-        }
-
 
     }//Building
 }

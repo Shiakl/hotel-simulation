@@ -15,10 +15,10 @@ namespace HotelSimulationSE5
         public Node TopNode { get; set; }
         public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
+        public int Distance { get; set; }
 
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
-
 
         public HotelSegments.IHSegment MySegment { get; set; }
 
@@ -78,6 +78,67 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.TOP] = TopNode;
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
+
+        private List<DIRECTIONS> Route = new List<DIRECTIONS>();
+        private List<DIRECTIONS> tempDirections = new List<DIRECTIONS>();
+
+        public List<DIRECTIONS> Set_route(Node current, HotelSegments.IHSegment target)
+        {
+            right_check = false;
+            if (Find_route(current,target.ID,DIRECTIONS.RIGHT) == true)
+            {
+                Route = tempDirections;
+            }
+            else if(Find_route(current, target.ID, DIRECTIONS.LEFT) == true)
+            {
+                Route = tempDirections;
+            }
+            return Route;
+        }
+
+        private bool right_check;
+        public bool Find_route(Node current, int target, DIRECTIONS direction)
+        {           
+            if (Room_Found(current, target) == true)
+            {
+                return true;
+            }
+            else if (current.MyConnections[(int)direction] == null)
+            {
+                tempDirections.Clear();
+                return false;
+            }
+            else
+            {
+                tempDirections.Add(direction);
+                return Find_route(current.MyConnections[(int)direction], target, direction);
+            }
+
+
+        }
+
+
+        private bool Room_Found(Node current, int targetID)
+        {
+            if (current.MySegment != null)
+            {
+                if (current.MySegment.ID == targetID)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {

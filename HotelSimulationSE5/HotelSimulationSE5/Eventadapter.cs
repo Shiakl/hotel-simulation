@@ -45,7 +45,6 @@ namespace HotelSimulationSE5
             {
                 Stop_Events();
             }
-
         }
 
 
