@@ -27,7 +27,7 @@ namespace HotelSimulationSE5
             GuestButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
             StopButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
             EventButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-
+            button1.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             Console.WriteLine();
@@ -84,6 +84,40 @@ namespace HotelSimulationSE5
         {
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (Guest gust in _myHotel._guestList)
+            {
+                if (!gust.Moving)
+                {
+                    _myHotel.Reload_Available_Rooms();
+                    if (_myHotel.AvailableRooms[0] != null)
+                    {
+                        gust.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
+                        gust.MyRoom.Reserved = true;
+                    }
+                    _myHotel.PathFinder(gust);
+                }
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            foreach (Guest gust in _myHotel._guestList)
+            {
+                if (!gust.Moving)
+                {
+                    _myHotel.Reload_Available_Rooms();
+                    if (_myHotel.AvailableRooms[0] != null)
+                    {
+                        gust.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
+                        gust.MyRoom.Reserved = true;
+                    }
+                    _myHotel.PathFinder(gust);
+                }
+            }
         }
     }
 }

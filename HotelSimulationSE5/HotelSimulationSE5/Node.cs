@@ -176,7 +176,7 @@ namespace HotelSimulationSE5
                             ElevatorOrStaircase = PathRoom;
                         }
 
-                        if (checkedtop == false || PathRoom.TopNode != null)
+                        if (checkedtop == false && PathRoom.TopNode != null)
                         {
                             pathfinder.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
@@ -185,7 +185,7 @@ namespace HotelSimulationSE5
                             checkedright = false;
                         }
 
-                        else if (checkedtop == true || PathRoom.BottomNode != null)
+                        else if (checkedtop == true && PathRoom.BottomNode != null)
                         {
                             pathfinder.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;

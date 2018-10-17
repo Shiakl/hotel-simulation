@@ -20,7 +20,7 @@ namespace HotelSimulationSE5
         public Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] staircaseNodes; //Saves a array of staircases with its properties
         private List<TempRoom> temp; //Saves a list of every room in the hotel
-        private List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
+        public List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
         public bool elevatorLeft;
 
         
@@ -330,7 +330,7 @@ namespace HotelSimulationSE5
             }
         }
 
-        List<HotelSegments.GuestRoom> AvailableRooms = new List<HotelSegments.GuestRoom>();
+        public List<HotelSegments.GuestRoom> AvailableRooms = new List<HotelSegments.GuestRoom>();
         public HotelSegments.GuestRoom AssignRoom(int value)
         {
             var tempSeg =
