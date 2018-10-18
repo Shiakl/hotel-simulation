@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using HotelEvents;
 
 namespace HotelSimulationSE5
 {
@@ -222,27 +223,27 @@ namespace HotelSimulationSE5
             //connect nodes
             for (int tc = 0; tc < (max_x*max_y); tc++)
             {
-                //Except for the first row(>max_x) all nodes have a top connection.
+                //Aside from the first row(>max_x) all nodes have a top connection.
                 if (tc > max_x - 1)
                 {
                     nodes[tc].TopNode = nodes[tc - max_x];
                 }
-                //Except for the last row all nodes have a bottom connection.
+                // Aside from the last row all nodes have a bottom connection.
                 if (tc < (max_x * max_y) - max_x)
                 {
                     nodes[tc].BottomNode = nodes[tc + max_x];
                 }
-                //Except for the last column all nodes have a right connection.
+                //Aside from the last column all nodes have a right connection.
                 if (tc % max_x < max_x - 1)
                 {
                     nodes[tc].RightNode = nodes[tc + 1];
                 }
-                //Except for the first column all nodes have a left connection.
+                //Aside from the first column all nodes have a left connection.
                 if (tc % max_x > 0)
                 {
                     nodes[tc].LeftNode = nodes[tc - 1];
                 }
-                //Add elevator nodes to connections on all the nodes in the first column.
+                //Add staircase nodes to connections on all the nodes in the first column.
                 if (nodes[tc].LeftNode is null)
                 {
                     nodes[tc].LeftNode = staircaseNodes[staircaselevel];
@@ -265,6 +266,7 @@ namespace HotelSimulationSE5
                 nodes[tc].Add_myConnections();
             }
             
+            //Connect elevator nodes to the graph
             foreach (var Elevator in elevatorNodes)
             {
                 elevatorNodes[elevatorLevel].RightNode = staircaseNodes[elevatorLevel];
@@ -285,6 +287,7 @@ namespace HotelSimulationSE5
                 elevatorLevel++;
             }
 
+            //Add a segment to each node according to their position in the layout file from temp
             foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
@@ -303,6 +306,7 @@ namespace HotelSimulationSE5
                 Go_Right(elevatorNodes[max_y - 1]).MySegment = tempSeg;
             }
 
+            //Redraw all the nodes
             foreach (Node reload in nodes)
             {
                 if (reload != null)
@@ -310,8 +314,6 @@ namespace HotelSimulationSE5
                     reload.ColorMe();
                 }
             }
-
-            Reload_Available_Rooms();
 
             Console.WriteLine("Checkpoint: 2");
 
@@ -396,47 +398,39 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false)
                 select w
                 ).ToList();
-                    
-            //BreakPoint();
         }
-
-        public void PathFinder(Guest currentG)
-        {
-            List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
-            GuestPath = currentG.MyNode.Pathfinding(currentG.MyNode, currentG.MyRoom);
-            currentG.Path = GuestPath;
-
-        }
-
 
         public void Create_Guest(Node currentNode)
         {
-            //Test Create guest
             Reload_Available_Rooms();
-            Guest arrival = new Guest(currentNode.panelPb);
-            arrival.MyNode = currentNode;
-            if (AvailableRooms[0] != null)
+            Guest arrival = new Guest(currentNode);
+            if (AvailableRooms.Count() >  0)
             {
-            arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            arrival.MyRoom.Reserved = true;
+                arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
+                arrival.MyRoom.Reserved = true;
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
             }
             _guestList.Add(arrival);
             arrival.Redraw();
-            PathFinder(arrival);
-            arrival.Moving = true;
-            Console.WriteLine("Checkpoint");
         }
-
 
         public void Move_Guest(Form mainform)
         {               
             foreach(Guest currentG in _guestList)
             {
-                currentG.Destination_reached();
-                if (currentG.Moving == true && currentG.Path.Count()>0)
+                if (currentG.Moving == true)
                 {
-                    currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
-                    currentG.Redraw();                   
+                    currentG.Destination_reached();
+                    if (currentG.Moving == true && currentG.Path.Count()>0)
+                    {
+                        currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                        currentG.Redraw();                   
+                    }
+
+                }
+                else
+                {
+                    currentG.Moving = true;
                 }
             }
 

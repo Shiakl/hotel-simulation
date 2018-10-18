@@ -10,12 +10,13 @@ namespace HotelSimulationSE5
 {
     class Eventadapter : HotelEvents.HotelEventListener
     {
-        List<HotelEventType> eventList;
+        public List<HotelEvents.HotelEvent> EventList { get; set; }
+        private float HTE_Value = 1f;
 
         public Eventadapter()
         {
-            HotelEventManager.HTE_Factor = 1f;
-            eventList = new List<HotelEventType>();
+            HotelEventManager.HTE_Factor = HTE_Value;
+            EventList = new List<HotelEvent>();
         }
 
         public void Start_events()
@@ -50,10 +51,7 @@ namespace HotelSimulationSE5
                 Console.WriteLine("Value is: " + test.Value);
                 }
             }
-
-            
+            EventList.Add(evt);
         }
-
-
     }
 }
