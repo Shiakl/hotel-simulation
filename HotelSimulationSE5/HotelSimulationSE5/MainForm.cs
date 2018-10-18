@@ -124,5 +124,19 @@ namespace HotelSimulationSE5
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _myHotel.ReloadAvailableRooms();
+            foreach (Guest arrival in _myHotel._guestList)
+            {
+                if (_myHotel.AvailableRooms.Count() > 0)
+                {
+                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
+                    arrival.MyRoom.Reserved = true;
+                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                }
+            }
+        }
     }
 }

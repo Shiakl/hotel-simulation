@@ -227,7 +227,7 @@ namespace HotelSimulationSE5
                         _staircaseNodes[staircaselevel].BottomNode = _staircaseNodes[staircaselevel + 1];
                     }
 
-                    if (elevatorLevel != _startwaarde)
+                    if (staircaselevel != _startwaarde)
                     {
                         _staircaseNodes[staircaselevel].TopNode = _staircaseNodes[staircaselevel - 1];
                     }
