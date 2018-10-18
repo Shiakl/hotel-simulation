@@ -11,10 +11,11 @@ namespace HotelSimulationSE5
     class Eventadapter : HotelEvents.HotelEventListener
     {
         public List<HotelEvents.HotelEvent> EventList { get; set; }
+        private float HTE_Value = 1f;
 
         public Eventadapter()
         {
-            HotelEventManager.HTE_Factor = 0.5f;
+            HotelEventManager.HTE_Factor = HTE_Value;
             EventList = new List<HotelEvent>();
         }
 
