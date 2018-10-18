@@ -82,24 +82,18 @@ namespace HotelSimulationSE5
 
 
             //Move guests
-            this.Invalidate();
             _myHotel.Move_Guest(this);
-            this.Refresh();
         }
 
         public void GenerateHotel()
         {
-            this.Invalidate();
             _myHotel = new Building();
             _myHotel.CreateHotel(this);
-            this.Refresh();
         }
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            this.Invalidate();
             _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
-            this.Refresh();
             _refresh_timer.Start();
         }
 
