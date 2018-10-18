@@ -57,7 +57,7 @@ namespace HotelSimulationSE5
             }
         }
 
-        public void Move_to_Node(Node next,Node current)
+        public void MoveToNode(Node next,Node current)
         {
 
             next.panelPb.Controls.Add(panelPb);

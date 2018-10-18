@@ -162,132 +162,139 @@ namespace HotelSimulationSE5
         /// <returns>The generated path in a List with DIRECTIONS</returns>
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
-            int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right
-            int ammountleveled = _startwaarde; //Used to save how many times the path has gone up
+            int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right in case we ever have to reverse the steps and remove them from the list
+            int ammountleveled = _startwaarde; //Used to save how many times the path has gone up in case we ever have to reverse the steps and remove them from the list
             bool found = false; //Used to see if the path has been figured out
             bool checkedright = false; //Used to see if the right side of the current node has been checked
             bool checkedtop = false; //Used to see if every level on top of the starting room has been checked
             bool startlevel = true; //Used to see if the path is still on its startinglevel
             Node PathRoom = currentroom; //Used to hop the path generator to the next node
             Node ElevatorOrStaircase = currentroom; //Used to save the elevator- or staircaseNode(the first it has crossed) on the startlevel
-            List<DIRECTIONS> pathfinder = new List<DIRECTIONS>();
-            while (found == false)
+            List<DIRECTIONS> path = new List<DIRECTIONS>(); //Used to save the path before returning it to the globl List
+            while (found == false) //This will keep looping through until the path has complete
             {
-                if (checkedright == true)
+                if (checkedright == true) //If all the rooms on the right of the current level has been checked
                 {
-                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase)
+                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase) //If the current room is an elevator or staircaise
                     {
-                        if (startlevel == true)
+                        if (startlevel == true) //If this is the first elevator or staircase of the path then make set the ElevatorOrStaircase to this node
                         {
                             startlevel = false;
                             ElevatorOrStaircase = PathRoom;
                         }
 
-                        if (checkedtop == false && PathRoom.TopNode != null)
+                        if (checkedtop == false && PathRoom.TopNode != null) //If not all the levels above have been checked and there is a level above then go up
                         {
-                            pathfinder.Add(DIRECTIONS.TOP);
+                            path.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
                             ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
-                            checkedright = false;
+                            checkedright = false; //Since we went up a level, the right has to be checked again for this level
                         }
 
-                        else if (checkedtop == true && PathRoom.BottomNode != null)
+                        else if (checkedtop == true && PathRoom.BottomNode != null) //If all the levels above have been checked and there is a level beneath then go down
                         {
-                            pathfinder.Add(DIRECTIONS.BOTTOM);
+                            path.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;
                             ElevatorOrStaircase = PathRoom;
                             ammountleveled++;
-                            checkedright = false;
+                            checkedright = false; //Since we went down a level, the right has to be checked again for this level
                         }
 
-                        else
+                        else if(checkedtop == false && PathRoom.TopNode == null) //If the TopNode is null then this means we are at the top level and can't go any higher
                         {
-                            checkedtop = true;
-                            for (int ammountremoved = 0; ammountremoved < ammountleveled; ammountremoved++)
+                            checkedtop = true; //Start going to check beneath the original level
+                            for (int ammountremoved = 0; ammountremoved < ammountleveled; ammountremoved++) //We will delete all DIRECTIONS in the List.path until we return to the original ElevatorOrStaircase Node 
                             {
-                                pathfinder.Remove(pathfinder.LastOrDefault());
+                                ElevatorOrStaircase = ElevatorOrStaircase.BottomNode;
+                                path.Remove(path.LastOrDefault());
                             }
                             ammountleveled = _startwaarde;
                             PathRoom = ElevatorOrStaircase;
                         }
+
+                        else //If everything is false then the target room is not present in the current hotel layout
+                        {
+                            Console.WriteLine("Room does not exist in the current hotel layout");
+                            path.Clear();
+                            break;
+                        }
                     }
 
-                    else if (PathRoom.LeftNode.MySegment != null)
+                    else if (PathRoom.LeftNode.MySegment != null) //If there is a room on the left
                     {
-                        if (PathRoom.LeftNode.MySegment.ID != targetroom.ID)
+                        if (PathRoom.LeftNode.MySegment.ID != targetroom.ID) //If the room on the left is not the target room then move to the left
                         {
-                            pathfinder.Add(DIRECTIONS.LEFT);
+                            path.Add(DIRECTIONS.LEFT);
                             PathRoom = PathRoom.LeftNode;
                         }
 
-                        else
+                        else //If the previous if is false then the room has been found on the left. This will add one more DIRECTIONS to the left so the guests will arrive at his room
                         {
-                            pathfinder.Add(DIRECTIONS.LEFT);
+                            path.Add(DIRECTIONS.LEFT);
                             found = true;
                             break;
                         }
                     }
 
-                    else if (PathRoom.LeftNode.MySegment == null)
+                    else if (PathRoom.LeftNode.MySegment == null) //If there is a room on the left but it has not gotten a segment(sides of a room or hallways) then move one more to the left
                     {
-                        pathfinder.Add(DIRECTIONS.LEFT);
+                        path.Add(DIRECTIONS.LEFT);
                         PathRoom = PathRoom.LeftNode;
 
                     }
                 }
 
-                else if (checkedright == false)
+                else if (checkedright == false) //If the rooms on the right of the current level haven't been checked
                 {
-
-                    if (PathRoom.RightNode != null)
+                    if (PathRoom.RightNode != null) //If there is a hotel part on the right
                     {
-                        if (PathRoom.RightNode.MySegment != null)
+                        if (PathRoom.RightNode.MySegment != null) //If there is a room on the right
                         {
-                            if (PathRoom.RightNode.MySegment.ID != targetroom.ID)
+                            if (PathRoom.RightNode.MySegment.ID != targetroom.ID) //If the room on the right is not the target room then move to the right
                             {
-                                pathfinder.Add(DIRECTIONS.RIGHT);
+                                path.Add(DIRECTIONS.RIGHT);
                                 PathRoom = PathRoom.RightNode;
                                 ammountcheckedright++;
                             }
-                            else
+                            else //If the previous if is false then the room has been found on the left. This will add one more DIRECTIONS to the left so the guests will arrive at his room
                             {
-                                pathfinder.Add(DIRECTIONS.RIGHT);
+                                path.Add(DIRECTIONS.RIGHT);
                                 found = true;
                                 break;
                             }
                         }
-                        else if (PathRoom.RightNode.MySegment == null)
+                        else if (PathRoom.RightNode.MySegment == null) //If there is a room on the left but it has not gotten a segment(sides of a room or hallways) then move one more to the left
                         {
-                            pathfinder.Add(DIRECTIONS.RIGHT);
+                            path.Add(DIRECTIONS.RIGHT);
                             PathRoom = PathRoom.RightNode;
                             ammountcheckedright++;
                         }
                     }
 
-                    else if (PathRoom.RightNode == null)
+                    else if (PathRoom.RightNode == null) //If there is no part of the hotel on the right then that means it is the end of the level
                     {
-                        if (startlevel == true)
+                        if (startlevel == true) //If this is the first level that has been checked then return to the original location of the guest
                         {
                             PathRoom = currentroom;
                         }
 
-                        else
+                        else //If this isn't the first level that has been checked then return to the ElevatorOrStaircase Node
                         {
                             PathRoom = ElevatorOrStaircase;
                         }
 
-                        for (int ammountremoved = 0; ammountremoved < ammountcheckedright; ammountremoved++)
+                        for (int ammountremoved = 0; ammountremoved < ammountcheckedright; ammountremoved++) //We will delete all DIRECTIONS in the List.path until we return to the original ElevatorOrStaircase Node 
                         {
-                            pathfinder.Remove(pathfinder.LastOrDefault());
+                            path.Remove(path.LastOrDefault());
                         }
 
-                        checkedright = true;
+                        checkedright = true; //Start checking left or going up/down a level
                         ammountcheckedright = _startwaarde;
                     }
                 }
             }
-            return pathfinder;
+            return path;
         }
     }
 }
