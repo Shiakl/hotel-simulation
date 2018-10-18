@@ -59,9 +59,7 @@
     <Compile Include="HotelSegments\Cinema.cs" />
     <Compile Include="HotelSegments\Elevator.cs" />
     <Compile Include="HotelSegments\Fitness.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -85,6 +83,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="External\Hotel3.layout" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -129,6 +128,7 @@
     <Content Include="Images\stairwell1.png" />
     <Content Include="Images\stairwell2.png" />
     <Content Include="Images\TempGuest3.png" />
+    <Content Include="Images\TempGuest4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

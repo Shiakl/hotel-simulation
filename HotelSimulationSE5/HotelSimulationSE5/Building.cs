@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using HotelEvents;
 
 namespace HotelSimulationSE5
 {
@@ -42,7 +43,7 @@ namespace HotelSimulationSE5
         }
 
         /// <summary>
-        /// Deserializes the string.layoutstring to the temp list. Each item in the list will now be given its properties
+        /// Deserializes the string.layout file to the temp list. Each item in the list will now be given its properties
         /// </summary>
         public void Read_Layout()
         {
@@ -103,7 +104,7 @@ namespace HotelSimulationSE5
         }
 
         /// <summary>
-        /// Sets IDs for staircases, elevators and the reception
+        /// IDs for staircases, elevators and the reception
         /// </summary>
         private enum ID_List
         {
@@ -113,18 +114,20 @@ namespace HotelSimulationSE5
         }
 
         /// <summary>
-        /// Creates panels for all the rooms. After which it will generates the segments in nodes for each room using the segment factory. It will then adds itself to the form with its corresponding picture
+        /// Create and link all the nodes on which the rooms are drawn and assigns each node a segment.
         /// </summary>
         /// <param name="mainform">The display window</param>
         public void CreateHotel(Form mainform)
         {
+            //Factory for room segments
             Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
+
             int nodecounter = 0;
 
             //Create elevator nodes
             for(int currentYcoordinate = _startwaarde; currentYcoordinate < maxYcoordinate; currentYcoordinate++)
             {
-
+                //A temporary panel is created for every node with x,y coordiniates according to their position in the hotel.
                 Panel tempPanel = new Panel
                 {
                     Size = new Size(segmentSizeX, segmentSizeY),
@@ -139,8 +142,7 @@ namespace HotelSimulationSE5
                 }
                 else
                 {
-
-                _elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
+                    elevatorNodes[y].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
                 }
                 mainform.Controls.Add(_elevatorNodes[currentYcoordinate].MyPanel);
                 _elevatorNodes[currentYcoordinate].ColorMe();
@@ -149,7 +151,7 @@ namespace HotelSimulationSE5
             //Create staircase nodes
             for (int currentYcoordinate = _startwaarde; currentYcoordinate < maxYcoordinate; currentYcoordinate++)
             {
-
+                //A temporary panel is created for every node with x,y coordiniates according to their position in the hotel.
                 Panel tempPanel = new Panel
                 {
                     Size = new Size(segmentSizeX, segmentSizeY),
@@ -238,7 +240,8 @@ namespace HotelSimulationSE5
                 _nodes[currentnode].Add_myConnections();
             }
             
-            foreach (var Elevator in _elevatorNodes)
+            //Connect elevator nodes to the graph
+            foreach (var Elevator in elevatorNodes)
             {
                 _elevatorNodes[elevatorLevel].RightNode = _staircaseNodes[elevatorLevel];
                 _staircaseNodes[elevatorLevel].LeftNode = _elevatorNodes[elevatorLevel];
@@ -258,7 +261,8 @@ namespace HotelSimulationSE5
                 elevatorLevel++;
             }
 
-            foreach (TempRoom blankRoom in _temp)
+            //Add a segment to each node according to their position in the layout file from temp
+            foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
 
@@ -276,15 +280,14 @@ namespace HotelSimulationSE5
                 Go_Right(_elevatorNodes[maxYcoordinate - 1]).MySegment = tempSeg;
             }
 
-            foreach (Node reload in _nodes)
+            //Redraw all the nodes
+            foreach (Node reload in nodes)
             {
                 if (reload != null)
                 {
                     reload.ColorMe();
                 }
             }
-
-            ReloadAvailableRooms();
 
             Console.WriteLine("Checkpoint: 2");
 
@@ -369,37 +372,21 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false)
                 select w
                 ).ToList();
-                    
-            //BreakPoint();
         }
-
-        public void PathFinder(Guest currentG)
-        {
-            List<Node.DIRECTIONS> GuestPath = new List<Node.DIRECTIONS>();
-            GuestPath = currentG.MyNode.Pathfinding(currentG.MyNode, currentG.MyRoom);
-            currentG.Path = GuestPath;
-
-        }
-
 
         public void Create_Guest(Node currentNode)
         {
-            //Test Create guest
-            ReloadAvailableRooms();
-            Guest arrival = new Guest(currentNode.panelPb);
-            arrival.MyNode = currentNode;
-            if (AvailableRooms.FirstOrDefault() != null)
+            Reload_Available_Rooms();
+            Guest arrival = new Guest(currentNode);
+            if (AvailableRooms.Count() >  0)
             {
-            arrival.MyRoom = AssignRoom(AvailableRooms.FirstOrDefault().ID);
-            arrival.MyRoom.Reserved = true;
+                arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
+                arrival.MyRoom.Reserved = true;
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
             }
             _guestList.Add(arrival);
             arrival.Redraw();
-            PathFinder(arrival);
-            arrival.Moving = true;
-            Console.WriteLine("Checkpoint");
         }
-
 
         public void Move_Guest(Form mainform)
         {
@@ -408,17 +395,19 @@ namespace HotelSimulationSE5
 
             foreach(Guest currentG in _guestList)
             {
-                if (currentG.MyNode.MySegment is HotelSegments.Elevator)
+                if (currentG.Moving == true)
                 {
-                    ammountinelevator++;
+                    currentG.Destination_reached();
+                    if (currentG.Moving == true && currentG.Path.Count()>0)
+                    {
+                        currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                        currentG.Redraw();                   
+                    }
+
                 }
-
-                currentG.Destination_reached();
-
-                if (currentG.Moving == true && currentG.Path.Any())
+                else
                 {
-                    currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
-                    currentG.Redraw();                   
+                    currentG.Moving = true;
                 }
             }
         }
