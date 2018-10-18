@@ -24,10 +24,10 @@ namespace HotelSimulationSE5
         {
             InitializeComponent();
             GenerateHotel();
-            GuestButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-            StopButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-            EventButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-            button1.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
+            GuestButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
+            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
+            EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
+            button1.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             Console.WriteLine();
@@ -53,7 +53,7 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             this.Invalidate();
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
+            _myHotel.Create_Guest(_myHotel._elevatorNodes[_myHotel.maxYcoordinate-1]);
             this.Refresh();
             _refresh_timer.Start();
         }
@@ -92,7 +92,7 @@ namespace HotelSimulationSE5
             {
                 if (!gust.Moving)
                 {
-                    _myHotel.Reload_Available_Rooms();
+                    _myHotel.ReloadAvailableRooms();
                     if (_myHotel.AvailableRooms[0] != null)
                     {
                         gust.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
@@ -109,7 +109,7 @@ namespace HotelSimulationSE5
             {
                 if (!gust.Moving)
                 {
-                    _myHotel.Reload_Available_Rooms();
+                    _myHotel.ReloadAvailableRooms();
                     if (_myHotel.AvailableRooms[0] != null)
                     {
                         gust.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);

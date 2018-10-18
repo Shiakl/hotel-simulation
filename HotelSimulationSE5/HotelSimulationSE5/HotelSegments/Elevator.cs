@@ -36,8 +36,28 @@ namespace HotelSimulationSE5.HotelSegments
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
                 Elevator_here = false;
             }
-
         }
 
+        public bool CheckElevatorFull(Guest[] guests)
+        {
+            int ammountinElevator = 0;
+            foreach (Guest guest in guests)
+            {
+                if (guest.MyNode.MySegment is Elevator)
+                {
+                    ammountinElevator++;
+                }
+            }
+
+            if (ammountinElevator >= Capacity)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
     }
 }
