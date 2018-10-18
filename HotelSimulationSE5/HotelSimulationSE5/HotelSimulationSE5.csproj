@@ -85,7 +85,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="External\Hotel.layout" />
+    <None Include="External\Hotel3.layout" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -128,7 +128,8 @@
     <Content Include="Images\Restaurant2.png" />
     <Content Include="Images\stairwell1.png" />
     <Content Include="Images\stairwell2.png" />
-    <Content Include="Images\TempGuest2.png" />
+    <Content Include="Images\TempGuest3.png" />
+    <Content Include="Images\TempGuest4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

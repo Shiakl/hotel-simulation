@@ -6,28 +6,29 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using HotelEvents;
 
 namespace HotelSimulationSE5
 {
     class Building
     {
-        private string layoutstring;
-        public int segmentSize_X = 104;
-        public int segmentSize_Y = 60;
+        private string layoutstring; //Hotel layout(blueprint)
+        public int segmentSize_X = 104; //X size of each hotel segment
+        public int segmentSize_Y = 60; //Y size of each hotel segment
         public int max_x;
         public int max_y;
-        private Node[] nodes;
-        public Node[] elevatorNodes;
-        private Node[] staircaseNodes;
-        private List<TempRoom> temp;
+        private Node[] nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
+        public Node[] elevatorNodes; //Saves a array of all elevators with its properties
+        private Node[] staircaseNodes; //Saves a array of staircases with its properties
+        private List<TempRoom> temp; //Saves a list of every room in the hotel
+        private List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
         public bool elevatorLeft;
-
-
+       
 
         public Building()
         {
             temp = new List<TempRoom>();
-            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel.layout");
+            layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel3.layout"); //Reads the layout file and pushes it into a string
             Read_Layout();
             elevatorLeft = true;
             max_x = Find_Max_X(temp);
@@ -39,12 +40,19 @@ namespace HotelSimulationSE5
 
             Console.WriteLine("Checkpoint: 1");
         }
-
+        /// <summary>
+        /// Deserializes the string.layoutstring to the temp list. Each item in the list will now be given its properties
+        /// </summary>
         public void Read_Layout()
         {
             temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
         }
 
+        /// <summary>
+        /// Checks each item in the list.temp for the X coordinate and saves it to int.hotel_X_Size if it's bigger than the last greatest found X coordinate
+        /// </summary>
+        /// <param name="roomList">List of all rooms in the hotel with its properties</param>
+        /// <returns>The biggest found X coordinate</returns>
         private int Find_Max_X(List<TempRoom> roomList)
         {
             int hotel_X_Size= 0 ;
@@ -63,10 +71,14 @@ namespace HotelSimulationSE5
                     }
                 }
             }
-
             return hotel_X_Size; 
         }
 
+        /// <summary>
+        /// Checks each item in the list.temp for the Y coordinate and saves it to int.hotel_Y_Size if it's bigger then the last greatest found Y coordinate
+        /// </summary>
+        /// <param name="roomList">List of all rooms in the hotel with its properties</param>
+        /// <returns>The biggest found Y coordinate</returns>
         private int Find_Max_Y(List<TempRoom> roomList)
         {
             int hotel_Y_Size = 0;
@@ -89,6 +101,9 @@ namespace HotelSimulationSE5
             return hotel_Y_Size;
         }
 
+        /// <summary>
+        /// Sets IDs for staircases, elevators and the reception
+        /// </summary>
         private enum ID_List
         {
             Staircase = 0,
@@ -96,7 +111,10 @@ namespace HotelSimulationSE5
             Reception = 2
         }
 
-
+        /// <summary>
+        /// Creates panels for all the rooms. After which it will generates the segments in nodes for each room using the segment factory. It will then adds itself to the form with its corresponding picture
+        /// </summary>
+        /// <param name="mainform">The display window</param>
         public void CreateHotel(Form mainform)
         {
             Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
@@ -175,27 +193,27 @@ namespace HotelSimulationSE5
 
             for (int tc = 0; tc < (max_x*max_y); tc++)
             {
-                //Except for the first row(>max_x) all nodes have a top connection.
+                //Aside from the first row(>max_x) all nodes have a top connection.
                 if (tc > max_x - 1)
                 {
                     nodes[tc].TopNode = nodes[tc - max_x];
                 }
-                //Except for the last row all nodes have a bottom connection.
+                // Aside from the last row all nodes have a bottom connection.
                 if (tc < (max_x * max_y) - max_x)
                 {
                     nodes[tc].BottomNode = nodes[tc + max_x];
                 }
-                //Except for the last column all nodes have a right connection.
+                //Aside from the last column all nodes have a right connection.
                 if (tc % max_x < max_x - 1)
                 {
                     nodes[tc].RightNode = nodes[tc + 1];
                 }
-                //Except for the first column all nodes have a left connection.
+                //Aside from the first column all nodes have a left connection.
                 if (tc % max_x > 0)
                 {
                     nodes[tc].LeftNode = nodes[tc - 1];
                 }
-                //Add elevator nodes to connections on all the nodes in the first column.
+                //Add staircase nodes to connections on all the nodes in the first column.
                 if (nodes[tc].LeftNode is null)
                 {
                     nodes[tc].LeftNode = staircaseNodes[staircaselevel];
@@ -218,6 +236,7 @@ namespace HotelSimulationSE5
                 nodes[tc].Add_myConnections();
             }
             
+            //Connect elevator nodes to the graph
             foreach (var Elevator in elevatorNodes)
             {
                 elevatorNodes[elevatorLevel].RightNode = staircaseNodes[elevatorLevel];
@@ -238,6 +257,7 @@ namespace HotelSimulationSE5
                 elevatorLevel++;
             }
 
+            //Add a segment to each node according to their position in the layout file from temp
             foreach (TempRoom blankRoom in temp)
             {
                 HotelSegments.IHSegment tempSeg;
@@ -256,6 +276,7 @@ namespace HotelSimulationSE5
                 Go_Right(elevatorNodes[max_y - 1]).MySegment = tempSeg;
             }
 
+            //Redraw all the nodes
             foreach (Node reload in nodes)
             {
                 if (reload != null)
@@ -263,8 +284,6 @@ namespace HotelSimulationSE5
                     reload.ColorMe();
                 }
             }
-
-            Reload_Available_Rooms();
 
             Console.WriteLine("Checkpoint: 2");
 
@@ -325,8 +344,6 @@ namespace HotelSimulationSE5
                 where (w.MySegment.ID==value)
                 select w).ToList();
 
-            Console.WriteLine("Checkpoint: 5");
-
             if (tempNode[0] != null && tempNode[0].MySegment is HotelSegments.GuestRoom)
             {               
                 return tempNode[0].MySegment as HotelSegments.GuestRoom;
@@ -351,54 +368,43 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false)
                 select w
                 ).ToList();
-                    
-            BreakPoint();
         }
 
-        private List<Guest> _guestList = new List<Guest>();
         public void Create_Guest(Node currentNode)
         {
-            //Test Create guest
             Reload_Available_Rooms();
-            Guest arrival = new Guest(currentNode.panelPb);
-            arrival.MyNode = currentNode;
-            if (AvailableRooms[0] != null)
+            Guest arrival = new Guest(currentNode);
+            if (AvailableRooms.Count() >  0)
             {
-            arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
-            arrival.MyRoom.Reserved = true;
+                arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
+                arrival.MyRoom.Reserved = true;
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
             }
-            //elevatorNodes[max_y - 1].MyUnits.Add(arrival);
             _guestList.Add(arrival);
-            arrival.Move();
-            Console.WriteLine("Checkpoint: 3");
+            arrival.Redraw();
         }
-
 
         public void Move_Guest(Form mainform)
         {               
-            //Point newPoint =  new Point(visitor.panelPb.Location.X + (segmentSize_X / 4), visitor.panelPb.Location.Y); //Panel is redrawn with new position with segmentsize_x/4 as speed.
-            //visitor.panelPb.Location = newPoint;
-            //mainform.Controls.Add(elevatorNodes[max_y - 1].MyPanel);
-            //visitor.Move();
             foreach(Guest currentG in _guestList)
             {
-                if (currentG.MyNode.RightNode != null)
+                if (currentG.Moving == true)
                 {
-                //currentG.MyNode.RightNode.MyUnits.Add(currentG);
-                currentG.Move_to_Node(currentG.MyNode.RightNode, currentG.MyNode);
-                //currentG.MyNode.MyUnits.Remove(currentG);
-                currentG.Move();
+                    currentG.Destination_reached();
+                    if (currentG.Moving == true && currentG.Path.Count()>0)
+                    {
+                        currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                        currentG.Redraw();                   
+                    }
+
+                }
+                else
+                {
+                    currentG.Moving = true;
                 }
             }
 
         }
-
-
-            public void BreakPoint()
-        {
-            Console.WriteLine("Checkpoint: 4");
-        }
-
 
     }//Building
 }
