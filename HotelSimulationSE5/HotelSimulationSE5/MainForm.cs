@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelEvents;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,14 +11,12 @@ using System.Windows.Forms;
 
 namespace HotelSimulationSE5
 {
-    public partial class MainForm : Building
+    public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 500;
-        private Timer _refresh_timer = new Timer();
+        public int _refreshrateinterval = 500; 
+        private Timer _refresh_timer= new Timer();
         bool started = false;
-        Eventadapter events = new Eventadapter();
-
-
+        Eventadapter events = new Eventadapter();        
 
         private Building _myHotel;
         public MainForm()
@@ -30,12 +29,58 @@ namespace HotelSimulationSE5
 
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
+            _refresh_timer.Start();
             Console.WriteLine();
 
         }
 
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
+            if (events.EventList.Count()>0)
+            {
+                foreach (var item in events.EventList)
+                {
+                    switch (item.EventType)
+                    {
+                        case HotelEventType.CHECK_IN:
+                            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
+                            break;
+                        case HotelEventType.CHECK_OUT:
+
+                            break;
+                        case HotelEventType.CLEANING_EMERGENCY:
+
+                            break;
+                        case HotelEventType.EVACUATE:
+
+                            break;
+                        case HotelEventType.GODZILLA:
+
+                            break;
+                        case HotelEventType.GOTO_CINEMA:
+
+                            break;
+                        case HotelEventType.GOTO_FITNESS:
+
+                            break;
+                        case HotelEventType.NEED_FOOD:
+
+                            break;
+                        case HotelEventType.NONE:
+
+                            break;
+                        case HotelEventType.START_CINEMA:
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+                events.EventList.Clear();
+            }
+
+
             //Move guests
             this.Invalidate();
             _myHotel.Move_Guest(this);
@@ -53,7 +98,7 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             this.Invalidate();
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y - 1]);
+            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
             this.Refresh();
             _refresh_timer.Start();
         }

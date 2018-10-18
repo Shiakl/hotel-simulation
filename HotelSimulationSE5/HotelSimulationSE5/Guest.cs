@@ -19,15 +19,16 @@ namespace HotelSimulationSE5
 
         private PictureBox panelPb;
 
-        public Guest(PictureBox mypanel)
+        public Guest(Node node)
         {
-            MyImage = Image.FromFile(@"..\..\Images\TempGuest3.png");
+            MyNode = node;
+            MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;
             panelPb.BackgroundImageLayout = ImageLayout.None;
-            panelPb.Parent = mypanel;
+            panelPb.Parent = node.panelPb;
             panelPb.BackColor = Color.Transparent;
-            mypanel.Controls.Add(panelPb);
+            node.panelPb.Controls.Add(panelPb);
         }
 
 
