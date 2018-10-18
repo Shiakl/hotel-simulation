@@ -41,7 +41,6 @@ namespace HotelSimulationSE5
 
         public void Notify(HotelEvents.HotelEvent evt)
         {
-            eventList.Add(evt.EventType);
             Console.WriteLine("Event type is :" + evt.EventType);
             if (evt.Data != null)
             {
