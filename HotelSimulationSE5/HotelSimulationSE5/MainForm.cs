@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace HotelSimulationSE5
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Building
     {
-        public int _refreshrateinterval = 500; 
-        private Timer _refresh_timer= new Timer();
+        public int _refreshrateinterval = 500;
+        private Timer _refresh_timer = new Timer();
         bool started = false;
         Eventadapter events = new Eventadapter();
-        
+
 
 
         private Building _myHotel;
@@ -53,7 +53,7 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             this.Invalidate();
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
+            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y - 1]);
             this.Refresh();
             _refresh_timer.Start();
         }
