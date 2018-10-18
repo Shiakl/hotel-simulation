@@ -25,6 +25,7 @@ namespace HotelSimulationSE5
         private List<TempRoom> _temp; //Saves a list of every room in the hotel
         private string _layoutstring; //Hotel layout(blueprint)
         private const int _startwaarde = 0;
+        public Eventadapter events = new Eventadapter();
 
         public Building()
         {
@@ -248,12 +249,12 @@ namespace HotelSimulationSE5
 
                 if (elevatorLevel < maxYcoordinate - 1)
                 {
-                    elevatorNodes[elevatorLevel].BottomNode = elevatorNodes[elevatorLevel + 1];
+                    elevatorNodes[elevatorLevel].BottomNode = elevatorNodes.Last();
                 }
 
                 if (elevatorLevel != _startwaarde)
                 {
-                    elevatorNodes[elevatorLevel].TopNode = elevatorNodes[elevatorLevel - 1];
+                    elevatorNodes[elevatorLevel].TopNode = elevatorNodes.Last();
                 }
 
                 elevatorNodes[elevatorLevel].Add_myConnections();
@@ -277,7 +278,7 @@ namespace HotelSimulationSE5
 
                 x_track = blankRoom.PositionX + 1;
                 y_track = blankRoom.PositionY-1;
-                Go_Right(elevatorNodes[maxYcoordinate - 1]).MySegment = tempSeg;
+                Go_Right(elevatorNodes.Last()).MySegment = tempSeg;
             }
 
             //Redraw all the nodes
@@ -409,5 +410,54 @@ namespace HotelSimulationSE5
                 }
             }
         }
+
+        public void Event_Handler()
+        {
+            if (events.EventList.Count() > 0)
+            {
+                foreach (var item in events.EventList)
+                {
+                    switch (item.EventType)
+                    {
+                        case HotelEventType.CHECK_IN:
+                            Create_Guest(elevatorNodes.Last());
+
+                            break;
+                        case HotelEventType.CHECK_OUT:
+
+                            break;
+                        case HotelEventType.CLEANING_EMERGENCY:
+
+                            break;
+                        case HotelEventType.EVACUATE:
+
+                            break;
+                        case HotelEventType.GODZILLA:
+
+                            break;
+                        case HotelEventType.GOTO_CINEMA:
+
+                            break;
+                        case HotelEventType.GOTO_FITNESS:
+
+                            break;
+                        case HotelEventType.NEED_FOOD:
+
+                            break;
+                        case HotelEventType.NONE:
+
+                            break;
+                        case HotelEventType.START_CINEMA:
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+                events.EventList.Clear();
+            }
+        }
+
     }
 }
