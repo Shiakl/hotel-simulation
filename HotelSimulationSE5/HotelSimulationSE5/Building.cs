@@ -378,9 +378,9 @@ namespace HotelSimulationSE5
         {
             ReloadAvailableRooms();
             Guest arrival = new Guest(currentNode);
-            if (AvailableRooms.Count() >  0)
+            if (AvailableRooms.Any())
             {
-                arrival.MyRoom = AssignRoom(AvailableRooms[0].ID);
+                arrival.MyRoom = AssignRoom(AvailableRooms.First().ID);
                 arrival.MyRoom.Reserved = true;
                 arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
             }
@@ -397,12 +397,11 @@ namespace HotelSimulationSE5
                 if (currentG.Moving == true)
                 {
                     currentG.Destination_reached();
-                    if (currentG.Moving == true && currentG.Path.Count()>0)
+                    if (currentG.Moving == true && currentG.Path.Any())
                     {
-                        currentG.Move_to_Node(currentG.MyNode.MyConnections[(int)currentG.Path[0]], currentG.MyNode);
+                        currentG.MoveToNode(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
                         currentG.Redraw();                   
                     }
-
                 }
                 else
                 {
@@ -410,5 +409,5 @@ namespace HotelSimulationSE5
                 }
             }
         }
-    }//Building
+    }
 }
