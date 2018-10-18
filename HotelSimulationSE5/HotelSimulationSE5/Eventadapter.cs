@@ -14,7 +14,7 @@ namespace HotelSimulationSE5
 
         public Eventadapter()
         {
-            HotelEventManager.HTE_Factor = 0.5f;
+            HotelEventManager.HTE_Factor = 1f;
             eventList = new List<HotelEventType>();
         }
 
@@ -41,10 +41,17 @@ namespace HotelSimulationSE5
         public void Notify(HotelEvents.HotelEvent evt)
         {
             eventList.Add(evt.EventType);
-            if (eventList.Count() == 11)
+            Console.WriteLine("Event type is :" + evt.EventType);
+            if (evt.Data != null)
             {
-                Stop_Events();
+                foreach(var test in evt.Data)
+                {
+                Console.WriteLine("Key is: " + test.Key);
+                Console.WriteLine("Value is: " + test.Value);
+                }
             }
+
+            
         }
 
 
