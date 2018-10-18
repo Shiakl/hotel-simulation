@@ -23,9 +23,9 @@ namespace HotelSimulationSE5
         {
             InitializeComponent();
             GenerateHotel();
-            GuestButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-            StopButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
-            EventButton.Top = _myHotel.max_y * _myHotel.segmentSize_Y + _myHotel.segmentSize_Y;
+            GuestButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
+            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
+            EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
@@ -43,7 +43,7 @@ namespace HotelSimulationSE5
                     switch (item.EventType)
                     {
                         case HotelEventType.CHECK_IN:
-                            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
+                            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
                             break;
                         case HotelEventType.CHECK_OUT:
 
@@ -82,24 +82,18 @@ namespace HotelSimulationSE5
 
 
             //Move guests
-            this.Invalidate();
             _myHotel.Move_Guest(this);
-            this.Refresh();
         }
 
         public void GenerateHotel()
         {
-            this.Invalidate();
             _myHotel = new Building();
             _myHotel.CreateHotel(this);
-            this.Refresh();
         }
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            this.Invalidate();
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.max_y-1]);
-            this.Refresh();
+            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
             _refresh_timer.Start();
         }
 

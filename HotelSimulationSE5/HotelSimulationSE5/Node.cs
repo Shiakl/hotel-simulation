@@ -15,22 +15,23 @@ namespace HotelSimulationSE5
         public Node TopNode { get; set; }
         public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
-        public int Distance { get; set; }
-
+        public int Distance { get; set; }     
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
-
         public HotelSegments.IHSegment MySegment { get; set; }
+        private const int _startwaarde = 0;
 
         public Node(Panel box)
         {
             MyPanel = box;
-            panelPb = new PictureBox();
-            panelPb.Size = MyPanel.Size;
+            panelPb = new PictureBox
+            {
+                Size = MyPanel.Size
+            };
             MyPanel.Controls.Add(panelPb);
             panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
         }
-
+        
         public void ColorMe()
         {
             if (MySegment!=null)
@@ -153,16 +154,22 @@ namespace HotelSimulationSE5
             }
         }
 
+        /// <summary>
+        /// Creates a path for a guest to its designated room
+        /// </summary>
+        /// <param name="currentroom">The room where the guest is currently at</param>
+        /// <param name="targetroom">The room where the guest wants to go</param>
+        /// <returns>The generated path in a List with DIRECTIONS</returns>
         public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
         {
-            int ammountcheckedright = 0;
-            int ammountleveled = 0;
-            bool found = false;
-            bool checkedright = false;
-            bool checkedtop = false;
-            bool firstlevel = true;
-            Node PathRoom = currentroom;
-            Node ElevatorOrStaircase = currentroom;
+            int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right
+            int ammountleveled = _startwaarde; //Used to save how many times the path has gone up
+            bool found = false; //Used to see if the path has been figured out
+            bool checkedright = false; //Used to see if the right side of the current node has been checked
+            bool checkedtop = false; //Used to see if every level on top of the starting room has been checked
+            bool startlevel = true; //Used to see if the path is still on its startinglevel
+            Node PathRoom = currentroom; //Used to hop the path generator to the next node
+            Node ElevatorOrStaircase = currentroom; //Used to save the elevator- or staircaseNode(the first it has crossed) on the startlevel
             List<DIRECTIONS> pathfinder = new List<DIRECTIONS>();
             while (found == false)
             {
@@ -170,13 +177,13 @@ namespace HotelSimulationSE5
                 {
                     if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase)
                     {
-                        if (firstlevel == true)
+                        if (startlevel == true)
                         {
-                            firstlevel = false;
+                            startlevel = false;
                             ElevatorOrStaircase = PathRoom;
                         }
 
-                        if (checkedtop == false || PathRoom.TopNode != null)
+                        if (checkedtop == false && PathRoom.TopNode != null)
                         {
                             pathfinder.Add(DIRECTIONS.TOP);
                             PathRoom = PathRoom.TopNode;
@@ -185,7 +192,7 @@ namespace HotelSimulationSE5
                             checkedright = false;
                         }
 
-                        else if (checkedtop == true || PathRoom.BottomNode != null)
+                        else if (checkedtop == true && PathRoom.BottomNode != null)
                         {
                             pathfinder.Add(DIRECTIONS.BOTTOM);
                             PathRoom = PathRoom.BottomNode;
@@ -197,11 +204,11 @@ namespace HotelSimulationSE5
                         else
                         {
                             checkedtop = true;
-                            for (int i = 0; i < ammountleveled; i++)
+                            for (int ammountremoved = 0; ammountremoved < ammountleveled; ammountremoved++)
                             {
                                 pathfinder.Remove(pathfinder.LastOrDefault());
                             }
-                            ammountleveled = 0;
+                            ammountleveled = _startwaarde;
                             PathRoom = ElevatorOrStaircase;
                         }
                     }
@@ -258,11 +265,9 @@ namespace HotelSimulationSE5
                         }
                     }
 
-
-
                     else if (PathRoom.RightNode == null)
                     {
-                        if (firstlevel == true)
+                        if (startlevel == true)
                         {
                             PathRoom = currentroom;
                         }
@@ -271,12 +276,14 @@ namespace HotelSimulationSE5
                         {
                             PathRoom = ElevatorOrStaircase;
                         }
-                        checkedright = true;
-                        for (int i = 0; i < ammountcheckedright; i++)
+
+                        for (int ammountremoved = 0; ammountremoved < ammountcheckedright; ammountremoved++)
                         {
                             pathfinder.Remove(pathfinder.LastOrDefault());
                         }
-                        ammountcheckedright = 0;
+
+                        checkedright = true;
+                        ammountcheckedright = _startwaarde;
                     }
                 }
             }

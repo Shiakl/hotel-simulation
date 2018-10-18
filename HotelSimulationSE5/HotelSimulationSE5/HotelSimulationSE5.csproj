@@ -56,6 +56,12 @@
     <Compile Include="Eventadapter.cs" />
     <Compile Include="Guest.cs" />
     <Compile Include="HotelSegments\Staircase.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Node.cs" />
     <Compile Include="HotelSegments\Cinema.cs" />
     <Compile Include="HotelSegments\Elevator.cs" />
