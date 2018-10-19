@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
@@ -10,24 +6,26 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class GuestRoom : IHSegment
     {
-        public int ID { get; set; }
-        public int Capacity { get; set; }
-        public int X_Dim { get; set; }
-        public int Y_Dim { get; set; }
         public string Classification { get; set; }
-        public bool Reserved { get; set; }
-        public List<Image> MyImages { get; set; }
+        public bool Reserved { get; set; } //Saves if the room is still free or if it has been reserved
 
+        /// <summary>
+        /// Sets the properties of each GuestRoom
+        /// </summary>
+        /// <param name="number">The ID of this GuestRoom</param>
+        /// <param name="xseg">The dimension of the X axes</param>
+        /// <param name="yseg">The dimension of the Y axes</param>
+        /// <param name="classification">The classification(stars) of this GuestRoom</param>
         public GuestRoom(int number, int xseg, int yseg, string classification)
         {
-            MyImages = new List<Image>();
-            X_Dim = xseg;
-            Y_Dim = yseg;
+            MyImages = new List<Image>(); //Some GuestRooms contain more then 1 node. This list will save multiple images if necessary, 1 for each node
+            XDim = xseg;
+            YDim = yseg;
             Reserved = false;
             Classification = classification;
             ID = number;
 
-            switch (classification)
+            switch (classification) //Different classification requires different images for the rooms
             {
                 case "1 Star":
                     MyImages.Add(Image.FromFile(@"..\..\Images\1-star.png"));

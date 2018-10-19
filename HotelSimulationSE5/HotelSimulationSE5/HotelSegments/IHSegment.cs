@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
-    public interface IHSegment
+    public class IHSegment
     {
-        int Capacity { get; set; }
-        int X_Dim { get; set; }
-        int Y_Dim { get; set; }
-        int ID { get; set; }
-        List<Image> MyImages{ get; set; }
-
+        public int Capacity { get; set; }
+        public int XDim { get; set; }
+        public int YDim { get; set; }
+        public int ID { get; set; }
+        public List<Image> MyImages{ get; set; }
     }
 }

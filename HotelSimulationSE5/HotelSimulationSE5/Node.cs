@@ -36,12 +36,12 @@ namespace HotelSimulationSE5
         {
             if (MySegment!=null)
             {            
-                if (MySegment.X_Dim>1)
+                if (MySegment.XDim>1)
                 {
                     panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
                     RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.RightSide];
                 }
-                if (MySegment.X_Dim>1 && MySegment.Y_Dim>1)
+                if (MySegment.XDim>1 && MySegment.YDim>1)
                 {
                     panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
                     RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.RightSide];

@@ -9,17 +9,17 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class Cinema : IHSegment
     {
-        public int ID { get; set; }
-        public int Capacity { get; set; }
-        public int X_Dim { get; set; }
-        public int Y_Dim { get; set; }
-        public List<Image> MyImages { get; set; }
-
+        /// <summary>
+        /// Sets the properties of each cinema that is created
+        /// </summary>
+        /// <param name="number">The ID of the cinema</param>
+        /// <param name="xseg">The dimension of the X axes</param>
+        /// <param name="yseg">The dimension of the Y axes</param>
         public Cinema(int number, int xseg, int yseg)
         {
-            MyImages = new List<Image>();
-            X_Dim = xseg;
-            Y_Dim = yseg;
+            MyImages = new List<Image>(); //Cinemas have the size of 4 nodes. This List will contain 4 images that will be used on the 4 different nodes
+            XDim = xseg;
+            YDim = yseg;
             ID = number;
             MyImages.Add(Image.FromFile(@"..\..\Images\Cinema1.png"));
             MyImages.Add(Image.FromFile(@"..\..\Images\Cinema2.png"));
