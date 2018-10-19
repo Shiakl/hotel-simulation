@@ -50,7 +50,6 @@ namespace HotelSimulationSE5
                 Console.WriteLine("Value is: " + test.Value);
                 }
             }
-            Console.WriteLine("");
             EventList.Add(evt);
         }
     }

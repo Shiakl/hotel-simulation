@@ -16,7 +16,7 @@ namespace HotelSimulationSE5
        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HotelForm());
+            Application.Run(new MainForm());
         }
     }
 }
