@@ -41,13 +41,20 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
-
+        private List<char> data_value;
         public void Event_Handler(HotelEvent item)
         {
             switch (item.EventType)
             {
                 case HotelEventType.CHECK_IN:
-                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last());
+                    foreach (var value in item.Data)
+                    {
+                        data_value = value.Value.SkipWhile(c => !Char.IsDigit(c))
+                        .TakeWhile(Char.IsDigit)
+                        .ToList();
+                    }
+                    int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
+                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:
 

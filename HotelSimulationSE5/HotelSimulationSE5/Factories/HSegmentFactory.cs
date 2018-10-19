@@ -9,7 +9,7 @@ namespace HotelSimulationSE5.Factories
 {
     class HSegmentFactory
     {
-        public HotelSegments.IHSegment Create(string areatype, int segment_ID, int seg_x = 1, int seg_y = 1,string classification = null, bool firstfloor = false)
+        public HotelSegments.IHSegment Create(string areatype, int segment_ID, int seg_x = 1, int seg_y = 1,int classification = 0, bool firstfloor = false)
         {
             switch (areatype)
             {

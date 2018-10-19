@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
     class Guest
     {
         public int ID { get; set; }
-        public HotelSegments.GuestRoom MyRoom { get; set; }        
+        public GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
         public Panel MyPanel { get; set; }
         public List<Node.DIRECTIONS> Path { get; set; }
@@ -20,8 +21,9 @@ namespace HotelSimulationSE5
 
         private PictureBox panelPb;
 
-        public Guest(Node node,int id)
+        public Guest(Node node,int id, GuestRoom room)
         {
+            MyRoom = room;
             MyNode = node;
             ID = id;
             MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
@@ -61,7 +63,6 @@ namespace HotelSimulationSE5
 
         public void MoveToNode(Node next,Node current)
         {
-
             next.panelPb.Controls.Add(panelPb);
             current.panelPb.Controls.Remove(panelPb);
             MyNode = next;

@@ -59,7 +59,7 @@ namespace HotelSimulationSE5
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last());
+            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), 2);
             _refresh_timer.Start();
         }
 
@@ -93,7 +93,7 @@ namespace HotelSimulationSE5
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _myHotel.ReloadAvailableRooms();
+            _myHotel.ReloadAvailableRooms(1);
             foreach (Guest arrival in _myHotel._guestList)
             {
                 if (_myHotel.AvailableRooms.Count() > 0)

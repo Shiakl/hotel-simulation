@@ -14,11 +14,17 @@ namespace HotelSimulationSE5.HotelSegments
         public int Capacity { get; set; }
         public int X_Dim { get; set; }
         public int Y_Dim { get; set; }
-        public string Classification { get; set; }
+        public int Classification { get; set; }
         public bool Reserved { get; set; }
         public List<Image> MyImages { get; set; }
 
-        public GuestRoom(int number, int xseg, int yseg, string classification)
+        public enum CLASSIFICATION
+        {
+            one_Star,
+
+        }
+
+        public GuestRoom(int number, int xseg, int yseg, int classification)
         {
             MyImages = new List<Image>();
             X_Dim = xseg;
@@ -27,25 +33,25 @@ namespace HotelSimulationSE5.HotelSegments
             Classification = classification;
             ID = number;
 
-            switch (classification)
+            switch (Classification)
             {
-                case "1 Star":
+                case 1:
                     MyImages.Add(Image.FromFile(@"..\..\Images\1-star.png"));
                     break;
-                case "2 stars":
+                case 2:
                     MyImages.Add(Image.FromFile(@"..\..\Images\2-star.png"));
                     break;
-                case "3 stars":
+                case 3:
                     MyImages.Add(Image.FromFile(@"..\..\Images\3-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\3-star2.png"));
                     break;
-                case "4 stars":
+                case 4:
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star2.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star3.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star4.png"));
                     break;
-                case "5 stars":
+                case 5:
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star2.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star3.png"));

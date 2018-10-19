@@ -268,7 +268,7 @@ namespace HotelSimulationSE5
 
                 if (blankRoom.AreaType.Equals("Room"))
                 {
-                   tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID,blankRoom.DimensionX,blankRoom.DimensionY, blankRoom.Classification) as HotelSegments.IHSegment;
+                   tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID,blankRoom.DimensionX,blankRoom.DimensionY, blankRoom.Seg_Classification) as HotelSegments.IHSegment;
                 }
                 else
                 {
@@ -380,8 +380,9 @@ namespace HotelSimulationSE5
         /// <summary>
         /// Find all available rooms in the hotel and put them in a the list "AvailableRooms".
         /// </summary>
-        public void ReloadAvailableRooms()
-        {
+        public void ReloadAvailableRooms(int classification_num)
+        {           
+
             List<HotelSegments.GuestRoom> GuestRooms = (
                 from w in _nodes
                 where (w.MySegment is HotelSegments.GuestRoom)
@@ -390,29 +391,34 @@ namespace HotelSimulationSE5
 
             AvailableRooms = (
                 from w in GuestRooms
-                where (w.Reserved == false)
+                where (w.Reserved == false && w.Classification == classification_num)
                 select w
                 ).ToList();
         }
 
-        private int guest_id;
+        private int guest_id; //Value used to find the amount of guests in the hotel.
         /// <summary>
         /// Create a guest on specified node.
         /// </summary>
         /// <param name="currentNode"> Spawn node of the guest</param>
-        public void Create_Guest(Node currentNode)
+        public void Create_Guest(Node currentNode, int classification_num)
         {
+            Guest arrival;
             guest_id = _guestList.Count() + 1;
-            ReloadAvailableRooms();
-            Guest arrival = new Guest(currentNode,guest_id);
+            ReloadAvailableRooms(classification_num);
             if (AvailableRooms.Any())
             {
-                arrival.MyRoom = AssignRoom(AvailableRooms.First().ID);
+                arrival = new Guest(currentNode,guest_id, AvailableRooms.FirstOrDefault());
                 arrival.MyRoom.Reserved = true;
                 arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                _guestList.Add(arrival);
+                arrival.Redraw();
             }
-            _guestList.Add(arrival);
-            arrival.Redraw();
+
+            if (_guestList.Count() ==11)
+            {
+                Console.WriteLine("Break");
+            }
         }
 
         /// <summary>
