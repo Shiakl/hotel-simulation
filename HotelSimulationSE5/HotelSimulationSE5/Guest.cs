@@ -10,6 +10,7 @@ namespace HotelSimulationSE5
 {
     class Guest
     {
+        public int ID { get; set; }
         public HotelSegments.GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
         public Panel MyPanel { get; set; }
@@ -19,9 +20,10 @@ namespace HotelSimulationSE5
 
         private PictureBox panelPb;
 
-        public Guest(Node node)
+        public Guest(Node node,int id)
         {
             MyNode = node;
+            ID = id;
             MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;

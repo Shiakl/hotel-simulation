@@ -277,7 +277,7 @@ namespace HotelSimulationSE5
 
                 x_track = blankRoom.PositionX + 1;
                 y_track = blankRoom.PositionY-1;
-                Go_Right(elevatorNodes[maxYcoordinate - 1]).MySegment = tempSeg;
+                Place_Segment_XPos(elevatorNodes.Last()).MySegment = tempSeg;
             }
 
             //Redraw all the nodes
@@ -293,16 +293,23 @@ namespace HotelSimulationSE5
 
         }//Create Hotel
 
+        
         private int x_track;
         private int y_track;
-        public Node Go_Right(Node nav)
+        /// <summary>
+        /// Move 'x_track' amount of times to the right from of the last elevator node.
+        /// Return "Place_Segment_YPos" when "x_track" reaches 0.
+        /// </summary>
+        /// <param name="nav">Reception Node</param>
+        /// <returns>The node with x_track distance on the right of the last elevator node</returns>
+        public Node Place_Segment_XPos(Node nav)
         {
             if (x_track != _startwaarde)
             {
                 if (nav.RightNode != null)
                 {
-                    x_track -= 1;
-                    return Go_Right(nav.RightNode);
+                    x_track --;
+                    return Place_Segment_XPos(nav.RightNode);
                 }
                 else
                 {
@@ -311,11 +318,17 @@ namespace HotelSimulationSE5
             }
             else
             {
-                return Go_Up(nav);
+                return Place_Segment_YPos(nav);
             }
         }
-          
-        public Node Go_Up(Node Nav)
+
+        /// <summary>
+        /// Move 'y_track' amount of times up from "Place_Segment_XPos".
+        /// Return the node when y_track reaches 0.
+        /// </summary>
+        /// <param name="Nav">Node returned by ""</param>
+        /// <returns></returns>
+        public Node Place_Segment_YPos(Node Nav)
         {
             if (Nav.TopNode != null)
             {
@@ -326,7 +339,7 @@ namespace HotelSimulationSE5
                 else
                 {
                     y_track--;
-                return Go_Up(Nav.TopNode);
+                return Place_Segment_YPos(Nav.TopNode);
                 }
             }
             else
@@ -336,6 +349,11 @@ namespace HotelSimulationSE5
         }
 
         public List<HotelSegments.GuestRoom> AvailableRooms = new List<HotelSegments.GuestRoom>();
+        /// <summary>
+        /// Linq queries to find the designated segment.
+        /// </summary>
+        /// <param name="value">ID of the segment</param>
+        /// <returns></returns>
         public HotelSegments.GuestRoom AssignRoom(int value)
         {
             var tempSeg =
@@ -359,6 +377,9 @@ namespace HotelSimulationSE5
 
         }
 
+        /// <summary>
+        /// Find all available rooms in the hotel and put them in a the list "AvailableRooms".
+        /// </summary>
         public void ReloadAvailableRooms()
         {
             List<HotelSegments.GuestRoom> GuestRooms = (
@@ -374,10 +395,16 @@ namespace HotelSimulationSE5
                 ).ToList();
         }
 
+        private int guest_id;
+        /// <summary>
+        /// Create a guest on specified node.
+        /// </summary>
+        /// <param name="currentNode"> Spawn node of the guest</param>
         public void Create_Guest(Node currentNode)
         {
+            guest_id = _guestList.Count() + 1;
             ReloadAvailableRooms();
-            Guest arrival = new Guest(currentNode);
+            Guest arrival = new Guest(currentNode,guest_id);
             if (AvailableRooms.Any())
             {
                 arrival.MyRoom = AssignRoom(AvailableRooms.First().ID);
@@ -388,6 +415,10 @@ namespace HotelSimulationSE5
             arrival.Redraw();
         }
 
+        /// <summary>
+        /// Move all guests in "_guestList"
+        /// </summary>
+        /// <param name="mainform">The Form the hotel is drawn on.</param>
         public void Move_Guest(Form mainform)
         {
             int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;

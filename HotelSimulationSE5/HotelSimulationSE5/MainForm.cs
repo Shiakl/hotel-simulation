@@ -16,7 +16,7 @@ namespace HotelSimulationSE5
         public int _refreshrateinterval = 500; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
-        Eventadapter events = new Eventadapter();        
+        Eventadapter events;   
 
         private Building _myHotel;
         public MainForm()
@@ -40,42 +40,7 @@ namespace HotelSimulationSE5
             {
                 foreach (var item in events.EventList)
                 {
-                    switch (item.EventType)
-                    {
-                        case HotelEventType.CHECK_IN:
-                            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
-                            break;
-                        case HotelEventType.CHECK_OUT:
-
-                            break;
-                        case HotelEventType.CLEANING_EMERGENCY:
-
-                            break;
-                        case HotelEventType.EVACUATE:
-
-                            break;
-                        case HotelEventType.GODZILLA:
-
-                            break;
-                        case HotelEventType.GOTO_CINEMA:
-
-                            break;
-                        case HotelEventType.GOTO_FITNESS:
-
-                            break;
-                        case HotelEventType.NEED_FOOD:
-
-                            break;
-                        case HotelEventType.NONE:
-
-                            break;
-                        case HotelEventType.START_CINEMA:
-
-                            break;
-                        default:
-                            break;
-                    }
-
+                    events.Event_Handler(item);
                 }
                 events.EventList.Clear();
             }
@@ -89,11 +54,12 @@ namespace HotelSimulationSE5
         {
             _myHotel = new Building();
             _myHotel.CreateHotel(this);
+            events = new Eventadapter(_myHotel);
         }
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
+            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last());
             _refresh_timer.Start();
         }
 
@@ -132,7 +98,7 @@ namespace HotelSimulationSE5
             {
                 if (_myHotel.AvailableRooms.Count() > 0)
                 {
-                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
+                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms.FirstOrDefault().ID);
                     arrival.MyRoom.Reserved = true;
                     arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
                 }
