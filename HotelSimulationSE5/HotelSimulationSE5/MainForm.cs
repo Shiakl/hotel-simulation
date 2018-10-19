@@ -94,7 +94,7 @@ namespace HotelSimulationSE5
         private void button1_Click(object sender, EventArgs e)
         {
             _myHotel.ReloadAvailableRooms(1);
-            foreach (Guest arrival in _myHotel._guestList)
+            foreach (Entity arrival in _myHotel._guestList)
             {
                 if (_myHotel.AvailableRooms.Count() > 0)
                 {

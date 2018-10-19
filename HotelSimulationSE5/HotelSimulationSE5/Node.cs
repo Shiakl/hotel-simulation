@@ -18,7 +18,7 @@ namespace HotelSimulationSE5
         public int Distance { get; set; }     
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
-        public HotelSegments.IHSegment MySegment { get; set; }
+        public HotelSegments.HSegment MySegment { get; set; }
         private const int _startwaarde = 0;
 
         public Node(Panel box)
@@ -93,7 +93,7 @@ namespace HotelSimulationSE5
         private List<DIRECTIONS> Route = new List<DIRECTIONS>();
         private List<DIRECTIONS> tempDirections = new List<DIRECTIONS>();
 
-        public List<DIRECTIONS> Set_route(Node current, HotelSegments.IHSegment target)
+        public List<DIRECTIONS> Set_route(Node current, HotelSegments.HSegment target)
         {
             right_check = false;
             if (Find_route(current,target.ID,DIRECTIONS.RIGHT) == true)
@@ -160,7 +160,7 @@ namespace HotelSimulationSE5
         /// <param name="currentroom">The room where the guest is currently at</param>
         /// <param name="targetroom">The room where the guest wants to go</param>
         /// <returns>The generated path in a List with DIRECTIONS</returns>
-        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
+        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.HSegment targetroom)
         {
             int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right in case we ever have to reverse the steps and remove them from the list
             int ammountleveled = _startwaarde; //Used to save how many times the path has gone up in case we ever have to reverse the steps and remove them from the list

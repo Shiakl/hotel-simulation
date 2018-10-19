@@ -7,14 +7,8 @@ using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
-    public class Cinema : IHSegment
+    public class Cinema : HSegment
     {
-        public int ID { get; set; }
-        public int Capacity { get; set; }
-        public int X_Dim { get; set; }
-        public int Y_Dim { get; set; }
-        public List<Image> MyImages { get; set; }
-
         public Cinema(int number, int xseg, int yseg)
         {
             MyImages = new List<Image>();

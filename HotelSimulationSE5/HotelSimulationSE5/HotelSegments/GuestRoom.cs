@@ -8,15 +8,10 @@ using System.Drawing;
 namespace HotelSimulationSE5.HotelSegments
 
 {
-    public class GuestRoom : IHSegment
+    public class GuestRoom : HSegment
     {
-        public int ID { get; set; }
-        public int Capacity { get; set; }
-        public int X_Dim { get; set; }
-        public int Y_Dim { get; set; }
         public int Classification { get; set; }
         public bool Reserved { get; set; }
-        public List<Image> MyImages { get; set; }
 
         public enum CLASSIFICATION
         {

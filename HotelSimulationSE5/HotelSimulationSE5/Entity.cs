@@ -9,7 +9,7 @@ using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
-    class Guest
+    class Entity
     {
         public int ID { get; set; }
         public GuestRoom MyRoom { get; set; }        
@@ -21,7 +21,7 @@ namespace HotelSimulationSE5
 
         private PictureBox panelPb;
 
-        public Guest(Node node,int id, GuestRoom room)
+        public Entity(Node node,int id, GuestRoom room)
         {
             MyRoom = room;
             MyNode = node;
