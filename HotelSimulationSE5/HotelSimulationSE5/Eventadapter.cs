@@ -41,6 +41,11 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
+        public void Check_out_Guest(int id)
+        {
+            Console.WriteLine("Guest with ID : " + id+ "Checked out!");
+        }
+
         private List<char> data_value;
         public void Event_Handler(HotelEvent item)
         {
@@ -57,7 +62,10 @@ namespace HotelSimulationSE5
                     _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:
-
+                    foreach (var value in item.Data)
+                    {
+                        Check_out_Guest(Int32.Parse(value.Value));
+                    }
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
 
