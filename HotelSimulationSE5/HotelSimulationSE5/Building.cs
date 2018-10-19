@@ -12,31 +12,36 @@ namespace HotelSimulationSE5
 {
     class Building
     {
-
         public int segmentSizeX = 104; //X size of each hotel segment
         public int segmentSizeY = 60; //Y size of each hotel segment
-        public int maxXcoordinate;
-        public int maxYcoordinate;
+        public int maxXcoordinate; //Saves the max X cord in the hotel
+        public int maxYcoordinate; //Saves the max Y cord in the hotel
         public List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
-        public bool elevatorLeft;
+        private Node[] _elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
-        public Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] _staircaseNodes; //Saves a array of staircases with its properties
         private List<TempRoom> _temp; //Saves a list of every room in the hotel
         private string _layoutstring; //Hotel layout(blueprint)
         private const int _startwaarde = 0;
+
+        public Node[] GetElevatorNodes
+        {
+            get
+            {
+                return _elevatorNodes;
+            }
+        }
 
         public Building()
         {
             _temp = new List<TempRoom>();
             _layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel3.layout"); //Reads the layout file and pushes it into a string
             Read_Layout();
-            elevatorLeft = true;
             maxXcoordinate = FindMaxX(_temp);
             maxYcoordinate = FindMaxY(_temp);
 
             _nodes = new Node[maxXcoordinate * maxYcoordinate];
-            elevatorNodes = new Node[maxYcoordinate];
+            _elevatorNodes = new Node[maxYcoordinate];
             _staircaseNodes = new Node[maxYcoordinate];
 
             Console.WriteLine("Checkpoint: 1");
@@ -134,18 +139,18 @@ namespace HotelSimulationSE5
                     Location = new Point(_startwaarde, currentYcoordinate * segmentSizeY),
                 };
 
-                elevatorNodes[currentYcoordinate] = new Node(tempPanel);
+                _elevatorNodes[currentYcoordinate] = new Node(tempPanel);
 
                 if (currentYcoordinate == maxYcoordinate-1)
                 {
-                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.IHSegment;
+                    _elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.IHSegment;
                 }
                 else
                 {
-                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
+                    _elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
                 }
-                mainform.Controls.Add(elevatorNodes[currentYcoordinate].MyPanel);
-                elevatorNodes[currentYcoordinate].ColorMe();
+                mainform.Controls.Add(_elevatorNodes[currentYcoordinate].MyPanel);
+                _elevatorNodes[currentYcoordinate].ColorMe();
             }
 
             //Create staircase nodes
@@ -241,22 +246,22 @@ namespace HotelSimulationSE5
             }
             
             //Connect elevator nodes to the graph
-            foreach (var Elevator in elevatorNodes)
+            foreach (var Elevator in _elevatorNodes)
             {
-                elevatorNodes[elevatorLevel].RightNode = _staircaseNodes[elevatorLevel];
-                _staircaseNodes[elevatorLevel].LeftNode = elevatorNodes[elevatorLevel];
+                _elevatorNodes[elevatorLevel].RightNode = _staircaseNodes[elevatorLevel];
+                _staircaseNodes[elevatorLevel].LeftNode = _elevatorNodes[elevatorLevel];
 
                 if (elevatorLevel < maxYcoordinate - 1)
                 {
-                    elevatorNodes[elevatorLevel].BottomNode = elevatorNodes[elevatorLevel + 1];
+                    _elevatorNodes[elevatorLevel].BottomNode = _elevatorNodes[elevatorLevel + 1];
                 }
 
                 if (elevatorLevel != _startwaarde)
                 {
-                    elevatorNodes[elevatorLevel].TopNode = elevatorNodes[elevatorLevel - 1];
+                    _elevatorNodes[elevatorLevel].TopNode = _elevatorNodes[elevatorLevel - 1];
                 }
 
-                elevatorNodes[elevatorLevel].Add_myConnections();
+                _elevatorNodes[elevatorLevel].Add_myConnections();
 
                 elevatorLevel++;
             }
@@ -277,7 +282,7 @@ namespace HotelSimulationSE5
 
                 x_track = blankRoom.PositionX + 1;
                 y_track = blankRoom.PositionY-1;
-                Go_Right(elevatorNodes[maxYcoordinate - 1]).MySegment = tempSeg;
+                Go_Right(_elevatorNodes[maxYcoordinate - 1]).MySegment = tempSeg;
             }
 
             //Redraw all the nodes
@@ -374,7 +379,7 @@ namespace HotelSimulationSE5
                 ).ToList();
         }
 
-        public void Create_Guest(Node currentNode)
+        public void CreateGuest(Node currentNode)
         {
             ReloadAvailableRooms();
             Guest arrival = new Guest(currentNode);
@@ -390,7 +395,7 @@ namespace HotelSimulationSE5
 
         public void MoveGuest(Form mainform)
         {
-            int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
+            int elcap = _elevatorNodes.FirstOrDefault().MySegment.Capacity;
 
             foreach(Guest currentG in _guestList)
             {

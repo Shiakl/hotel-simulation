@@ -14,11 +14,11 @@ namespace HotelSimulationSE5
     public partial class MainForm : Form
     {
         public int _refreshRateInterval = 500; 
-        private Timer _refreshTimer= new Timer();
-        bool started = false;
-        Eventadapter events = new Eventadapter();        
-
+        private Timer _refreshTimer = new Timer();
+        private bool started = false;
+        private Eventadapter events = new Eventadapter();        
         private Building _myHotel;
+
         public MainForm()
         {
             InitializeComponent();
@@ -36,14 +36,14 @@ namespace HotelSimulationSE5
 
         private void _refreshTimerTick(object sender, EventArgs e)
         {
-            if (events.EventList.Count()>0)
+            if (events.EventList.Any())
             {
                 foreach (var item in events.EventList)
                 {
                     switch (item.EventType)
                     {
                         case HotelEventType.CHECK_IN:
-                            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
+                            _myHotel.CreateGuest(_myHotel.GetElevatorNodes[_myHotel.maxYcoordinate-1]);
                             break;
                         case HotelEventType.CHECK_OUT:
 
@@ -93,7 +93,7 @@ namespace HotelSimulationSE5
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
+            _myHotel.CreateGuest(_myHotel.GetElevatorNodes[_myHotel.maxYcoordinate-1]);
             _refreshTimer.Start();
         }
 
@@ -114,7 +114,7 @@ namespace HotelSimulationSE5
             }
             else
             {
-                events.Stop_Events();
+                events.StopEvents();
                 started = false;
             }
         }

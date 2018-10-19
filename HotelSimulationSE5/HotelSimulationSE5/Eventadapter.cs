@@ -24,7 +24,7 @@ namespace HotelSimulationSE5
             HotelEventManager.Start();
         }
 
-        public void Stop_Events()
+        public void StopEvents()
         {
             HotelEventManager.Stop();
         }
