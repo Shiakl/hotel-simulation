@@ -388,7 +388,7 @@ namespace HotelSimulationSE5
             arrival.Redraw();
         }
 
-        public void Move_Guest(Form mainform)
+        public void MoveGuest(Form mainform)
         {
             int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
 

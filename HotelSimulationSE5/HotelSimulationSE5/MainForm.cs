@@ -13,8 +13,8 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 500; 
-        private Timer _refresh_timer= new Timer();
+        public int _refreshRateInterval = 500; 
+        private Timer _refreshTimer= new Timer();
         bool started = false;
         Eventadapter events = new Eventadapter();        
 
@@ -27,14 +27,14 @@ namespace HotelSimulationSE5
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
-            _refresh_timer.Interval = _refreshrateinterval;
-            _refresh_timer.Tick += _refresh_timer_Tick;
-            _refresh_timer.Start();
+            _refreshTimer.Interval = _refreshRateInterval;
+            _refreshTimer.Tick += _refreshTimerTick;
+            _refreshTimer.Start();
             Console.WriteLine();
 
         }
 
-        private void _refresh_timer_Tick(object sender, EventArgs e)
+        private void _refreshTimerTick(object sender, EventArgs e)
         {
             if (events.EventList.Count()>0)
             {
@@ -82,7 +82,7 @@ namespace HotelSimulationSE5
 
 
             //Move guests
-            _myHotel.Move_Guest(this);
+            _myHotel.MoveGuest(this);
         }
 
         public void GenerateHotel()
@@ -94,13 +94,13 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             _myHotel.Create_Guest(_myHotel.elevatorNodes[_myHotel.maxYcoordinate-1]);
-            _refresh_timer.Start();
+            _refreshTimer.Start();
         }
 
 
         private void Stop_Click(object sender, EventArgs e)
         {
-            _refresh_timer.Stop();
+            _refreshTimer.Stop();
         }
 
 
