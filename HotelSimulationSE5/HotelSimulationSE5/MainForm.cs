@@ -59,7 +59,7 @@ namespace HotelSimulationSE5
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), 2);
+            _myHotel.Create_Guest(_myHotel.Reception, 2);
             _refresh_timer.Start();
         }
 

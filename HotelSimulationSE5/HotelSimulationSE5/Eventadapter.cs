@@ -54,9 +54,25 @@ namespace HotelSimulationSE5
                         .ToList();
                     }
                     int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
-                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
+                    _myHotel.Create_Guest(_myHotel.Reception, classification);
                     break;
                 case HotelEventType.CHECK_OUT:
+                    List<Entity> check_out_list = new List<Entity>();
+                    foreach (var value in item.Data)
+                    {
+                       List<Entity> guests = (from entity in _myHotel._guestList
+                                       where (entity.ID == Convert.ToInt32(value.Value))
+                                       select entity).ToList();
+                        if (guests.Any())
+                        {
+                        check_out_list.Add(guests.FirstOrDefault());
+                        }
+                    }
+                    foreach (Entity leaver in check_out_list)
+                    {
+                        leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment);
+                        leaver.Moving = true;
+                    }
 
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
@@ -99,6 +115,7 @@ namespace HotelSimulationSE5
                 Console.WriteLine("Value is: " + test.Value);
                 }
             }
+            Console.WriteLine("");
             EventList.Add(evt);
         }
     }

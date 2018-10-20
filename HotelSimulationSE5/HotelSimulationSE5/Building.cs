@@ -25,6 +25,7 @@ namespace HotelSimulationSE5
         private List<TempRoom> _temp; //Saves a list of every room in the hotel
         private string _layoutstring; //Hotel layout(blueprint)
         private const int _startwaarde = 0;
+        public Node Reception { get; set; }
 
         public Building()
         {
@@ -139,6 +140,7 @@ namespace HotelSimulationSE5
                 if (currentYcoordinate == maxYcoordinate-1)
                 {
                     elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.HSegment;
+                    Reception = elevatorNodes[currentYcoordinate];
                 }
                 else
                 {
@@ -277,7 +279,7 @@ namespace HotelSimulationSE5
 
                 x_track = blankRoom.PositionX + 1;
                 y_track = blankRoom.PositionY-1;
-                Place_Segment_XPos(elevatorNodes.Last()).MySegment = tempSeg;
+                Place_Segment_XPos(Reception).MySegment = tempSeg;
             }
 
             //Redraw all the nodes
