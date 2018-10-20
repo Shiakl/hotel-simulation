@@ -105,14 +105,19 @@
   <ItemGroup>
     <Content Include="External\HotelEvents.dll" />
     <Content Include="Images\1-star.png" />
+    <Content Include="Images\1-starreserved.png" />
     <Content Include="Images\2-star.png" />
+    <Content Include="Images\2-starreserved.png" />
     <Content Include="Images\3-star1.png" />
+    <Content Include="Images\3-star1reserved.png" />
     <Content Include="Images\3-star2.png" />
     <Content Include="Images\4-star1.png" />
+    <Content Include="Images\4-star1reserved.png" />
     <Content Include="Images\4-star2.png" />
     <Content Include="Images\4-star3.png" />
     <Content Include="Images\4-star4.png" />
     <Content Include="Images\5-star1.png" />
+    <Content Include="Images\5-star1reserved.png" />
     <Content Include="Images\5-star2.png" />
     <Content Include="Images\5-star3.png" />
     <Content Include="Images\5-star4.png" />

@@ -418,6 +418,18 @@ namespace HotelSimulationSE5
             }
         }
 
+        private List<Entity> _maidList = new List<Entity>();
+        private int maid_id;
+
+        public void Call_Maid(Node currentNode, int targetRoom, float hte)
+        {
+            maid_id = _maidList.Count() + 1;
+            Entity maid = new Entity(currentNode, maid_id,AssignRoom(targetRoom), Entity.ENTITY_TYPE.MAID);
+            maid.Path = maid.MyNode.Pathfinding(maid.MyNode, maid.MyRoom, ID_List.Elevator);
+            _guestList.Add(maid);
+            maid.Redraw();
+        }
+
         /// <summary>
         /// Move all guests in "_guestList"
         /// </summary>
@@ -426,22 +438,20 @@ namespace HotelSimulationSE5
         {
             int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
 
+
             foreach(Entity currentG in _guestList)
-            {
-                if (currentG.Moving == true)
+            {                
+                if (currentG.Moving == true && currentG.Path.Any())
                 {
-                    currentG.Destination_reached();
-                    if (currentG.Moving == true && currentG.Path.Any())
-                    {
-                        currentG.MoveToNode(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
-                        currentG.Redraw();                   
-                    }
+                    currentG.MoveToNode(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
+                    currentG.Redraw();                   
                 }
                 else
                 {
-                    currentG.Moving = true;
+                    currentG.Destination_reached();
                 }
             }
+
         }
     }
 }

@@ -41,6 +41,15 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
+        private Entity Select_Entity(int id, Entity.ENTITY_TYPE eType)
+        {
+            List<Entity> guests = (from entity in _myHotel._guestList
+                                   where (entity.ID == Convert.ToInt32(id) && entity.EType == eType)
+                                   select entity).ToList();
+
+                return guests.FirstOrDefault();
+        }
+
         private List<char> data_value;
         public void Event_Handler(HotelEvent item)
         {
@@ -58,25 +67,25 @@ namespace HotelSimulationSE5
                     break;
                 case HotelEventType.CHECK_OUT:
                     List<Entity> check_out_list = new List<Entity>();
+
                     foreach (var value in item.Data)
                     {
-                       List<Entity> guests = (from entity in _myHotel._guestList
-                                       where (entity.ID == Convert.ToInt32(value.Value))
-                                       select entity).ToList();
-                        if (guests.Any())
-                        {
-                        check_out_list.Add(guests.FirstOrDefault());
-                        }
+                        Select_Entity(Convert.ToInt32(value.Value), Entity.ENTITY_TYPE.GUEST);
                     }
+
                     foreach (Entity leaver in check_out_list)
                     {
-                        leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
+                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
                         leaver.Moving = true;
                     }
-
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
-
+                    List<int> event_values = new List<int>();
+                    foreach (var value in item.Data)
+                    {
+                        event_values.Add(Convert.ToInt32(value.Value));
+                    }
+                    _myHotel.Call_Maid(_myHotel.Reception, event_values.First(), event_values.Last());
                     break;
                 case HotelEventType.EVACUATE:
 

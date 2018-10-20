@@ -13,7 +13,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 500; 
+        public int _refreshrateinterval = 400; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events;   
@@ -36,7 +36,6 @@ namespace HotelSimulationSE5
 
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
-            List<HotelEvent> executable_events;
 
             if (events.EventList.Count()>0)
             {
@@ -62,6 +61,7 @@ namespace HotelSimulationSE5
         private void GuestButton_Click(object sender, EventArgs e)
         {
             _myHotel.Create_Guest(_myHotel.Reception, 2);
+            _myHotel.Call_Maid(_myHotel.Reception, 21,5);
             _refresh_timer.Start();
         }
 

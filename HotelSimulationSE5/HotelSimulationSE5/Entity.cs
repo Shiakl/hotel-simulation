@@ -11,6 +11,7 @@ namespace HotelSimulationSE5
 {
     public class Entity
     {
+        public ENTITY_TYPE EType { get; set; }
         public int ID { get; set; }
         public GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
@@ -19,6 +20,7 @@ namespace HotelSimulationSE5
         public Node MyNode { get; set; }
         public bool Moving { get; set; }
         private PictureBox panelPb;
+        private float HTE { get; set; }
 
         public enum ENTITY_TYPE
         {
@@ -31,7 +33,8 @@ namespace HotelSimulationSE5
             MyRoom = room;
             MyNode = node;
             ID = id;
-
+            EType = etype;
+            Moving = false;
             switch (etype)
             {
                 case ENTITY_TYPE.GUEST:
@@ -43,10 +46,6 @@ namespace HotelSimulationSE5
                 default:
                     break;
             }
-
-
-
-
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;
             panelPb.BackgroundImageLayout = ImageLayout.None;
@@ -54,7 +53,6 @@ namespace HotelSimulationSE5
             panelPb.BackColor = Color.Transparent;
             node.panelPb.Controls.Add(panelPb);
         }
-
 
         public void Redraw()
         {
@@ -64,21 +62,14 @@ namespace HotelSimulationSE5
 
         public void Destination_reached()
         {
-            if (MyNode.MySegment != null)
-            {
-                if (MyNode.MySegment.ID == MyRoom.ID)
-                {
-                    Moving = false;
-                }
-                else
-                {
-                    Moving = true;
-                }
-            }
-            else
+            if (Path.Any())
             {
                 Moving = true;
             }
+            else
+            {
+                Moving = false;
+            }            
         }
 
         public void MoveToNode(Node next,Node current)
