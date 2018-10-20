@@ -89,7 +89,7 @@ namespace HotelSimulationSE5
         /// <param name="currentroom">The room where the guest is currently at</param>
         /// <param name="targetroom">The room where the guest wants to go</param>
         /// <returns>The generated path in a List with DIRECTIONS</returns>
-        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.HSegment targetroom)
+        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.HSegment targetroom, Building.ID_List pathtype)
         {
             int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right in case we ever have to reverse the steps and remove them from the list
             int ammountleveled = _startwaarde; //Used to save how many times the path has gone up in case we ever have to reverse the steps and remove them from the list
@@ -102,9 +102,9 @@ namespace HotelSimulationSE5
             List<DIRECTIONS> path = new List<DIRECTIONS>(); //Used to save the path before returning it to the globl List
             while (found == false) //This will keep looping through until the path has complete
             {
-                if (checkedright == true) //If all the rooms on the right of the current level has been checked
+                if (checkedright == true) //If all the rooms on the right of the current level has been checked /PathRoom.MySegment.ID == (int)pathtype
                 {
-                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase) //If the current room is an elevator or staircaise
+                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase) //If the current room is an elevator or staircaise 
                     {
                         if (startlevel == true) //If this is the first elevator or staircase of the path then make set the ElevatorOrStaircase to this node
                         {
@@ -140,6 +140,14 @@ namespace HotelSimulationSE5
                             }
                             ammountleveled = _startwaarde;
                             PathRoom = ElevatorOrStaircase;
+                        }
+                        else if (checkedtop == true && PathRoom.BottomNode == null)
+                        {
+                            if (PathRoom.LeftNode.MySegment.ID == targetroom.ID)
+                            {
+                                path.Add(DIRECTIONS.LEFT);
+                                found = true;
+                            }
                         }
 
                         else //If everything is false then the target room is not present in the current hotel layout

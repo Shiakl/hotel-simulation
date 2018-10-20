@@ -70,6 +70,7 @@
     <Compile Include="HotelSegments\Restaurant.cs" />
     <Compile Include="HotelSegments\GuestRoom.cs" />
     <Compile Include="Factories\HSegmentFactory.cs" />
+    <Compile Include="HotelSegments\Reception.cs" />
     <Compile Include="TempRoom.cs" />
     <Compile Include="Worker.cs" />
     <EmbeddedResource Include="MainForm.resx">

@@ -9,7 +9,7 @@ using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
-    class Entity
+    public class Entity
     {
         public int ID { get; set; }
         public GuestRoom MyRoom { get; set; }        

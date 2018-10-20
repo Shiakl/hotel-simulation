@@ -10,7 +10,7 @@ using HotelEvents;
 
 namespace HotelSimulationSE5
 {
-    class Building
+    public class Building
     {
 
         public int segmentSizeX = 104; //X size of each hotel segment
@@ -107,7 +107,7 @@ namespace HotelSimulationSE5
         /// <summary>
         /// IDs for staircases, elevators and the reception
         /// </summary>
-        private enum ID_List
+        public enum ID_List
         {
             Staircase = 0,
             Elevator = 1,
@@ -139,7 +139,7 @@ namespace HotelSimulationSE5
 
                 if (currentYcoordinate == maxYcoordinate-1)
                 {
-                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.HSegment;
+                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Reception", (int)ID_List.Reception) as HotelSegments.HSegment;
                     Reception = elevatorNodes[currentYcoordinate];
                 }
                 else
@@ -412,7 +412,7 @@ namespace HotelSimulationSE5
             {
                 arrival = new Entity(currentNode,guest_id, AvailableRooms.FirstOrDefault());
                 arrival.MyRoom.Reserved = true;
-                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom,ID_List.Elevator);
                 _guestList.Add(arrival);
                 arrival.Redraw();
             }

@@ -9,28 +9,17 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Elevator : HSegment
     {
-        public bool Reception { get; set; }
         public bool Elevator_here { get; set; }
 
-        public Elevator(int number, int xseg, int yseg, bool reception)
+        public Elevator(int number, int xseg, int yseg)
         {
             MyImages = new List<Image>();
             X_Dim = xseg;
             Y_Dim = yseg;
-            Reception = reception;
-            ID = number;
-
-            
-            if (Reception == true)
-            {
-                MyImages.Add(Image.FromFile(@"..\..\Images\reception.png"));
-                Elevator_here = true;
-            }
-            else
-            {
+            ID = number;          
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
-                Elevator_here = false;
-            }
+            Elevator_here = false;
+            
         }
 
         public bool CheckElevatorFull(Entity[] guests)

@@ -70,7 +70,7 @@ namespace HotelSimulationSE5
                     }
                     foreach (Entity leaver in check_out_list)
                     {
-                        leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment);
+                        leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
                         leaver.Moving = true;
                     }
 

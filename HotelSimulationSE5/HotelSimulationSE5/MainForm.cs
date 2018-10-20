@@ -102,7 +102,7 @@ namespace HotelSimulationSE5
                 {
                     arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms.FirstOrDefault().ID);
                     arrival.MyRoom.Reserved = true;
-                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, Building.ID_List.Elevator);
                 }
             }
         }
