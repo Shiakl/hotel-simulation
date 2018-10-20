@@ -57,5 +57,32 @@ namespace HotelSimulationSE5.HotelSegments
             }
         }
 
+        public void Reserved_room()
+        {
+            Reserved = true;
+            switch (Classification)
+            {
+                case 1:
+                    MyImages[(int)Node.SEGMENT_PART.Main]= Image.FromFile(@"..\..\Images\1-starreserved.png");
+                    break;
+                case 2:
+                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-starreserved.png");
+                    break;
+                case 3:
+                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1reserved.png");
+                    break;
+                case 4:
+                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1reserved.png");
+                    break;
+                case 5:
+                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1reserved.png");
+                    break;
+                default:
+                    break;
+            }
+
+            
+        }
+
     }
 }

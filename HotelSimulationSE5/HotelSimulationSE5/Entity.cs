@@ -39,6 +39,7 @@ namespace HotelSimulationSE5
             {
                 case ENTITY_TYPE.GUEST:
                     MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+                    MyRoom.Reserved_room();
                     break;
                 case ENTITY_TYPE.MAID:
                     MyImage = Image.FromFile(@"..\..\Images\maid.png");
@@ -65,10 +66,16 @@ namespace HotelSimulationSE5
             if (Path.Any())
             {
                 Moving = true;
+                panelPb.Visible = true;
             }
             else
             {
                 Moving = false;
+                if ( EType == ENTITY_TYPE.GUEST)
+                {
+                    MyNode.ColorMe();
+                    panelPb.Visible = false;
+                }
             }            
         }
 

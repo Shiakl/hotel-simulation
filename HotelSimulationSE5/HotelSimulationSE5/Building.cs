@@ -384,7 +384,6 @@ namespace HotelSimulationSE5
         /// </summary>
         public void ReloadAvailableRooms(int classification_num)
         {           
-
             List<HotelSegments.GuestRoom> GuestRooms = (
                 from w in _nodes
                 where (w.MySegment is HotelSegments.GuestRoom)
@@ -411,7 +410,6 @@ namespace HotelSimulationSE5
             if (AvailableRooms.Any())
             {
                 arrival = new Entity(currentNode,guest_id, AvailableRooms.FirstOrDefault());
-                arrival.MyRoom.Reserved = true;
                 arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom,ID_List.Elevator);
                 _guestList.Add(arrival);
                 arrival.Redraw();
