@@ -18,15 +18,35 @@ namespace HotelSimulationSE5
         public List<Node.DIRECTIONS> Path { get; set; }
         public Node MyNode { get; set; }
         public bool Moving { get; set; }
-
         private PictureBox panelPb;
 
-        public Entity(Node node,int id, GuestRoom room)
+        public enum ENTITY_TYPE
+        {
+            GUEST,
+            MAID
+        }
+
+        public Entity(Node node,int id, GuestRoom room,ENTITY_TYPE etype = ENTITY_TYPE.GUEST)
         {
             MyRoom = room;
             MyNode = node;
             ID = id;
-            MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+
+            switch (etype)
+            {
+                case ENTITY_TYPE.GUEST:
+                    MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+                    break;
+                case ENTITY_TYPE.MAID:
+                    MyImage = Image.FromFile(@"..\..\Images\maid.png");
+                    break;
+                default:
+                    break;
+            }
+
+
+
+
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;
             panelPb.BackgroundImageLayout = ImageLayout.None;
