@@ -15,11 +15,13 @@ namespace HotelSimulationSE5
         public Node TopNode { get; set; }
         public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
-        public int Distance { get; set; }     
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
         public HotelSegments.HSegment MySegment { get; set; }
         private const int _startwaarde = 0;
+
+        public int Distance { get; set; }   
+        public DIRECTIONS Previous { get; set; }
 
         public Node(Panel box)
         {
@@ -80,79 +82,6 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
 
-        /*
-         Search algoritm:
-        1. Check right till target found or null, If target not found The room must be on the left.
-        2. Check Left till Stairs or target found.
-        3. From Stairs go up and check all rooms right. If target is not on this floor its on the floor above or below.
-        4. Check all floors above till last floor reached, if target is not found check the floors below the starting floor.
-        5. Check all the floors below the starting floor, if target is not found the target room does not exist. 
-         */
-
-
-        private List<DIRECTIONS> Route = new List<DIRECTIONS>();
-        private List<DIRECTIONS> tempDirections = new List<DIRECTIONS>();
-
-        public List<DIRECTIONS> Set_route(Node current, HotelSegments.HSegment target)
-        {
-            right_check = false;
-            if (Find_route(current,target.ID,DIRECTIONS.RIGHT) == true)
-            {
-                Route = tempDirections;
-            }
-            else if(Find_route(current, target.ID, DIRECTIONS.LEFT) == true)
-            {
-                Route = tempDirections;
-            }
-            return Route;
-        }
-
-        private bool right_check;
-        public bool Find_route(Node current, int target, DIRECTIONS direction)
-        {           
-            if (Room_Found(current, target) == true)
-            {
-                return true;
-            }
-            else if (current.MyConnections[(int)direction] == null && right_check == false)
-            {
-                tempDirections.Clear();
-                right_check = true;
-                return false;
-            }
-            else if (current.MySegment is HotelSegments.Staircase)
-            {
-                right_check = false;
-                tempDirections.Add(DIRECTIONS.TOP);
-                return Find_route(current.MyConnections[(int)direction], target, DIRECTIONS.RIGHT);
-            }
-            else
-            {
-                tempDirections.Add(direction);
-                return Find_route(current.MyConnections[(int)direction], target, direction);
-            }
-        }
-
-
-        private bool Room_Found(Node current, int targetID)
-        {
-            if (current.MySegment != null)
-            {
-                if (current.MySegment.ID == targetID)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         /// <summary>
         /// Creates a path for a guest to its designated room

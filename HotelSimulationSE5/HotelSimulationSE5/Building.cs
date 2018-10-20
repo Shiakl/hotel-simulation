@@ -416,11 +416,6 @@ namespace HotelSimulationSE5
                 _guestList.Add(arrival);
                 arrival.Redraw();
             }
-
-            if (_guestList.Count() ==11)
-            {
-                Console.WriteLine("Break");
-            }
         }
 
         /// <summary>
