@@ -24,6 +24,10 @@ namespace HotelSimulationSE5.HotelSegments
             Elevator_here = true;
         }
 
+        /// <summary>
+        /// Method that checks how long the first guest as been waiting for. If the waittime equals the set wait duration the guest can go on.
+        /// </summary>
+        /// <param name="guestList">List of guests in the hotel, the waiting guest is added to this.</param>
         public void Assigned_Room(List<Entity> guestList)
         {
             if (WaitList.Any())

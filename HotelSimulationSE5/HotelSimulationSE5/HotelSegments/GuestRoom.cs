@@ -51,6 +51,9 @@ namespace HotelSimulationSE5.HotelSegments
             }
         }
 
+        /// <summary>
+        /// Checks if the room is reserved and changes the image of the room to fit the reserved or not state.
+        /// </summary>
         public void Reserved_room()
         {
             if (Reserved == false)
