@@ -9,8 +9,7 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class Elevator : HSegment
     {
-        public bool Elevator_here { get; set; }
-
+        public bool Elevator_here { get; set; }  //Property to check if the elevator is on this Elevator Segment.
         public Elevator(int number, int xseg, int yseg)
         {
             MyImages = new List<Image>();
@@ -20,28 +19,6 @@ namespace HotelSimulationSE5.HotelSegments
             MyImages.Add(Image.FromFile(@"..\..\Images\elevator.png"));
             Elevator_here = false;
             
-        }
-
-        public bool CheckElevatorFull(Entity[] guests)
-        {
-            int ammountinElevator = 0;
-            foreach (Entity guest in guests)
-            {
-                if (guest.MyNode.MySegment is Elevator)
-                {
-                    ammountinElevator++;
-                }
-            }
-
-            if (ammountinElevator >= Capacity)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
         }
     }
 }

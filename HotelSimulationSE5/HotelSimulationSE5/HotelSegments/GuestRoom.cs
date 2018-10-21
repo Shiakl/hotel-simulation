@@ -10,8 +10,8 @@ namespace HotelSimulationSE5.HotelSegments
 {
     public class GuestRoom : HSegment
     {
-        public int Classification { get; set; }
-        public bool Reserved { get; set; }
+        public int Classification { get; set; } //A guestroom has a specification which determines the way it looks.
+        public bool Reserved { get; set; }  //A guestroom can be reserved by GUEST type Entities.
 
         public GuestRoom(int number, int xseg, int yseg, int classification)
         {
@@ -79,7 +79,6 @@ namespace HotelSimulationSE5.HotelSegments
                     default:
                         break;
                 }
-
             }
             else
             {
@@ -104,11 +103,7 @@ namespace HotelSimulationSE5.HotelSegments
                     default:
                         break;
                 }
-            }
-
-
-            
+            }         
         }
-
     }
 }
