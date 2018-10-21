@@ -71,7 +71,6 @@ namespace HotelSimulationSE5
         public void Redraw()
         {
             panelPb.Refresh();
-
         }
 
         /// <summary>
@@ -97,7 +96,9 @@ namespace HotelSimulationSE5
             }            
         }
 
-
+        /// <summary>
+        /// If the Entity has values in the Path list property, move it to its neighbour using the first Path value as index.
+        /// </summary>
         public void MoveToNode()
         {
             if (Moving == true && Path.Any())

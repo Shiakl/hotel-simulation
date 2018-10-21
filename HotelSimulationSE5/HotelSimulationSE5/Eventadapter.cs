@@ -9,11 +9,11 @@ using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
-    class Eventadapter : HotelEvents.HotelEventListener
+    public class Eventadapter : HotelEventListener
     {
-        public List<HotelEvent> EventList { get; set; }
-        private Building _myHotel;
-        private float HTE_Value = 5f;
+        public List<HotelEvent> EventList { get; set; } //Lists of queue'd HotelEvents
+        private Building _myHotel;  //Hotel the events are sent to
+        private float HTE_Value = 5f; //Speed at which the events are generated.
 
         public Eventadapter(Building hotel)
         {
@@ -22,26 +22,43 @@ namespace HotelSimulationSE5
             _myHotel = hotel;
         }
 
+        /// <summary>
+        /// Adaptor Method that calls HotelEvent.Manager.Start();
+        /// </summary>
         public void Start_events()
         {
             HotelEventManager.Start();
         }
 
+        /// <summary>
+        /// Adaptor Method that calls HotelEvent.Manager.Stop();
+        /// </summary>
         public void Stop_Events()
         {
             HotelEventManager.Stop();
         }
 
+        /// <summary>
+        /// Adaptor Method that calls HotelEvent.Manager.Pause();
+        /// </summary>
         public void Pause_Events()
         {
             HotelEventManager.Pauze();
         }
 
+        /// <summary>
+        /// Adaptor Method that calls HotelEvent.Manager.Register();, Registers a HotelEventListener class to the HotelEventManager.
+        /// </summary>
+        /// <param name="newGuest">HotelEventListener class</param>
         public void Register(Eventadapter newGuest)
         {
             HotelEventManager.Register(newGuest);           
         }
 
+        /// <summary>
+        /// Deregisters a HotelEventListener
+        /// </summary>
+        /// <param name="newGuest">HotelEventListener class</param>
         public void Deregister(Eventadapter newGuest)
         {
             HotelEventManager.Deregister(newGuest);
@@ -145,7 +162,7 @@ namespace HotelSimulationSE5
                         .TakeWhile(Char.IsDigit)
                         .ToList();
                     }
-                    int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
+                    int classification = Convert.ToInt32(data_value.FirstOrDefault()) - '0';
                     _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:

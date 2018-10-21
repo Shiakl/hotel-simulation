@@ -9,7 +9,6 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Fitness : HSegment
     {
-
         public Fitness(int number, int xseg, int yseg)
         {
             MyImages = new List<Image>();

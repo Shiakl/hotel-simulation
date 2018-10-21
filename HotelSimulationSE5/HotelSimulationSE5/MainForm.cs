@@ -32,7 +32,7 @@ namespace HotelSimulationSE5
         {
             _myHotel.Reception_Queue();
 
-            if (events.EventList.Count()>0)
+            if (events.EventList.Any())
             {
             int event_amount = events.EventList.Count();
                 for (int counter = 0; counter <event_amount;counter++)

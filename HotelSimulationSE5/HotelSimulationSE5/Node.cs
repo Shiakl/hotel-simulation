@@ -86,7 +86,6 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
 
-
         /// <summary>
         /// Creates a path for a guest to its designated room
         /// </summary>

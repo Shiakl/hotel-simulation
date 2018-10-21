@@ -9,45 +9,7 @@ namespace UnitTestProject1
 {
     [TestClass]
     public class UnitTest1
-    {
-        /*
-        #region Building.cs
-        [TestMethod]
-        public void AssignRoomWithExistingID()
-        {
-            // Arrange
-            var MySegment = new GuestRoom();
-            var value = 3;
-            // Act
-            GuestRoom test = Building.AssignRoom(value);
-            // Asset
-
-        }
-
-        [TestMethod]
-        public void AssignRoomWithoutExistingID()
-        {
-            // Arrange
-            var MySegment = new GuestRoom();
-            var value = 3;
-            // Act
-            GuestRoom test = Building.AssignRoom(value);
-            // Asset
-
-        }
-
-        [TestMethod]
-        public void FindMaxX()
-        {
-            // Arrange
-            
-            // Act
-            
-            // Asset
-
-        }
-        #endregion
-        */
+    {                      
         #region Node.cs
 
         #endregion
@@ -77,7 +39,7 @@ namespace UnitTestProject1
             List<string> guestList = new List<string>();
             int waittime = 0;
             int waitduration = 5;
-            int input = 6; ;
+            int input = 6; 
             string expected = "Guest1";
 
             // Act
@@ -98,7 +60,7 @@ namespace UnitTestProject1
                 }
             }
 
-            // Asset
+            // Assert
             Assert.AreEqual(guestList.First(), expected);
         }
 
@@ -137,7 +99,7 @@ namespace UnitTestProject1
 
             
 
-            // Asset
+            // Assert
             Assert.AreEqual(WaitList.First(), expected);
         }
         #endregion
