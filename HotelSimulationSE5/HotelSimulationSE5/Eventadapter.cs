@@ -41,9 +41,15 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
+        /// <summary>
+        /// Return an Entity class object based on the specific ID and Type given from the hotel entity list.
+        /// </summary>
+        /// <param name="id">Unique ID of a guest or maid</param>
+        /// <param name="eType">Guest or Maid</param>
+        /// <returns></returns>
         private Entity Select_Entity(int id, Entity.ENTITY_TYPE eType)
         {
-            List<Entity> guests = (from entity in _myHotel._guestList
+            List<Entity> guests = (from entity in _myHotel.entityList
                                    where (entity.ID == id && entity.EType == eType)
                                    select entity).ToList();
 
@@ -88,7 +94,7 @@ namespace HotelSimulationSE5
                     _myHotel.Call_Maid(_myHotel.Reception, event_values.First(), event_values.Last());
                     break;
                 case HotelEventType.EVACUATE:
-                    foreach (Entity leaver in _myHotel._guestList)
+                    foreach (Entity leaver in _myHotel.entityList)
                     {
                         if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
                         {
