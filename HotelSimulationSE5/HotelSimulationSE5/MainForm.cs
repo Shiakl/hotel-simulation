@@ -13,7 +13,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 400; 
+        public int _refreshrateinterval = 300; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events;   
@@ -27,6 +27,7 @@ namespace HotelSimulationSE5
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
+            button1.Visible = false;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();

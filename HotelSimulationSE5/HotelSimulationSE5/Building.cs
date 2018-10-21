@@ -259,6 +259,7 @@ namespace HotelSimulationSE5
                 }
 
                 elevatorNodes[elevatorLevel].Add_myConnections();
+                _staircaseNodes[elevatorLevel].Add_myConnections();
 
                 elevatorLevel++;
             }

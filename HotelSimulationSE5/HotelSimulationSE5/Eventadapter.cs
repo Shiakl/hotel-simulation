@@ -70,13 +70,17 @@ namespace HotelSimulationSE5
 
                     foreach (var value in item.Data)
                     {
-                        Select_Entity(Convert.ToInt32(value.Value), Entity.ENTITY_TYPE.GUEST);
+                        List<Entity> guests = (from entity in _myHotel._guestList
+                                               where (entity.ID == Convert.ToInt32(value.Value) && entity.EType == Entity.ENTITY_TYPE.GUEST)
+                                               select entity).ToList();
+
+                       check_out_list.Add(guests.FirstOrDefault());
                     }
 
                     foreach (Entity leaver in check_out_list)
                     {
                         leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
-                        leaver.Moving = true;
+                        leaver.Destination_reached();
                     }
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
