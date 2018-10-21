@@ -75,7 +75,7 @@ namespace HotelSimulationSE5
             {
                 Path.Clear();
                 Moving = false;
-                if ( EType == ENTITY_TYPE.GUEST)
+                if ( EType == ENTITY_TYPE.GUEST || MyNode.MySegment.ID == (int)Building.ID_List.Reception)
                 {
                     MyNode.ColorMe();
                     panelPb.Visible = false;
