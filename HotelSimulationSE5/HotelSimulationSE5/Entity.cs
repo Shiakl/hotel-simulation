@@ -21,6 +21,8 @@ namespace HotelSimulationSE5
         public bool Moving { get; set; }
         private PictureBox panelPb;
         private float HTE { get; set; }
+        public bool Checked_Out { get; set; }
+
 
         public enum ENTITY_TYPE
         {
@@ -35,6 +37,7 @@ namespace HotelSimulationSE5
             ID = id;
             EType = etype;
             Moving = false;
+            Checked_Out = false;
             switch (etype)
             {
                 case ENTITY_TYPE.GUEST:
@@ -70,6 +73,7 @@ namespace HotelSimulationSE5
             }
             else
             {
+                Path.Clear();
                 Moving = false;
                 if ( EType == ENTITY_TYPE.GUEST)
                 {

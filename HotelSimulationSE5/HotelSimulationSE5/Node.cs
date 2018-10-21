@@ -143,11 +143,10 @@ namespace HotelSimulationSE5
                         }
                         else if (checkedtop == true && PathRoom.BottomNode == null)
                         {
-                            if (PathRoom.LeftNode.MySegment.ID == targetroom.ID)
-                            {
-                                path.Add(DIRECTIONS.LEFT);
-                                found = true;
-                            }
+
+                            path.Add(DIRECTIONS.LEFT);
+                            found = true;
+
                         }
 
                         else //If everything is false then the target room is not present in the current hotel layout

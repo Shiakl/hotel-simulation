@@ -13,7 +13,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 300; 
+        public int _refreshrateinterval = 400; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events;   

@@ -13,12 +13,6 @@ namespace HotelSimulationSE5.HotelSegments
         public int Classification { get; set; }
         public bool Reserved { get; set; }
 
-        public enum CLASSIFICATION
-        {
-            one_Star,
-
-        }
-
         public GuestRoom(int number, int xseg, int yseg, int classification)
         {
             MyImages = new List<Image>();
@@ -59,27 +53,56 @@ namespace HotelSimulationSE5.HotelSegments
 
         public void Reserved_room()
         {
-            Reserved = true;
-            switch (Classification)
+            if (Reserved == false)
             {
-                case 1:
-                    MyImages[(int)Node.SEGMENT_PART.Main]= Image.FromFile(@"..\..\Images\1-starreserved.png");
-                    break;
-                case 2:
-                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-starreserved.png");
-                    break;
-                case 3:
-                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1reserved.png");
-                    break;
-                case 4:
-                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1reserved.png");
-                    break;
-                case 5:
-                    MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1reserved.png");
-                    break;
-                default:
-                    break;
+                Reserved = true;
+                switch (Classification)
+                {
+                    case 1:
+                        MyImages[(int)Node.SEGMENT_PART.Main]= Image.FromFile(@"..\..\Images\1-starreserved.png");
+                        break;
+                    case 2:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-starreserved.png");
+                        break;
+                    case 3:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1reserved.png");
+                        break;
+                    case 4:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1reserved.png");
+                        break;
+                    case 5:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1reserved.png");
+                        break;
+                    default:
+                        break;
+                }
+
             }
+            else
+            {
+                Reserved = false;
+                switch (Classification)
+                {
+                    case 1:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\1-star.png");
+                        break;
+                    case 2:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-star.png");
+                        break;
+                    case 3:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1.png");
+                        break;
+                    case 4:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1.png");
+                        break;
+                    case 5:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1.png");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
 
             
         }

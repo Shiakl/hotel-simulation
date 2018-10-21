@@ -17,7 +17,6 @@ namespace HotelSimulationSE5.HotelSegments
             ID = number;
             MyImages.Add(Image.FromFile(@"..\..\Images\reception.png"));
             Elevator_here = true;
-
         }
 
     }
