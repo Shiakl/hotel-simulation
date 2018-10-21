@@ -17,7 +17,7 @@ namespace HotelSimulationSE5
         public int segmentSizeY = 60; //Y size of each hotel segment
         public int maxXcoordinate;
         public int maxYcoordinate;
-        public List<Entity> _guestList = new List<Entity>();//List of every guest currently in the hotel
+        public List<Entity> entityList = new List<Entity>();//List of every guest currently in the hotel
         public bool elevatorLeft;
         private Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
         public Node[] elevatorNodes; //Saves a array of all elevators with its properties
@@ -406,13 +406,13 @@ namespace HotelSimulationSE5
         public void Create_Guest(Node currentNode, int classification_num)
         {
             Entity arrival;
-            guest_id = _guestList.Count() + 1;
+            guest_id = entityList.Count() + 1;
             ReloadAvailableRooms(classification_num);
             if (AvailableRooms.Any())
             {
                 arrival = new Entity(currentNode,guest_id, AvailableRooms.FirstOrDefault());
                 arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom,ID_List.Elevator);
-                _guestList.Add(arrival);
+                entityList.Add(arrival);
                 arrival.Redraw();
             }
         }
@@ -425,7 +425,7 @@ namespace HotelSimulationSE5
             maid_id = _maidList.Count() + 1;
             Entity maid = new Entity(currentNode, maid_id,AssignRoom(targetRoom), Entity.ENTITY_TYPE.MAID);
             maid.Path = maid.MyNode.Pathfinding(maid.MyNode, maid.MyRoom, ID_List.Elevator);
-            _guestList.Add(maid);
+            entityList.Add(maid);
             maid.Redraw();
         }
 
@@ -438,7 +438,7 @@ namespace HotelSimulationSE5
             int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
 
 
-            foreach(Entity currentG in _guestList)
+            foreach(Entity currentG in entityList)
             {                
                 if (currentG.Moving == true && currentG.Path.Any())
                 {
