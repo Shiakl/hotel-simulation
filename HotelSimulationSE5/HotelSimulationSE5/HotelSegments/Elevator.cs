@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
-    class Elevator : HSegment
+    public class Elevator : HSegment
     {
         public bool Elevator_here { get; set; }
 

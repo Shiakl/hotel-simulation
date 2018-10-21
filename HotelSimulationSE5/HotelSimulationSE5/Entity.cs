@@ -36,34 +36,48 @@ namespace HotelSimulationSE5
             MyNode = node;
             ID = id;
             EType = etype;
-            Moving = false;
-            Checked_Out = false;
+            Moving = false; //An entity only moves after it is given a destination.
+            Checked_Out = false; //An entity only checks out when when the event is triggered or during evacuation.
+
+            //If the Entity type is a "MAID" it is given the image of a maid, otherwise the default image is that of a guest and the room the guest is assigned to is set to reserved.
             switch (etype)
             {
-                case ENTITY_TYPE.GUEST:
-                    MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
-                    MyRoom.Reserved_room();
-                    break;
                 case ENTITY_TYPE.MAID:
                     MyImage = Image.FromFile(@"..\..\Images\maid.png");
                     break;
                 default:
+                    MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+                    MyRoom.Reserved_room();
                     break;
             }
-            panelPb = new PictureBox();
-            panelPb.Size = MyImage.Size;
-            panelPb.BackgroundImageLayout = ImageLayout.None;
-            panelPb.Parent = node.panelPb;
-            panelPb.BackColor = Color.Transparent;
-            node.panelPb.Controls.Add(panelPb);
-        }
 
-        public void Redraw()
-        {
+            //New picturebox created for the entity to be drawn on.
+            panelPb = new PictureBox
+            {
+                Size = MyImage.Size,
+                BackgroundImageLayout = ImageLayout.None,
+                Parent = node.panelPb,
+                BackColor = Color.Transparent
+            };
+            node.panelPb.Controls.Add(panelPb);
             panelPb.BackgroundImage = MyImage;
             panelPb.BringToFront();
+            Redraw();
         }
 
+        /// <summary>
+        /// After an entity moves it needs to be redrawn by the form.
+        /// </summary>
+        public void Redraw()
+        {
+            panelPb.Refresh();
+
+        }
+
+        /// <summary>
+        /// Check if the entity has anywhere it has to go and set the moving property to true if it does.
+        /// If the entity has reached it's destination hide the entity if the entity type is 'GUEST'.
+        /// </summary>
         public void Destination_reached()
         {
             if (Path.Any())
@@ -83,12 +97,21 @@ namespace HotelSimulationSE5
             }            
         }
 
-        public void MoveToNode(Node next,Node current)
+
+        public void MoveToNode()
         {
-            next.panelPb.Controls.Add(panelPb);
-            current.panelPb.Controls.Remove(panelPb);
-            MyNode = next;
-            Path.Remove(Path.FirstOrDefault());
+            if (Moving == true && Path.Any())
+            {
+                MyNode.MyConnections[(int)Path.First()].panelPb.Controls.Add(panelPb);
+                MyNode.panelPb.Controls.Remove(panelPb);
+                MyNode = MyNode.MyConnections[(int)Path.First()];
+                Path.Remove(Path.FirstOrDefault());
+                Redraw();
+            }
+            else
+            {
+                Destination_reached();
+            }
         }
 
     }

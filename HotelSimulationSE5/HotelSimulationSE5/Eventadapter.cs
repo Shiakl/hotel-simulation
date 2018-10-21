@@ -49,6 +49,11 @@ namespace HotelSimulationSE5
             CINEMA
         }
 
+        /// <summary>
+        /// Return a list of all selected facilities present in the hotel.
+        /// </summary>
+        /// <param name="facility">Facility type</param>
+        /// <returns></returns>
         private List<HSegment> Select_Segment(FACILITIES facility)
         {
             List<HSegment> segments;
@@ -72,11 +77,15 @@ namespace HotelSimulationSE5
                     return segments;
                 default:
                     segments = new List<HSegment>();
-                    segments.Add(_myHotel.Reception.MySegment);
                     return segments;
             }
         }
 
+        /// <summary>
+        /// Sets the path to the nearest facility on the given entities.
+        /// </summary>
+        /// <param name="unit">Moving entity</param>
+        /// <param name="facility">Target Facility</param>
         private void Find_Facility(Entity unit, FACILITIES facility)
         {
             List<Node.DIRECTIONS> route = new List<Node.DIRECTIONS>();
@@ -106,13 +115,17 @@ namespace HotelSimulationSE5
         /// <returns></returns>
         private Entity Select_Entity(int id, Entity.ENTITY_TYPE eType)
         {
-            List<Entity> guests = (from entity in _myHotel.entityList
+            List<Entity> guests = (from entity in _myHotel.guestList
                                    where (entity.ID == id && entity.EType == eType)
                                    select entity).ToList();
 
                 return guests.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Method that processes all the HotelEvents.
+        /// </summary>
+        /// <param name="item">Provided hotelevent</param>
         public void Event_Handler(HotelEvent item)
         {
             List<Entity> Moving_Enity_List = new List<Entity>();
@@ -128,7 +141,7 @@ namespace HotelSimulationSE5
                         .ToList();
                     }
                     int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
-                    _myHotel.Create_Guest(_myHotel.Reception, classification);
+                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:
                     guestID = Convert.ToInt32(item.Data.First().Value);
@@ -136,7 +149,7 @@ namespace HotelSimulationSE5
 
                     foreach (Entity leaver in Moving_Enity_List)
                     {
-                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
+                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
                         leaver.MyRoom.Reserved_room();
                         leaver.MyNode.ColorMe();
                         leaver.Destination_reached();
@@ -149,21 +162,29 @@ namespace HotelSimulationSE5
                     {
                         event_values.Add(Convert.ToInt32(value.Value));
                     }
-                    _myHotel.Call_Maid(_myHotel.Reception, event_values.First(), event_values.Last());
+                    _myHotel.Call_Maid(_myHotel.elevatorNodes.Last(), event_values.First(), event_values.Last());
                     break;
                 case HotelEventType.EVACUATE:
-                    foreach (Entity leaver in _myHotel.entityList)
+                    foreach (Entity leaver in _myHotel.guestList)
                     {
                         if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
                         {
-                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
+                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
+                            leaver.Destination_reached();
+                        }
+                    }
+                    foreach (Entity leaver in _myHotel.maidList)
+                    {
+                        if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
+                        {
+                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
                             leaver.Destination_reached();
                         }
                     }
                     Console.WriteLine("Everyone is evacuating");
                     break;
                 case HotelEventType.GODZILLA:
-
+                    Console.WriteLine("Godzilla has entered the building!");
                     break;
                 case HotelEventType.GOTO_CINEMA:
                     guestID = Convert.ToInt32(item.Data.First().Value);
