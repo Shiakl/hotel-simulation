@@ -37,7 +37,6 @@ namespace HotelSimulationSE5
 
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
-
             if (events.EventList.Count()>0)
             {
                 foreach (var item in events.EventList)

@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
     class Eventadapter : HotelEvents.HotelEventListener
     {
-        public List<HotelEvents.HotelEvent> EventList { get; set; }
+        public List<HotelEvent> EventList { get; set; }
         private Building _myHotel;
         private float HTE_Value = 5f;
 
@@ -41,6 +42,62 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
+        private enum FACILITIES
+        {
+            RESTAURANT,
+            FITNESS,
+            CINEMA
+        }
+
+        private List<HSegment> Select_Segment(FACILITIES facility)
+        {
+            List<HSegment> segments;
+            switch (facility)
+            {
+                case FACILITIES.CINEMA:
+                    segments = (from entity in _myHotel._nodes
+                                where (entity.MySegment is Cinema)
+                                select entity.MySegment).ToList();
+                    return segments;
+
+                case FACILITIES.FITNESS:
+                    segments = (from entity in _myHotel._nodes
+                                where (entity.MySegment is Fitness)
+                                select entity.MySegment).ToList();
+                    return segments;
+                case FACILITIES.RESTAURANT:
+                    segments = (from entity in _myHotel._nodes
+                                where (entity.MySegment is Restaurant)
+                                select entity.MySegment).ToList();
+                    return segments;
+                default:
+                    segments = new List<HSegment>();
+                    segments.Add(_myHotel.Reception.MySegment);
+                    return segments;
+            }
+        }
+
+        private void Find_Facility(Entity unit, FACILITIES facility)
+        {
+            List<Node.DIRECTIONS> route = new List<Node.DIRECTIONS>();
+            List<HSegment> found_segs = Select_Segment(facility);
+            foreach (HSegment item in found_segs)
+            {
+                List<Node.DIRECTIONS> temp_route = unit.MyNode.Pathfinding(unit.MyNode, item, Building.ID_List.Elevator);
+
+                if (route.Count() == 0)
+                {
+                    route = temp_route;
+                }
+                else if (temp_route.Count() < route.Count())
+                {
+                    route = temp_route;
+                }
+            }
+            unit.Path = route;
+            unit.Destination_reached();
+        }
+
         /// <summary>
         /// Return an Entity class object based on the specific ID and Type given from the hotel entity list.
         /// </summary>
@@ -59,6 +116,8 @@ namespace HotelSimulationSE5
         private List<char> data_value;
         public void Event_Handler(HotelEvent item)
         {
+            List<Entity> Moving_Enity_List = new List<Entity>();
+            int guestID;
             switch (item.EventType)
             {
                 case HotelEventType.CHECK_IN:
@@ -72,18 +131,17 @@ namespace HotelSimulationSE5
                     _myHotel.Create_Guest(_myHotel.Reception, classification);
                     break;
                 case HotelEventType.CHECK_OUT:
-                    List<Entity> check_out_list = new List<Entity>();
-                    int guestID = Convert.ToInt32(item.Data.First().Value);
-                    check_out_list.Add(Select_Entity(guestID,Entity.ENTITY_TYPE.GUEST));
+                    guestID = Convert.ToInt32(item.Data.First().Value);
+                    Moving_Enity_List.Add(Select_Entity(guestID,Entity.ENTITY_TYPE.GUEST));
 
-                    foreach (Entity leaver in check_out_list)
+                    foreach (Entity leaver in Moving_Enity_List)
                     {
                         leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
                         leaver.MyRoom.Reserved_room();
                         leaver.MyNode.ColorMe();
                         leaver.Destination_reached();
                     }
-                    check_out_list.Clear();
+                    Moving_Enity_List.Clear();
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
                     List<int> event_values = new List<int>();
@@ -108,16 +166,36 @@ namespace HotelSimulationSE5
 
                     break;
                 case HotelEventType.GOTO_CINEMA:
+                    guestID = Convert.ToInt32(item.Data.First().Value);
+                    Moving_Enity_List.Add(Select_Entity(guestID, Entity.ENTITY_TYPE.GUEST));
 
+                    foreach (Entity unit in Moving_Enity_List)
+                    {
+                        Find_Facility(unit,FACILITIES.CINEMA);
+                    }
+                    Moving_Enity_List.Clear();
                     break;
                 case HotelEventType.GOTO_FITNESS:
+                    guestID = Convert.ToInt32(item.Data.First().Value);
+                    Moving_Enity_List.Add(Select_Entity(guestID, Entity.ENTITY_TYPE.GUEST));
 
+                    foreach (Entity unit in Moving_Enity_List)
+                    {
+                        Find_Facility(unit, FACILITIES.FITNESS);
+                    }
+                    Moving_Enity_List.Clear();
                     break;
                 case HotelEventType.NEED_FOOD:
+                    guestID = Convert.ToInt32(item.Data.First().Value);
+                    Moving_Enity_List.Add(Select_Entity(guestID, Entity.ENTITY_TYPE.GUEST));
 
+                    foreach (Entity unit in Moving_Enity_List)
+                    {
+                        Find_Facility(unit, FACILITIES.RESTAURANT);
+                    }
+                    Moving_Enity_List.Clear();
                     break;
                 case HotelEventType.NONE:
-
                     break;
                 case HotelEventType.START_CINEMA:
                     Console.WriteLine("Movie started");
