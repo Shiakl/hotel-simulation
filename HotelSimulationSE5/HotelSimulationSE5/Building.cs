@@ -19,7 +19,7 @@ namespace HotelSimulationSE5
         public int maxYcoordinate;
         public List<Entity> entityList = new List<Entity>();//List of every guest currently in the hotel
         public bool elevatorLeft;
-        private Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
+        public Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
         public Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] _staircaseNodes; //Saves a array of staircases with its properties
         private List<TempRoom> _temp; //Saves a list of every room in the hotel
@@ -377,7 +377,6 @@ namespace HotelSimulationSE5
             {
                 return null;
             }
-
         }
 
         /// <summary>
