@@ -113,7 +113,6 @@ namespace HotelSimulationSE5
                 return guests.FirstOrDefault();
         }
 
-        private List<char> data_value;
         public void Event_Handler(HotelEvent item)
         {
             List<Entity> Moving_Enity_List = new List<Entity>();
@@ -121,6 +120,7 @@ namespace HotelSimulationSE5
             switch (item.EventType)
             {
                 case HotelEventType.CHECK_IN:
+                    List<char> data_value = new List<char>();
                     foreach (var value in item.Data)
                     {
                         data_value = value.Value.SkipWhile(c => !Char.IsDigit(c))
@@ -198,13 +198,20 @@ namespace HotelSimulationSE5
                 case HotelEventType.NONE:
                     break;
                 case HotelEventType.START_CINEMA:
-                    Console.WriteLine("Movie started");
+                    foreach (var data in item.Data)
+                    {
+                        Console.WriteLine("Movie started in Cinema with ID : " + data.Value);                        
+                    }
                     break;
                 default:
                     break;
             }
         }
 
+        /// <summary>
+        /// Adds a Hotelevent to the EventList. Method called by the HotelEventManager.
+        /// </summary>
+        /// <param name="evt">The generated Hotelevent</param>
         public void Notify(HotelEvents.HotelEvent evt)
         {
             Console.WriteLine("Event type is :" + evt.EventType);

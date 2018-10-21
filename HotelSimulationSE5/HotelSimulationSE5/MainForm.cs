@@ -35,22 +35,29 @@ namespace HotelSimulationSE5
 
         }
 
+        /// <summary>
+        /// At set intervals the EventList in EventAdapter is checked and the events in the list are sent to the Event_Handler method.
+        /// Also moves units at these intervals.
+        /// </summary>
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
             if (events.EventList.Count()>0)
             {
-                foreach (var item in events.EventList)
+            int event_amount = events.EventList.Count();
+                for (int counter = 0; counter <event_amount;counter++)
                 {
-                    events.Event_Handler(item);
+                    events.Event_Handler(events.EventList.First());
+                    events.EventList.Remove(events.EventList.FirstOrDefault());
                 }
-                events.EventList.Clear();
             }
-
 
             //Move guests
             _myHotel.Move_Guest(this);
         }
 
+        /// <summary>
+        /// Method responsible for generating the hotel and registering the events.
+        /// </summary>
         public void GenerateHotel()
         {
             _myHotel = new Building();
