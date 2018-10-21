@@ -9,7 +9,7 @@ namespace HotelSimulationSE5.Factories
 {
     class HSegmentFactory
     {
-        public HotelSegments.IHSegment Create(string areatype, int segment_ID, int seg_x = 1, int seg_y = 1,int classification = 0, bool firstfloor = false)
+        public HotelSegments.HSegment Create(string areatype, int segment_ID, int seg_x = 1, int seg_y = 1,int classification = 0, bool firstfloor = false)
         {
             switch (areatype)
             {
@@ -20,7 +20,9 @@ namespace HotelSimulationSE5.Factories
                 case "Fitness":
                     return new HotelSegments.Fitness(segment_ID, seg_x, seg_y);
                 case "Elevator":
-                    return new HotelSegments.Elevator(segment_ID, seg_x, seg_y, firstfloor);
+                    return new HotelSegments.Elevator(segment_ID, seg_x, seg_y);
+                case "Reception":
+                    return new HotelSegments.Reception(segment_ID, seg_x, seg_y);
                 case "Staircase":
                     return new HotelSegments.Staircase(segment_ID, seg_x, seg_y, firstfloor);
                 case "Room":                   

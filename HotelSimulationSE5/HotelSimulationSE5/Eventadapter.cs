@@ -41,9 +41,13 @@ namespace HotelSimulationSE5
             HotelEventManager.Deregister(newGuest);
         }
 
-        public void Check_out_Guest(int id)
+        private Entity Select_Entity(int id, Entity.ENTITY_TYPE eType)
         {
-            Console.WriteLine("Guest with ID : " + id+ "Checked out!");
+            List<Entity> guests = (from entity in _myHotel._guestList
+                                   where (entity.ID == id && entity.EType == eType)
+                                   select entity).ToList();
+
+                return guests.FirstOrDefault();
         }
 
         private List<char> data_value;
@@ -59,19 +63,40 @@ namespace HotelSimulationSE5
                         .ToList();
                     }
                     int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
-                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
+                    _myHotel.Create_Guest(_myHotel.Reception, classification);
                     break;
                 case HotelEventType.CHECK_OUT:
-                    foreach (var value in item.Data)
+                    List<Entity> check_out_list = new List<Entity>();
+                    int guestID = Convert.ToInt32(item.Data.First().Value);
+                    check_out_list.Add(Select_Entity(guestID,Entity.ENTITY_TYPE.GUEST));
+
+                    foreach (Entity leaver in check_out_list)
                     {
-                        Check_out_Guest(Int32.Parse(value.Value));
+                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
+                        leaver.MyRoom.Reserved_room();
+                        leaver.MyNode.ColorMe();
+                        leaver.Destination_reached();
                     }
+                    check_out_list.Clear();
                     break;
                 case HotelEventType.CLEANING_EMERGENCY:
-
+                    List<int> event_values = new List<int>();
+                    foreach (var value in item.Data)
+                    {
+                        event_values.Add(Convert.ToInt32(value.Value));
+                    }
+                    _myHotel.Call_Maid(_myHotel.Reception, event_values.First(), event_values.Last());
                     break;
                 case HotelEventType.EVACUATE:
-
+                    foreach (Entity leaver in _myHotel._guestList)
+                    {
+                        if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
+                        {
+                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.Reception.MySegment, Building.ID_List.Elevator);
+                            leaver.Destination_reached();
+                        }
+                    }
+                    Console.WriteLine("Everyone is evacuating");
                     break;
                 case HotelEventType.GODZILLA:
 
@@ -89,7 +114,7 @@ namespace HotelSimulationSE5
 
                     break;
                 case HotelEventType.START_CINEMA:
-
+                    Console.WriteLine("Movie started");
                     break;
                 default:
                     break;
@@ -107,6 +132,7 @@ namespace HotelSimulationSE5
                 Console.WriteLine("Value is: " + test.Value);
                 }
             }
+            Console.WriteLine("");
             EventList.Add(evt);
         }
     }

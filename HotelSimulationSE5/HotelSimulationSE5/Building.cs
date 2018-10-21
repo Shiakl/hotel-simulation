@@ -10,14 +10,14 @@ using HotelEvents;
 
 namespace HotelSimulationSE5
 {
-    class Building
+    public class Building
     {
 
         public int segmentSizeX = 104; //X size of each hotel segment
         public int segmentSizeY = 60; //Y size of each hotel segment
         public int maxXcoordinate;
         public int maxYcoordinate;
-        public List<Guest> _guestList = new List<Guest>();//List of every guest currently in the hotel
+        public List<Entity> _guestList = new List<Entity>();//List of every guest currently in the hotel
         public bool elevatorLeft;
         private Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
         public Node[] elevatorNodes; //Saves a array of all elevators with its properties
@@ -25,6 +25,7 @@ namespace HotelSimulationSE5
         private List<TempRoom> _temp; //Saves a list of every room in the hotel
         private string _layoutstring; //Hotel layout(blueprint)
         private const int _startwaarde = 0;
+        public Node Reception { get; set; }
 
         public Building()
         {
@@ -106,7 +107,7 @@ namespace HotelSimulationSE5
         /// <summary>
         /// IDs for staircases, elevators and the reception
         /// </summary>
-        private enum ID_List
+        public enum ID_List
         {
             Staircase = 0,
             Elevator = 1,
@@ -138,11 +139,12 @@ namespace HotelSimulationSE5
 
                 if (currentYcoordinate == maxYcoordinate-1)
                 {
-                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator" , (int)ID_List.Reception, firstfloor: true) as HotelSegments.IHSegment;
+                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Reception", (int)ID_List.Reception) as HotelSegments.HSegment;
+                    Reception = elevatorNodes[currentYcoordinate];
                 }
                 else
                 {
-                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.IHSegment;
+                    elevatorNodes[currentYcoordinate].MySegment = sFac.Create("Elevator", (int)ID_List.Elevator) as HotelSegments.HSegment;
                 }
                 mainform.Controls.Add(elevatorNodes[currentYcoordinate].MyPanel);
                 elevatorNodes[currentYcoordinate].ColorMe();
@@ -162,11 +164,11 @@ namespace HotelSimulationSE5
 
                 if (currentYcoordinate == maxYcoordinate - 1)
                 {
-                    _staircaseNodes[currentYcoordinate].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase, firstfloor: true) as HotelSegments.IHSegment;
+                    _staircaseNodes[currentYcoordinate].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase, firstfloor: true) as HotelSegments.HSegment;
                 }
                 else
                 {
-                    _staircaseNodes[currentYcoordinate].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase) as HotelSegments.IHSegment;
+                    _staircaseNodes[currentYcoordinate].MySegment = sFac.Create("Staircase", (int)ID_List.Staircase) as HotelSegments.HSegment;
                 }
                 mainform.Controls.Add(_staircaseNodes[currentYcoordinate].MyPanel);
                 _staircaseNodes[currentYcoordinate].ColorMe();
@@ -257,6 +259,7 @@ namespace HotelSimulationSE5
                 }
 
                 elevatorNodes[elevatorLevel].Add_myConnections();
+                _staircaseNodes[elevatorLevel].Add_myConnections();
 
                 elevatorLevel++;
             }
@@ -264,20 +267,20 @@ namespace HotelSimulationSE5
             //Add a segment to each node according to their position in the layout file from temp
             foreach (TempRoom blankRoom in _temp)
             {
-                HotelSegments.IHSegment tempSeg;
+                HotelSegments.HSegment tempSeg;
 
                 if (blankRoom.AreaType.Equals("Room"))
                 {
-                   tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID,blankRoom.DimensionX,blankRoom.DimensionY, blankRoom.Seg_Classification) as HotelSegments.IHSegment;
+                   tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID,blankRoom.DimensionX,blankRoom.DimensionY, blankRoom.Seg_Classification) as HotelSegments.HSegment;
                 }
                 else
                 {
-                    tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID, blankRoom.DimensionX, blankRoom.DimensionY) as HotelSegments.IHSegment;
+                    tempSeg = sFac.Create(blankRoom.AreaType, blankRoom.SegID, blankRoom.DimensionX, blankRoom.DimensionY) as HotelSegments.HSegment;
                 }
 
                 x_track = blankRoom.PositionX + 1;
                 y_track = blankRoom.PositionY-1;
-                Place_Segment_XPos(elevatorNodes.Last()).MySegment = tempSeg;
+                Place_Segment_XPos(Reception).MySegment = tempSeg;
             }
 
             //Redraw all the nodes
@@ -382,7 +385,6 @@ namespace HotelSimulationSE5
         /// </summary>
         public void ReloadAvailableRooms(int classification_num)
         {           
-
             List<HotelSegments.GuestRoom> GuestRooms = (
                 from w in _nodes
                 where (w.MySegment is HotelSegments.GuestRoom)
@@ -403,22 +405,28 @@ namespace HotelSimulationSE5
         /// <param name="currentNode"> Spawn node of the guest</param>
         public void Create_Guest(Node currentNode, int classification_num)
         {
-            Guest arrival;
+            Entity arrival;
             guest_id = _guestList.Count() + 1;
             ReloadAvailableRooms(classification_num);
             if (AvailableRooms.Any())
             {
-                arrival = new Guest(currentNode,guest_id, AvailableRooms.FirstOrDefault());
-                arrival.MyRoom.Reserved = true;
-                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                arrival = new Entity(currentNode,guest_id, AvailableRooms.FirstOrDefault());
+                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom,ID_List.Elevator);
                 _guestList.Add(arrival);
                 arrival.Redraw();
             }
+        }
 
-            if (_guestList.Count() ==11)
-            {
-                Console.WriteLine("Break");
-            }
+        private List<Entity> _maidList = new List<Entity>();
+        private int maid_id;
+
+        public void Call_Maid(Node currentNode, int targetRoom, float hte)
+        {
+            maid_id = _maidList.Count() + 1;
+            Entity maid = new Entity(currentNode, maid_id,AssignRoom(targetRoom), Entity.ENTITY_TYPE.MAID);
+            maid.Path = maid.MyNode.Pathfinding(maid.MyNode, maid.MyRoom, ID_List.Elevator);
+            _guestList.Add(maid);
+            maid.Redraw();
         }
 
         /// <summary>
@@ -429,22 +437,20 @@ namespace HotelSimulationSE5
         {
             int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
 
-            foreach(Guest currentG in _guestList)
-            {
-                if (currentG.Moving == true)
+
+            foreach(Entity currentG in _guestList)
+            {                
+                if (currentG.Moving == true && currentG.Path.Any())
                 {
-                    currentG.Destination_reached();
-                    if (currentG.Moving == true && currentG.Path.Any())
-                    {
-                        currentG.MoveToNode(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
-                        currentG.Redraw();                   
-                    }
+                    currentG.MoveToNode(currentG.MyNode.MyConnections[(int)currentG.Path.First()], currentG.MyNode);
+                    currentG.Redraw();                   
                 }
                 else
                 {
-                    currentG.Moving = true;
+                    currentG.Destination_reached();
                 }
             }
+
         }
     }
 }

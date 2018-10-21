@@ -13,7 +13,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 500; 
+        public int _refreshrateinterval = 400; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events;   
@@ -27,6 +27,7 @@ namespace HotelSimulationSE5
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
+            button1.Visible = false;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();
@@ -36,6 +37,7 @@ namespace HotelSimulationSE5
 
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
+
             if (events.EventList.Count()>0)
             {
                 foreach (var item in events.EventList)
@@ -59,7 +61,8 @@ namespace HotelSimulationSE5
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), 2);
+            _myHotel.Create_Guest(_myHotel.Reception, 2);
+            _myHotel.Call_Maid(_myHotel.Reception, 21,5);
             _refresh_timer.Start();
         }
 
@@ -94,13 +97,13 @@ namespace HotelSimulationSE5
         private void button1_Click(object sender, EventArgs e)
         {
             _myHotel.ReloadAvailableRooms(1);
-            foreach (Guest arrival in _myHotel._guestList)
+            foreach (Entity arrival in _myHotel._guestList)
             {
                 if (_myHotel.AvailableRooms.Count() > 0)
                 {
                     arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms.FirstOrDefault().ID);
                     arrival.MyRoom.Reserved = true;
-                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
+                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, Building.ID_List.Elevator);
                 }
             }
         }

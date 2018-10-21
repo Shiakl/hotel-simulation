@@ -9,8 +9,9 @@ using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
-    class Guest
+    public class Entity
     {
+        public ENTITY_TYPE EType { get; set; }
         public int ID { get; set; }
         public GuestRoom MyRoom { get; set; }        
         public Image MyImage { get; set; }
@@ -18,15 +19,37 @@ namespace HotelSimulationSE5
         public List<Node.DIRECTIONS> Path { get; set; }
         public Node MyNode { get; set; }
         public bool Moving { get; set; }
-
         private PictureBox panelPb;
+        private float HTE { get; set; }
+        public bool Checked_Out { get; set; }
 
-        public Guest(Node node,int id, GuestRoom room)
+
+        public enum ENTITY_TYPE
+        {
+            GUEST,
+            MAID
+        }
+
+        public Entity(Node node,int id, GuestRoom room,ENTITY_TYPE etype = ENTITY_TYPE.GUEST)
         {
             MyRoom = room;
             MyNode = node;
             ID = id;
-            MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+            EType = etype;
+            Moving = false;
+            Checked_Out = false;
+            switch (etype)
+            {
+                case ENTITY_TYPE.GUEST:
+                    MyImage = Image.FromFile(@"..\..\Images\TempGuest4.png");
+                    MyRoom.Reserved_room();
+                    break;
+                case ENTITY_TYPE.MAID:
+                    MyImage = Image.FromFile(@"..\..\Images\maid.png");
+                    break;
+                default:
+                    break;
+            }
             panelPb = new PictureBox();
             panelPb.Size = MyImage.Size;
             panelPb.BackgroundImageLayout = ImageLayout.None;
@@ -34,7 +57,6 @@ namespace HotelSimulationSE5
             panelPb.BackColor = Color.Transparent;
             node.panelPb.Controls.Add(panelPb);
         }
-
 
         public void Redraw()
         {
@@ -44,21 +66,21 @@ namespace HotelSimulationSE5
 
         public void Destination_reached()
         {
-            if (MyNode.MySegment != null)
+            if (Path.Any())
             {
-                if (MyNode.MySegment.ID == MyRoom.ID)
-                {
-                    Moving = false;
-                }
-                else
-                {
-                    Moving = true;
-                }
+                Moving = true;
+                panelPb.Visible = true;
             }
             else
             {
-                Moving = true;
-            }
+                Path.Clear();
+                Moving = false;
+                if ( EType == ENTITY_TYPE.GUEST)
+                {
+                    MyNode.ColorMe();
+                    panelPb.Visible = false;
+                }
+            }            
         }
 
         public void MoveToNode(Node next,Node current)

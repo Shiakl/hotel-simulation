@@ -15,11 +15,13 @@ namespace HotelSimulationSE5
         public Node TopNode { get; set; }
         public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
-        public int Distance { get; set; }     
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
-        public HotelSegments.IHSegment MySegment { get; set; }
+        public HotelSegments.HSegment MySegment { get; set; }
         private const int _startwaarde = 0;
+
+        public int Distance { get; set; }   
+        public DIRECTIONS Previous { get; set; }
 
         public Node(Panel box)
         {
@@ -80,79 +82,6 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
         }
 
-        /*
-         Search algoritm:
-        1. Check right till target found or null, If target not found The room must be on the left.
-        2. Check Left till Stairs or target found.
-        3. From Stairs go up and check all rooms right. If target is not on this floor its on the floor above or below.
-        4. Check all floors above till last floor reached, if target is not found check the floors below the starting floor.
-        5. Check all the floors below the starting floor, if target is not found the target room does not exist. 
-         */
-
-
-        private List<DIRECTIONS> Route = new List<DIRECTIONS>();
-        private List<DIRECTIONS> tempDirections = new List<DIRECTIONS>();
-
-        public List<DIRECTIONS> Set_route(Node current, HotelSegments.IHSegment target)
-        {
-            right_check = false;
-            if (Find_route(current,target.ID,DIRECTIONS.RIGHT) == true)
-            {
-                Route = tempDirections;
-            }
-            else if(Find_route(current, target.ID, DIRECTIONS.LEFT) == true)
-            {
-                Route = tempDirections;
-            }
-            return Route;
-        }
-
-        private bool right_check;
-        public bool Find_route(Node current, int target, DIRECTIONS direction)
-        {           
-            if (Room_Found(current, target) == true)
-            {
-                return true;
-            }
-            else if (current.MyConnections[(int)direction] == null && right_check == false)
-            {
-                tempDirections.Clear();
-                right_check = true;
-                return false;
-            }
-            else if (current.MySegment is HotelSegments.Staircase)
-            {
-                right_check = false;
-                tempDirections.Add(DIRECTIONS.TOP);
-                return Find_route(current.MyConnections[(int)direction], target, DIRECTIONS.RIGHT);
-            }
-            else
-            {
-                tempDirections.Add(direction);
-                return Find_route(current.MyConnections[(int)direction], target, direction);
-            }
-        }
-
-
-        private bool Room_Found(Node current, int targetID)
-        {
-            if (current.MySegment != null)
-            {
-                if (current.MySegment.ID == targetID)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         /// <summary>
         /// Creates a path for a guest to its designated room
@@ -160,7 +89,7 @@ namespace HotelSimulationSE5
         /// <param name="currentroom">The room where the guest is currently at</param>
         /// <param name="targetroom">The room where the guest wants to go</param>
         /// <returns>The generated path in a List with DIRECTIONS</returns>
-        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.IHSegment targetroom)
+        public List<DIRECTIONS> Pathfinding(Node currentroom, HotelSegments.HSegment targetroom, Building.ID_List pathtype)
         {
             int ammountcheckedright = _startwaarde; //Used to save how many times the path has gone to the right in case we ever have to reverse the steps and remove them from the list
             int ammountleveled = _startwaarde; //Used to save how many times the path has gone up in case we ever have to reverse the steps and remove them from the list
@@ -173,9 +102,9 @@ namespace HotelSimulationSE5
             List<DIRECTIONS> path = new List<DIRECTIONS>(); //Used to save the path before returning it to the globl List
             while (found == false) //This will keep looping through until the path has complete
             {
-                if (checkedright == true) //If all the rooms on the right of the current level has been checked
+                if (checkedright == true) //If all the rooms on the right of the current level has been checked /PathRoom.MySegment.ID == (int)pathtype
                 {
-                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase) //If the current room is an elevator or staircaise
+                    if (PathRoom.MySegment is HotelSegments.Elevator || PathRoom.MySegment is HotelSegments.Staircase) //If the current room is an elevator or staircaise 
                     {
                         if (startlevel == true) //If this is the first elevator or staircase of the path then make set the ElevatorOrStaircase to this node
                         {
@@ -211,6 +140,13 @@ namespace HotelSimulationSE5
                             }
                             ammountleveled = _startwaarde;
                             PathRoom = ElevatorOrStaircase;
+                        }
+                        else if (checkedtop == true && PathRoom.BottomNode == null)
+                        {
+
+                            path.Add(DIRECTIONS.LEFT);
+                            found = true;
+
                         }
 
                         else //If everything is false then the target room is not present in the current hotel layout
