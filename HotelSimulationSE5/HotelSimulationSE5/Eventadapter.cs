@@ -11,7 +11,7 @@ namespace HotelSimulationSE5
     class Eventadapter : HotelEvents.HotelEventListener
     {
         public List<HotelEvents.HotelEvent> EventList { get; set; }
-        private float HTE_Value = 1f;
+        private float HTE_Value = 5f;
 
         public Eventadapter()
         {
