@@ -1,21 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="HotelSimulationSE5.Building" Collapsed="true">
-    <Position X="8.25" Y="2.5" Width="1.5" />
+    <Position X="7.25" Y="2" Width="2.75" />
+    <NestedTypes>
+      <Enum Name="HotelSimulationSE5.Building.ID_List" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Building.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>EgEAABACQRAAASAAiBgACCIAQAEAAQAAFAEEAACQAAA=</HashCode>
+      <HashCode>EgEAABACQZAAASAAiBgACCAAQAEAAQAAFAEEAACQAAA=</HashCode>
       <FileName>Building.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HotelSimulationSE5.MainForm" Collapsed="true">
-    <Position X="7.5" Y="0.75" Width="2.25" />
+    <Position X="7.25" Y="0.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAACAAACEEgASAIEIAAMAEEAACAAAAJA=</HashCode>
       <FileName>MainForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HotelSimulationSE5.Factories.HSegmentFactory" Collapsed="true">
-    <Position X="4.25" Y="2.5" Width="1.5" />
+    <Position X="2.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\HSegmentFactory.cs</FileName>
@@ -28,7 +35,7 @@
       <FileName>HotelSegments\Cinema.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HotelSimulationSE5.HotelSegments.Elevator" BaseTypeListCollapsed="true">
+  <Class Name="HotelSimulationSE5.HotelSegments.Elevator" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="1" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
@@ -72,24 +79,50 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="HotelSimulationSE5.Node" Collapsed="true">
-    <Position X="7.25" Y="3.75" Width="1.5" />
+    <Position X="10.5" Y="2" Width="2" />
+    <NestedTypes>
+      <Enum Name="HotelSimulationSE5.Node.SEGMENT_PART" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Node.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="HotelSimulationSE5.Node.DIRECTIONS" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Node.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AIAAEAAAAFQAAwAACAABAAIAQAAAAABAACAAAAAABAA=</HashCode>
       <FileName>Node.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HotelSimulationSE5.TempRoom" Collapsed="true">
-    <Position X="7.25" Y="4.75" Width="1.5" />
+    <Position X="6" Y="4.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAIAAggAAIAwAAgAAwAAAACAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>TempRoom.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HotelSimulationSE5.Worker" Collapsed="true">
-    <Position X="9.5" Y="4.75" Width="1.5" />
+    <Position X="8.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Worker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HotelSimulationSE5.Entity">
+    <Position X="12" Y="4.75" Width="2.5" />
+    <NestedTypes>
+      <Enum Name="HotelSimulationSE5.Entity.ENTITY_TYPE" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Entity.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAwAgAIAAgAAAAIAAABAkAAAAAhAAAAAIFA=</HashCode>
+      <FileName>Entity.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
