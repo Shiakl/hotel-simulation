@@ -36,7 +36,7 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void ReloadAvailableRooms()
+        public void FindMaxX()
         {
             // Arrange
             
@@ -48,6 +48,18 @@ namespace UnitTestProject1
         #endregion
         #region Node.cs
 
+        #endregion
+        #region Temproom.cs
+        [TestMethod]
+        public void Classification()
+        {
+            // Arrange
+            
+            // Act
+            
+            // Asset
+
+        }
         #endregion
     }
 }
