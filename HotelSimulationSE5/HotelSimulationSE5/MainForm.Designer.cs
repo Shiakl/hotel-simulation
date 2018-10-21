@@ -28,56 +28,64 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.GuestButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.StopButton = new System.Windows.Forms.Button();
-            this.EventButton = new System.Windows.Forms.Button();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.ExitButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // GuestButton
-            // 
-            this.GuestButton.Location = new System.Drawing.Point(12, 12);
-            this.GuestButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.GuestButton.Name = "GuestButton";
-            this.GuestButton.Size = new System.Drawing.Size(100, 23);
-            this.GuestButton.TabIndex = 0;
-            this.GuestButton.Text = "Spawn Guest";
-            this.GuestButton.UseVisualStyleBackColor = true;
-            this.GuestButton.Click += new System.EventHandler(this.GuestButton_Click);
             // 
             // StopButton
             // 
-            this.StopButton.Location = new System.Drawing.Point(131, 11);
-            this.StopButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.StopButton.BackColor = System.Drawing.Color.Transparent;
+            this.StopButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StopButton.BackgroundImage")));
+            this.StopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.StopButton.ForeColor = System.Drawing.Color.Transparent;
+            this.StopButton.Location = new System.Drawing.Point(11, 11);
+            this.StopButton.Margin = new System.Windows.Forms.Padding(2);
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(75, 23);
+            this.StopButton.Size = new System.Drawing.Size(27, 24);
             this.StopButton.TabIndex = 2;
-            this.StopButton.Text = "Pause";
-            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.UseVisualStyleBackColor = false;
+            this.StopButton.Visible = false;
             this.StopButton.Click += new System.EventHandler(this.Stop_Click);
             // 
-            // EventButton
+            // StartButton
             // 
-            this.EventButton.Location = new System.Drawing.Point(236, 11);
-            this.EventButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.EventButton.Name = "EventButton";
-            this.EventButton.Size = new System.Drawing.Size(85, 23);
-            this.EventButton.TabIndex = 3;
-            this.EventButton.Text = "Event start";
-            this.EventButton.UseVisualStyleBackColor = true;
-            this.EventButton.Click += new System.EventHandler(this.EventButton_Click);
+            this.StartButton.BackColor = System.Drawing.Color.White;
+            this.StartButton.Font = new System.Drawing.Font("Palace Script MT", 63F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StartButton.Location = new System.Drawing.Point(766, 121);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(158, 88);
+            this.StartButton.TabIndex = 4;
+            this.StartButton.Text = "Start";
+            this.StartButton.UseVisualStyleBackColor = false;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExitButton.Location = new System.Drawing.Point(44, 11);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(52, 24);
+            this.ExitButton.TabIndex = 5;
+            this.ExitButton.Text = "Exit";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Visible = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.EventButton);
+            this.ClientSize = new System.Drawing.Size(961, 353);
+            this.Controls.Add(this.ExitButton);
+            this.Controls.Add(this.StartButton);
             this.Controls.Add(this.StopButton);
-            this.Controls.Add(this.GuestButton);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "Alternatieve Hilton";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -86,10 +94,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button GuestButton;
         private System.Windows.Forms.Button StopButton;
-        private System.Windows.Forms.Button EventButton;
+        private System.Windows.Forms.Button PlayButton;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Button ExitButton;
     }
 }
 

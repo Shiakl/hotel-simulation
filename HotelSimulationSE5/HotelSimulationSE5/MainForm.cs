@@ -15,23 +15,13 @@ namespace HotelSimulationSE5
     {
         public int _refreshrateinterval = 300; 
         private Timer _refresh_timer= new Timer();
-        bool started = false;
-        Eventadapter events;   
-
+        bool started;
+        Eventadapter events;
+        int ybuttondistance = 20;
         private Building _myHotel;
         public MainForm()
         {
             InitializeComponent();
-            GenerateHotel();
-            GuestButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-            EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-
-            _refresh_timer.Interval = _refreshrateinterval;
-            _refresh_timer.Tick += _refresh_timer_Tick;
-            _refresh_timer.Start();
-            Console.WriteLine();
-
         }
 
         /// <summary>
@@ -66,39 +56,52 @@ namespace HotelSimulationSE5
             events = new Eventadapter(_myHotel);
         }
 
-        private void GuestButton_Click(object sender, EventArgs e)
-        {
-            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), 2);
-            _myHotel.Call_Maid(_myHotel.elevatorNodes.Last(), 21,5);
-            _refresh_timer.Start();
-        }
-
-
         private void Stop_Click(object sender, EventArgs e)
         {
-            _refresh_timer.Stop();
-        }
-
-
-        private void EventButton_Click(object sender, EventArgs e)
-        {
+            events.Pause_Events();
             if (started == false)
             {
-                events.Register(events);
-                events.Start_events();
+                StopButton.BackgroundImage = Image.FromFile(@"..\..\Images\Pause Button.png");
+                _refresh_timer.Start();
                 started = true;
             }
+
             else
             {
-                events.Stop_Events();
+                StopButton.BackgroundImage = Image.FromFile(@"..\..\Images\Play Button.jpg");
+                _refresh_timer.Stop();
                 started = false;
             }
+            
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            started = true;
+            BackgroundImage = null;
+            StartButton.Visible = false;
+            GenerateHotel();
+            StopButton.Visible = true;
+            ExitButton.Visible = true;
+            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
+            ExitButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
+            _refresh_timer.Interval = _refreshrateinterval;
+            _refresh_timer.Tick += _refresh_timer_Tick;
+            _refresh_timer.Start();
+            events.Register(events);
+            events.Start_events();         
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            events.Stop_Events();
+            this.Close();
         }
     }
 }

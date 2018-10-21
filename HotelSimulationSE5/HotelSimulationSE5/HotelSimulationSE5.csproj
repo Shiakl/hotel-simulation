@@ -131,7 +131,10 @@
     <Content Include="Images\empty.png" />
     <Content Include="Images\Fitness1.png" />
     <Content Include="Images\Fitness2.png" />
+    <Content Include="Images\HotelPicture.jpg" />
     <Content Include="Images\maid.png" />
+    <Content Include="Images\Pause Button.png" />
+    <Content Include="Images\Play Button.jpg" />
     <Content Include="Images\reception.png" />
     <Content Include="Images\Restaurant1.png" />
     <Content Include="Images\Restaurant2.png" />

@@ -84,8 +84,6 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.RIGHT] = RightNode;
             MyConnections[(int)DIRECTIONS.TOP] = TopNode;
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
-
-
         }
 
 

@@ -32,6 +32,11 @@ namespace HotelSimulationSE5
             HotelEventManager.Stop();
         }
 
+        public void Pause_Events()
+        {
+            HotelEventManager.Pauze();
+        }
+
         public void Register(Eventadapter newGuest)
         {
             HotelEventManager.Register(newGuest);           
