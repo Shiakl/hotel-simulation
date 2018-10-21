@@ -34,11 +34,14 @@ namespace HotelSimulationSE5
             panelPb.BackgroundImage = Image.FromFile(@"..\..\Images\empty.png");
         }
         
+        /// <summary>
+        /// Uses the dimension property to draw the Segment image on the related connected nodes.
+        /// </summary>
         public void ColorMe()
         {
             if (MySegment!=null)
             {            
-                if (MySegment.X_Dim>1)
+                if (MySegment.X_Dim>1) //x>1 means the dimension is 2 'nodes' big or more and needs to be drawn on MyNode's picturebox and the adjacent Right node's picturebox.
                 {
                     panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.Main];
                     RightNode.panelPb.BackgroundImage = MySegment.MyImages[(int)SEGMENT_PART.RightSide];

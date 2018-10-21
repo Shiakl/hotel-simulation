@@ -13,7 +13,7 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 400; 
+        public int _refreshrateinterval = 300; 
         private Timer _refresh_timer= new Timer();
         bool started = false;
         Eventadapter events;   
@@ -27,7 +27,6 @@ namespace HotelSimulationSE5
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
-            button1.Visible = false;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();
@@ -41,6 +40,8 @@ namespace HotelSimulationSE5
         /// </summary>
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
+            _myHotel.Reception_Queue();
+
             if (events.EventList.Count()>0)
             {
             int event_amount = events.EventList.Count();
@@ -67,8 +68,8 @@ namespace HotelSimulationSE5
 
         private void GuestButton_Click(object sender, EventArgs e)
         {
-            _myHotel.Create_Guest(_myHotel.Reception, 2);
-            _myHotel.Call_Maid(_myHotel.Reception, 21,5);
+            _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), 2);
+            _myHotel.Call_Maid(_myHotel.elevatorNodes.Last(), 21,5);
             _refresh_timer.Start();
         }
 
@@ -98,20 +99,6 @@ namespace HotelSimulationSE5
         {
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _myHotel.ReloadAvailableRooms(1);
-            foreach (Entity arrival in _myHotel.entityList)
-            {
-                if (_myHotel.AvailableRooms.Count() > 0)
-                {
-                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms.FirstOrDefault().ID);
-                    arrival.MyRoom.Reserved = true;
-                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, Building.ID_List.Elevator);
-                }
-            }
         }
     }
 }
