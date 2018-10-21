@@ -15,6 +15,7 @@ namespace HotelSimulationSE5
         public Node TopNode { get; set; }
         public Node BottomNode { get; set; }
         public Node[] MyConnections { get; set; }
+
         public Panel MyPanel { get; set; }
         public PictureBox panelPb;
         public HotelSegments.HSegment MySegment { get; set; }
@@ -83,6 +84,8 @@ namespace HotelSimulationSE5
             MyConnections[(int)DIRECTIONS.RIGHT] = RightNode;
             MyConnections[(int)DIRECTIONS.TOP] = TopNode;
             MyConnections[(int)DIRECTIONS.BOTTOM] = BottomNode;
+
+
         }
 
 
