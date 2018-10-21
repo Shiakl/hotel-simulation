@@ -9,6 +9,8 @@ namespace HotelSimulationSE5.HotelSegments
 {
     class Reception:Elevator
     {
+        public Queue<Entity> WaitList { get; set; }
+
         public Reception(int number, int xseg, int yseg) : base(number, xseg, yseg)
         {
             MyImages = new List<Image>();

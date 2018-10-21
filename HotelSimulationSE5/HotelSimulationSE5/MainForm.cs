@@ -27,7 +27,6 @@ namespace HotelSimulationSE5
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
 
-            button1.Visible = false;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();
@@ -98,20 +97,6 @@ namespace HotelSimulationSE5
         {
             DoubleBuffered = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            _myHotel.ReloadAvailableRooms(1);
-            foreach (Entity arrival in _myHotel.entityList)
-            {
-                if (_myHotel.AvailableRooms.Count() > 0)
-                {
-                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms.FirstOrDefault().ID);
-                    arrival.MyRoom.Reserved = true;
-                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, Building.ID_List.Elevator);
-                }
-            }
         }
     }
 }
