@@ -8,17 +8,12 @@ using System.Drawing;
 namespace HotelSimulationSE5.HotelSegments
 
 {
-    public class GuestRoom : IHSegment
+    public class GuestRoom : HSegment
     {
-        public int ID { get; set; }
-        public int Capacity { get; set; }
-        public int X_Dim { get; set; }
-        public int Y_Dim { get; set; }
-        public string Classification { get; set; }
+        public int Classification { get; set; }
         public bool Reserved { get; set; }
-        public List<Image> MyImages { get; set; }
 
-        public GuestRoom(int number, int xseg, int yseg, string classification)
+        public GuestRoom(int number, int xseg, int yseg, int classification)
         {
             MyImages = new List<Image>();
             X_Dim = xseg;
@@ -27,25 +22,25 @@ namespace HotelSimulationSE5.HotelSegments
             Classification = classification;
             ID = number;
 
-            switch (classification)
+            switch (Classification)
             {
-                case "1 Star":
+                case 1:
                     MyImages.Add(Image.FromFile(@"..\..\Images\1-star.png"));
                     break;
-                case "2 stars":
+                case 2:
                     MyImages.Add(Image.FromFile(@"..\..\Images\2-star.png"));
                     break;
-                case "3 stars":
+                case 3:
                     MyImages.Add(Image.FromFile(@"..\..\Images\3-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\3-star2.png"));
                     break;
-                case "4 stars":
+                case 4:
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star2.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star3.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\4-star4.png"));
                     break;
-                case "5 stars":
+                case 5:
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star1.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star2.png"));
                     MyImages.Add(Image.FromFile(@"..\..\Images\5-star3.png"));
@@ -54,6 +49,62 @@ namespace HotelSimulationSE5.HotelSegments
                 default:
                     break;
             }
+        }
+
+        public void Reserved_room()
+        {
+            if (Reserved == false)
+            {
+                Reserved = true;
+                switch (Classification)
+                {
+                    case 1:
+                        MyImages[(int)Node.SEGMENT_PART.Main]= Image.FromFile(@"..\..\Images\1-starreserved.png");
+                        break;
+                    case 2:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-starreserved.png");
+                        break;
+                    case 3:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1reserved.png");
+                        break;
+                    case 4:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1reserved.png");
+                        break;
+                    case 5:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1reserved.png");
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            else
+            {
+                Reserved = false;
+                switch (Classification)
+                {
+                    case 1:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\1-star.png");
+                        break;
+                    case 2:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\2-star.png");
+                        break;
+                    case 3:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\3-star1.png");
+                        break;
+                    case 4:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\4-star1.png");
+                        break;
+                    case 5:
+                        MyImages[(int)Node.SEGMENT_PART.Main] = Image.FromFile(@"..\..\Images\5-star1.png");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            
         }
 
     }

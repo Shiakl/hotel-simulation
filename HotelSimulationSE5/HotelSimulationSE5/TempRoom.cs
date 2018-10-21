@@ -8,9 +8,34 @@ namespace HotelSimulationSE5
 {
     class TempRoom
     {
-        public string Classification { get; set; }
         public string AreaType { get; set; }
         public string Capacity { get; set; }
+
+        public string Classification
+        {
+            set
+            {
+                switch (value)
+                {
+                    case "2 stars":
+                        Seg_Classification = 2;
+                        break;
+                    case "3 stars":
+                        Seg_Classification = 3;
+                        break;
+                    case "4 stars":
+                        Seg_Classification = 4;
+                        break;
+                    case "5 stars":
+                        Seg_Classification = 5;
+                        break;
+                    default:
+                        Seg_Classification = 1;
+                        break;
+
+                }
+            }
+        }
 
         private string[] strcords;
         private string[] strdims;
@@ -19,8 +44,8 @@ namespace HotelSimulationSE5
             set
             {
                 strcords = value.Split(',');
-                this.Position_X = Int32.Parse(strcords[0]);
-                this.Position_Y = Int32.Parse(strcords[1]);
+                this.PositionX = Int32.Parse(strcords[0]);
+                this.PositionY = Int32.Parse(strcords[1]);
             }
         }
         public string Dimension
@@ -28,8 +53,8 @@ namespace HotelSimulationSE5
             set
             {
                 strdims = value.Split(',');
-                this.Dimension_X = Int32.Parse(strdims[0]);
-                this.Dimension_Y = Int32.Parse(strdims[1]);
+                this.DimensionX = Int32.Parse(strdims[0]);
+                this.DimensionY = Int32.Parse(strdims[1]);
             }
         }
 
@@ -38,16 +63,16 @@ namespace HotelSimulationSE5
             get { return ID; }
             set
             {
-
-                Seg_ID = Int32.Parse(value);
+                SegID = Int32.Parse(value);
             }
         }
 
-        public int Position_X { get; set; }
-        public int Position_Y { get; set; }
-        public int Dimension_X { get; set; }
-        public int Dimension_Y { get; set; }
-        public int Seg_ID { get; set; }
+        public int Seg_Classification { get; set; }
+        public int PositionX { get; set; }
+        public int PositionY { get; set; }
+        public int DimensionX { get; set; }
+        public int DimensionY { get; set; }
+        public int SegID { get; set; }
 
 
     }
