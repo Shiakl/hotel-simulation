@@ -26,7 +26,7 @@ namespace HotelSimulationSE5
             GuestButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
             EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-
+            
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();
@@ -42,7 +42,7 @@ namespace HotelSimulationSE5
         {
             _myHotel.Reception_Queue();
 
-            if (events.EventList.Count()>0)
+            if (events.EventList.Any())
             {
             int event_amount = events.EventList.Count();
                 for (int counter = 0; counter <event_amount;counter++)

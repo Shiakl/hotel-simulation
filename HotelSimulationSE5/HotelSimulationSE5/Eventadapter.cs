@@ -9,7 +9,7 @@ using HotelSimulationSE5.HotelSegments;
 
 namespace HotelSimulationSE5
 {
-    class Eventadapter : HotelEvents.HotelEventListener
+    public class Eventadapter : HotelEvents.HotelEventListener
     {
         public List<HotelEvent> EventList { get; set; }
         private Building _myHotel;
@@ -140,7 +140,7 @@ namespace HotelSimulationSE5
                         .TakeWhile(Char.IsDigit)
                         .ToList();
                     }
-                    int classification = Convert.ToInt32(data_value.FirstOrDefault()) - 48;
+                    int classification = Convert.ToInt32(data_value.FirstOrDefault()) - '0';
                     _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:

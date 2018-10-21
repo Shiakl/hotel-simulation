@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelSimulationSE5", "Hotel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelSimulationSE5.test", "UnitTestProject1\HotelSimulationSE5.test.csproj", "{DD2E4572-7C2B-4280-A1DA-97F0A70D6E21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelSimulationSE5EventadapterTests", "HotelSimulationSE5EventadapterTests\HotelSimulationSE5EventadapterTests.csproj", "{F1B5D4D3-4D52-4CDE-BCA3-CF6F72521524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DD2E4572-7C2B-4280-A1DA-97F0A70D6E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2E4572-7C2B-4280-A1DA-97F0A70D6E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD2E4572-7C2B-4280-A1DA-97F0A70D6E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B5D4D3-4D52-4CDE-BCA3-CF6F72521524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B5D4D3-4D52-4CDE-BCA3-CF6F72521524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B5D4D3-4D52-4CDE-BCA3-CF6F72521524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B5D4D3-4D52-4CDE-BCA3-CF6F72521524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

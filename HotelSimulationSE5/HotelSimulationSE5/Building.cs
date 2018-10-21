@@ -407,11 +407,11 @@ namespace HotelSimulationSE5
         public void Create_Guest(Node currentNode, int classification_num)
         {
             Entity arrival;
-            guest_amount++;
-            guest_id = guest_amount;
             ReloadAvailableRooms(classification_num);
             if (AvailableRooms.Any())
             {
+                guest_amount++;
+                guest_id = guest_amount;
                 arrival = new Entity(currentNode, guest_id, AvailableRooms.FirstOrDefault());
                 arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, ID_List.Elevator);
                 HotelReception.WaitList.Enqueue(arrival);

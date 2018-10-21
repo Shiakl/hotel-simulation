@@ -71,7 +71,6 @@ namespace HotelSimulationSE5
         public void Redraw()
         {
             panelPb.Refresh();
-
         }
 
         /// <summary>
