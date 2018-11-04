@@ -12,14 +12,14 @@ namespace HotelSimulationSE5
     public class Eventadapter : HotelEventListener
     {
         public List<HotelEvent> EventList { get; set; } //Lists of queue'd HotelEvents
-        private Building _myHotel;  //Hotel the events are sent to
-        private float HTE_Value = 5f; //Speed at which the events are generated.
+        private Manager _myManager;  //Hotel the events are sent to
+        public float HTE_Value = 5f; //Speed at which the events are generated.
 
-        public Eventadapter(Building hotel)
+        public Eventadapter(Manager hotel)
         {
             HotelEventManager.HTE_Factor = HTE_Value;
             EventList = new List<HotelEvent>();
-            _myHotel = hotel;
+            _myManager = hotel;
         }
 
         /// <summary>
@@ -82,18 +82,18 @@ namespace HotelSimulationSE5
             switch (facility)
             {
                 case FACILITIES.CINEMA:
-                    segments = (from entity in _myHotel._nodes
+                    segments = (from entity in _myManager.CheckRooms()
                                 where (entity.MySegment is Cinema)
                                 select entity.MySegment).ToList();
                     return segments;
 
                 case FACILITIES.FITNESS:
-                    segments = (from entity in _myHotel._nodes
+                    segments = (from entity in _myManager.CheckRooms()
                                 where (entity.MySegment is Fitness)
                                 select entity.MySegment).ToList();
                     return segments;
                 case FACILITIES.RESTAURANT:
-                    segments = (from entity in _myHotel._nodes
+                    segments = (from entity in _myManager.CheckRooms()
                                 where (entity.MySegment is Restaurant)
                                 select entity.MySegment).ToList();
                     return segments;
@@ -137,7 +137,7 @@ namespace HotelSimulationSE5
         /// <returns></returns>
         private Entity Select_Entity(int id, Entity.ENTITY_TYPE eType)
         {
-            List<Entity> guests = (from entity in _myHotel.guestList
+            List<Entity> guests = (from entity in _myManager.CheckGuests()
                                    where (entity.ID == id && entity.EType == eType)
                                    select entity).ToList();
 
@@ -163,7 +163,7 @@ namespace HotelSimulationSE5
                         .ToList();
                     }
                     int classification = Convert.ToInt32(data_value.FirstOrDefault()) - '0';
-                    _myHotel.Create_Guest(_myHotel.elevatorNodes.Last(), classification);
+                    _myManager.Create_Guest(_myManager.CheckElevators().Last(), classification);
                     break;
                 case HotelEventType.CHECK_OUT:
                     guestID = Convert.ToInt32(item.Data.First().Value);
@@ -171,7 +171,7 @@ namespace HotelSimulationSE5
 
                     foreach (Entity leaver in Moving_Enity_List)
                     {
-                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
+                        leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myManager.CheckElevators().Last().MySegment, Building.ID_List.Elevator);
                         leaver.MyRoom.Reserved_room();
                         leaver.MyNode.ColorMe();
                         leaver.Destination_reached();
@@ -184,22 +184,22 @@ namespace HotelSimulationSE5
                     {
                         event_values.Add(Convert.ToInt32(value.Value));
                     }
-                    _myHotel.Call_Maid(_myHotel.elevatorNodes.Last(), event_values.First(), event_values.Last());
+                    _myManager.Call_Maid(_myManager.CheckElevators().Last(), event_values.First(), event_values.Last());
                     break;
                 case HotelEventType.EVACUATE:
-                    foreach (Entity leaver in _myHotel.guestList)
+                    foreach (Entity leaver in _myManager.CheckGuests())
                     {
                         if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
                         {
-                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
+                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myManager.CheckElevators().Last().MySegment, Building.ID_List.Elevator);
                             leaver.Destination_reached();
                         }
                     }
-                    foreach (Entity leaver in _myHotel.maidList)
+                    foreach (Entity leaver in _myManager.CheckMaids())
                     {
                         if (leaver.MyNode.MySegment.ID != (int)Building.ID_List.Reception)
                         {
-                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myHotel.elevatorNodes.Last().MySegment, Building.ID_List.Elevator);
+                            leaver.Path = leaver.MyNode.Pathfinding(leaver.MyNode, _myManager.CheckElevators().Last().MySegment, Building.ID_List.Elevator);
                             leaver.Destination_reached();
                         }
                     }

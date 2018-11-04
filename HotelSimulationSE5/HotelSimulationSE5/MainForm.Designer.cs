@@ -32,6 +32,8 @@
             this.StopButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
+            this.SpeedUP = new System.Windows.Forms.Button();
+            this.SpeedDOWN = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // StopButton
@@ -73,6 +75,30 @@
             this.ExitButton.Visible = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // SpeedUP
+            // 
+            this.SpeedUP.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SpeedUP.Location = new System.Drawing.Point(102, 12);
+            this.SpeedUP.Name = "SpeedUP";
+            this.SpeedUP.Size = new System.Drawing.Size(78, 24);
+            this.SpeedUP.TabIndex = 6;
+            this.SpeedUP.Text = "Speed +";
+            this.SpeedUP.UseVisualStyleBackColor = true;
+            this.SpeedUP.Visible = false;
+            this.SpeedUP.Click += new System.EventHandler(this.SpeedUP_Click);
+            // 
+            // SpeedDOWN
+            // 
+            this.SpeedDOWN.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SpeedDOWN.Location = new System.Drawing.Point(186, 12);
+            this.SpeedDOWN.Name = "SpeedDOWN";
+            this.SpeedDOWN.Size = new System.Drawing.Size(78, 24);
+            this.SpeedDOWN.TabIndex = 7;
+            this.SpeedDOWN.Text = "Speed -";
+            this.SpeedDOWN.UseVisualStyleBackColor = true;
+            this.SpeedDOWN.Visible = false;
+            this.SpeedDOWN.Click += new System.EventHandler(this.SpeedDOWN_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -82,6 +108,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(961, 353);
+            this.Controls.Add(this.SpeedDOWN);
+            this.Controls.Add(this.SpeedUP);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.StopButton);
@@ -95,9 +123,11 @@
 
         #endregion
         private System.Windows.Forms.Button StopButton;
-        private System.Windows.Forms.Button PlayButton;
+        //private System.Windows.Forms.Button PlayButton;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Button SpeedUP;
+        private System.Windows.Forms.Button SpeedDOWN;
     }
 }
 

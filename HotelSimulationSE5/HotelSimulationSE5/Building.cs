@@ -13,43 +13,94 @@ namespace HotelSimulationSE5
     public class Building
     {
 
-        public int segmentSizeX = 104; //X size of each hotel segment
-        public int segmentSizeY = 60; //Y size of each hotel segment
-        public int maxXcoordinate;
-        public int maxYcoordinate;
-        public List<Entity> guestList = new List<Entity>();//List of every guest currently in the hotel
-        public List<Entity> maidList = new List<Entity>();//List of every guest currently in the hotel
-        public bool elevatorLeft;
-        public Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
-        public Node[] elevatorNodes; //Saves a array of all elevators with its properties
+        private const int segmentSizeX = 104; //X size of each hotel segment
+        private const int segmentSizeY = 60; //Y size of each hotel segment
+        private int maxXcoordinate;
+        private int maxYcoordinate;
+        private List<Entity> guestList = new List<Entity>();//List of every guest currently in the hotel
+        private List<Entity> maidList = new List<Entity>();//List of every guest currently in the hotel
+        private Node[] _nodes; //Saves a array of all rooms(GuestRoom, Cinema, Fitness, Restaurant) with its properties
+        private Node[] elevatorNodes; //Saves a array of all elevators with its properties
         private Node[] _staircaseNodes; //Saves a array of staircases with its properties
-        private List<TempRoom> _temp; //Saves a list of every room in the hotel
-        private string _layoutstring; //Hotel layout(blueprint)
+        private List<TempRoom> _temproomlist; //Saves a list of every room in the hotel
         private const int _startwaarde = 0;
-        public Reception HotelReception { get; set; }
+        private Reception HotelReception { get; set; }
+
+        #region GetMarks
+        public Node[] Get_nodes
+        {
+            get { return _nodes; }
+        }
+
+        public Node[] Get_elevatorNodes
+        {
+            get { return elevatorNodes; }
+        }
+
+        public Node[] Get_staircaseNodes
+        {
+            get { return _staircaseNodes; }
+        }
+
+        public List<Entity> Get_guestList
+        {
+            get { return guestList; }
+        }
+
+        public List<Entity> Get_maidList
+        {
+            get { return maidList; }
+        }
+
+        public Reception Get_HotelReception
+        {
+            get { return HotelReception; }
+        }
+
+        public int Get_segmentSizeX
+        {
+            get { return segmentSizeX; }
+        }
+
+        public int Get_segmentSizeY
+        {
+            get { return segmentSizeY; }
+        }
+
+        public int Get_maxXcoordinate
+        {
+            get { return maxXcoordinate; }
+        }
+
+        public int Get_maxYcoordinate
+        {
+            get { return maxYcoordinate; }
+        }
+        #endregion
 
         public Building()
         {
-            _temp = new List<TempRoom>();
-            _layoutstring = System.IO.File.ReadAllText(@"..\..\External\Hotel3.layout"); //Reads the layout file and pushes it into a string
-            Read_Layout();
-            elevatorLeft = true;
-            maxXcoordinate = FindMaxX(_temp);
-            maxYcoordinate = FindMaxY(_temp);
+            _temproomlist = new List<TempRoom>();
+            Console.WriteLine("Checkpoint: 1");
+        }
+
+        public void Creater(string layoutstring)
+        {
+            _temproomlist = Read_Layout(layoutstring);
+            maxXcoordinate = FindMaxX(_temproomlist);
+            maxYcoordinate = FindMaxY(_temproomlist);
 
             _nodes = new Node[maxXcoordinate * maxYcoordinate];
             elevatorNodes = new Node[maxYcoordinate];
             _staircaseNodes = new Node[maxYcoordinate];
-
-            Console.WriteLine("Checkpoint: 1");
         }
 
         /// <summary>
         /// Deserializes the string.layout file to the temp list. Each item in the list will now be given its properties
         /// </summary>
-        public void Read_Layout()
+        private List<TempRoom> Read_Layout(string layoutstring)
         {
-            _temp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(_layoutstring);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<TempRoom>>(layoutstring);
         }
 
         /// <summary>
@@ -119,7 +170,7 @@ namespace HotelSimulationSE5
         /// Create and link all the nodes on which the rooms are drawn and assigns each node a segment.
         /// </summary>
         /// <param name="mainform">The display window</param>
-        public void CreateHotel(Form mainform)
+        public void BuildHotel(Form mainform)
         {
             //Factory for room segments
             Factories.HSegmentFactory sFac = new Factories.HSegmentFactory();
@@ -266,7 +317,7 @@ namespace HotelSimulationSE5
             }
 
             //Add a segment to each node according to their position in the layout file from temp
-            foreach (TempRoom blankRoom in _temp)
+            foreach (TempRoom blankRoom in _temproomlist)
             {
                 HotelSegments.HSegment tempSeg;
 
@@ -396,60 +447,6 @@ namespace HotelSimulationSE5
                 where (w.Reserved == false && w.Classification == classification_num)
                 select w
                 ).ToList();
-        }
-
-        private int guest_amount= 0;
-        private int guest_id; //Value used to find the amount of guests in the hotel.
-        /// <summary>
-        /// Create a guest on specified node.
-        /// </summary>
-        /// <param name="currentNode"> Spawn node of the guest</param>
-        public void Create_Guest(Node currentNode, int classification_num)
-        {
-            Entity arrival;
-            ReloadAvailableRooms(classification_num);
-            if (AvailableRooms.Any())
-            {
-                guest_amount++;
-                guest_id = guest_amount;
-                arrival = new Entity(currentNode, guest_id, AvailableRooms.FirstOrDefault());
-                arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom, ID_List.Elevator);
-                HotelReception.WaitList.Enqueue(arrival);
-            }
-        }
-
-        private int maid_id;
-        public void Call_Maid(Node currentNode, int targetRoom, float hte)
-        {
-            maid_id = maidList.Count() + 1;
-            Entity maid = new Entity(currentNode, maid_id, AssignRoom(targetRoom), Entity.ENTITY_TYPE.MAID);
-            maid.Path = maid.MyNode.Pathfinding(maid.MyNode, maid.MyRoom, ID_List.Elevator);
-            maidList.Add(maid);
-        }
-
-        /// <summary>
-        /// Move all guests in "_guestList"
-        /// </summary>
-        /// <param name="mainform">The Form the hotel is drawn on.</param>
-        public void Move_Guest(Form mainform)
-        {
-            int elcap = elevatorNodes.FirstOrDefault().MySegment.Capacity;
-
-            foreach (Entity currentG in guestList)
-            {
-                currentG.MoveToNode();
-            }
-
-            foreach (Entity currentM in maidList)
-            {
-                currentM.MoveToNode();
-            }
-
-        }
-
-        public void Reception_Queue()
-        {
-            HotelReception.Assigned_Room(guestList);    
         }
     }
 }

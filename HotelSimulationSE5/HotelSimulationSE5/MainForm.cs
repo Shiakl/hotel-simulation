@@ -13,15 +13,18 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshrateinterval = 300; 
+        public int _refreshrateinterval;
         private Timer _refresh_timer= new Timer();
         bool started;
         Eventadapter events;
-        int ybuttondistance = 20;
-        private Building _myHotel;
+        int ybuttondistance;
+        private Manager _manageHotel;
+
         public MainForm()
         {
             InitializeComponent();
+            ybuttondistance = 20;
+            _refreshrateinterval = 300;
         }
 
         /// <summary>
@@ -30,7 +33,7 @@ namespace HotelSimulationSE5
         /// </summary>
         private void _refresh_timer_Tick(object sender, EventArgs e)
         {
-            _myHotel.Reception_Queue();
+            _manageHotel.Reception_Queue();
 
             if (events.EventList.Any())
             {
@@ -43,7 +46,7 @@ namespace HotelSimulationSE5
             }
 
             //Move guests
-            _myHotel.Move_Guest(this);
+            _manageHotel.Move_Guest(this);
         }
 
         /// <summary>
@@ -51,9 +54,8 @@ namespace HotelSimulationSE5
         /// </summary>
         public void GenerateHotel()
         {
-            _myHotel = new Building();
-            _myHotel.CreateHotel(this);
-            events = new Eventadapter(_myHotel);
+            _manageHotel = new Manager(this);
+            events = new Eventadapter(_manageHotel);
         }
 
         private void Stop_Click(object sender, EventArgs e)
@@ -89,8 +91,12 @@ namespace HotelSimulationSE5
             GenerateHotel();
             StopButton.Visible = true;
             ExitButton.Visible = true;
-            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
-            ExitButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
+            SpeedUP.Visible = true;
+            SpeedDOWN.Visible = true;
+            StopButton.Top = _manageHotel.CheckMaxY() * _manageHotel.CheckSegY() + ybuttondistance;
+            ExitButton.Top = _manageHotel.CheckMaxY() * _manageHotel.CheckSegY() + ybuttondistance;
+            SpeedDOWN.Top = _manageHotel.CheckMaxY() * _manageHotel.CheckSegY() + ybuttondistance;
+            SpeedUP.Top = _manageHotel.CheckMaxY() * _manageHotel.CheckSegY() + ybuttondistance;
             _refresh_timer.Interval = _refreshrateinterval;
             _refresh_timer.Tick += _refresh_timer_Tick;
             _refresh_timer.Start();
@@ -102,6 +108,32 @@ namespace HotelSimulationSE5
         {
             events.Stop_Events();
             this.Close();
+        }
+
+        private void SpeedUP_Click(object sender, EventArgs e)
+        {
+            if (events.HTE_Value < 10f)
+            {
+                events.HTE_Value = events.HTE_Value + 1f;
+            }
+
+            else
+            {
+                MessageBox.Show("WE CAN'T GO FASTER!");
+            }
+        }
+
+        private void SpeedDOWN_Click(object sender, EventArgs e)
+        {
+            if (events.HTE_Value > 0f)
+            {
+                events.HTE_Value = events.HTE_Value - 1f;
+            }
+
+            else
+            {
+                MessageBox.Show("WE CAN'T GO SLOWER!");
+            }
         }
     }
 }
