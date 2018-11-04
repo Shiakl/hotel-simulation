@@ -8,9 +8,34 @@ namespace HotelSimulationSE5
 {
     class TempRoom
     {
-        public string Classification { get; set; }
         public string AreaType { get; set; }
         public string Capacity { get; set; }
+
+        public string Classification
+        {
+            set
+            {
+                switch (value)
+                {
+                    case "2 stars":
+                        Seg_Classification = 2;
+                        break;
+                    case "3 stars":
+                        Seg_Classification = 3;
+                        break;
+                    case "4 stars":
+                        Seg_Classification = 4;
+                        break;
+                    case "5 stars":
+                        Seg_Classification = 5;
+                        break;
+                    default:
+                        Seg_Classification = 1;
+                        break;
+
+                }
+            }
+        }
 
         private string[] strcords;
         private string[] strdims;
@@ -38,11 +63,11 @@ namespace HotelSimulationSE5
             get { return ID; }
             set
             {
-
                 SegID = Int32.Parse(value);
             }
         }
 
+        public int Seg_Classification { get; set; }
         public int PositionX { get; set; }
         public int PositionY { get; set; }
         public int DimensionX { get; set; }

@@ -13,110 +13,66 @@ namespace HotelSimulationSE5
 {
     public partial class MainForm : Form
     {
-        public int _refreshRateInterval = 500; 
-        private Timer _refreshTimer = new Timer();
-        private bool started = false;
-        private Eventadapter events = new Eventadapter();        
+        public int _refreshrateinterval = 300; 
+        private Timer _refresh_timer= new Timer();
+        bool started;
+        Eventadapter events;
+        int ybuttondistance = 20;
         private Building _myHotel;
-
         public MainForm()
         {
             InitializeComponent();
-            GenerateHotel();
-            GuestButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-            EventButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + _myHotel.segmentSizeY;
-
-            _refreshTimer.Interval = _refreshRateInterval;
-            _refreshTimer.Tick += _refreshTimerTick;
-            _refreshTimer.Start();
-            Console.WriteLine();
-
         }
 
-        private void _refreshTimerTick(object sender, EventArgs e)
+        /// <summary>
+        /// At set intervals the EventList in EventAdapter is checked and the events in the list are sent to the Event_Handler method.
+        /// Also moves units at these intervals.
+        /// </summary>
+        private void _refresh_timer_Tick(object sender, EventArgs e)
         {
+            _myHotel.Reception_Queue();
+
             if (events.EventList.Any())
             {
-                foreach (var item in events.EventList)
+            int event_amount = events.EventList.Count();
+                for (int counter = 0; counter <event_amount;counter++)
                 {
-                    switch (item.EventType)
-                    {
-                        case HotelEventType.CHECK_IN:
-                            _myHotel.CreateGuest(_myHotel.GetElevatorNodes[_myHotel.maxYcoordinate-1]);
-                            break;
-                        case HotelEventType.CHECK_OUT:
-
-                            break;
-                        case HotelEventType.CLEANING_EMERGENCY:
-
-                            break;
-                        case HotelEventType.EVACUATE:
-
-                            break;
-                        case HotelEventType.GODZILLA:
-
-                            break;
-                        case HotelEventType.GOTO_CINEMA:
-
-                            break;
-                        case HotelEventType.GOTO_FITNESS:
-
-                            break;
-                        case HotelEventType.NEED_FOOD:
-
-                            break;
-                        case HotelEventType.NONE:
-
-                            break;
-                        case HotelEventType.START_CINEMA:
-
-                            break;
-                        default:
-                            break;
-                    }
-
+                    events.Event_Handler(events.EventList.First());
+                    events.EventList.Remove(events.EventList.FirstOrDefault());
                 }
-                events.EventList.Clear();
             }
 
-
             //Move guests
-            _myHotel.MoveGuest(this);
+            _myHotel.Move_Guest(this);
         }
 
+        /// <summary>
+        /// Method responsible for generating the hotel and registering the events.
+        /// </summary>
         public void GenerateHotel()
         {
             _myHotel = new Building();
             _myHotel.CreateHotel(this);
+            events = new Eventadapter(_myHotel);
         }
-
-        private void GuestButton_Click(object sender, EventArgs e)
-        {
-            _myHotel.CreateGuest(_myHotel.GetElevatorNodes[_myHotel.maxYcoordinate-1]);
-            _refreshTimer.Start();
-        }
-
 
         private void Stop_Click(object sender, EventArgs e)
         {
-            _refreshTimer.Stop();
-        }
-
-
-        private void EventButton_Click(object sender, EventArgs e)
-        {
+            events.Pause_Events();
             if (started == false)
             {
-                events.Register(events);
-                events.Start_events();
+                StopButton.BackgroundImage = Image.FromFile(@"..\..\Images\Pause Button.png");
+                _refresh_timer.Start();
                 started = true;
             }
+
             else
             {
-                events.StopEvents();
+                StopButton.BackgroundImage = Image.FromFile(@"..\..\Images\Play Button.jpg");
+                _refresh_timer.Stop();
                 started = false;
             }
+            
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -125,18 +81,27 @@ namespace HotelSimulationSE5
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
-            _myHotel.ReloadAvailableRooms();
-            foreach (Guest arrival in _myHotel._guestList)
-            {
-                if (_myHotel.AvailableRooms.Count() > 0)
-                {
-                    arrival.MyRoom = _myHotel.AssignRoom(_myHotel.AvailableRooms[0].ID);
-                    arrival.MyRoom.Reserved = true;
-                    arrival.Path = arrival.MyNode.Pathfinding(arrival.MyNode, arrival.MyRoom);
-                }
-            }
+            started = true;
+            BackgroundImage = null;
+            StartButton.Visible = false;
+            GenerateHotel();
+            StopButton.Visible = true;
+            ExitButton.Visible = true;
+            StopButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
+            ExitButton.Top = _myHotel.maxYcoordinate * _myHotel.segmentSizeY + ybuttondistance;
+            _refresh_timer.Interval = _refreshrateinterval;
+            _refresh_timer.Tick += _refresh_timer_Tick;
+            _refresh_timer.Start();
+            events.Register(events);
+            events.Start_events();         
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            events.Stop_Events();
+            this.Close();
         }
     }
 }

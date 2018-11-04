@@ -7,23 +7,16 @@ using System.Drawing;
 
 namespace HotelSimulationSE5.HotelSegments
 {
-    class Staircase : IHSegment
-    { 
+    class Staircase : HSegment
+    {
         public bool First_floor { get; set; }
 
-        /// <summary>
-        /// Sets the properties of each fitness
-        /// </summary>
-        /// <param name="number">The ID of this fitness</param>
-        /// <param name="xseg">The dimension of the X axes</param>
-        /// <param name="yseg">The dimension of the Y axes</param>
-        /// <param name="firstfloor">Is this the first floor or not</param>
         public Staircase(int number, int xseg, int yseg, bool firstfloor)
         {
-            First_floor = firstfloor;
-            MyImages = new List<Image>(); 
-            XDim = xseg;
-            YDim = yseg;
+            First_floor = First_floor;
+            MyImages = new List<Image>();
+            X_Dim = xseg;
+            Y_Dim = yseg;
             ID = number;
 
             if (firstfloor == true)
